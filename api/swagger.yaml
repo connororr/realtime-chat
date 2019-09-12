@@ -5,14 +5,16 @@ info:
 host: "13.211.139.75:3800"
 basePath: "/"
 tags:
-- name: "user"
-  description: "Operations about user"
-- name: "job"
-  description: "All things job related"
-- name: "chat"
-  description: "All things messaging related"
+  - name: "user"
+    description: "Operations about user"
+  - name: "job"
+    description: "All things job related"
+  - name: "chat"
+    description: "All things messaging related"
+  - name: "noti"
+    description: "All things notifications"
 schemes:
-- "http"
+  - "http"
 paths:
   /user/register:
     post:
@@ -43,7 +45,7 @@ paths:
   /user/login:
     get:
       tags:
-      - "user"
+        - "user"
       summary: "Login a user"
       description: ""
       operationId: "login"
@@ -66,43 +68,277 @@ paths:
           description: "Invalid Login Details"
           schema:
             $ref: "#/definitions/LoginResponseFail"
-  /user/logout:
+  /user/block:
     get:
       tags:
-      - "user"
-      summary: "Logs out current logged in user session"
+        - "user"
+      summary: "Blocks user by id"
       description: ""
-      operationId: "logoutUser"
+      operationId: "block"
+      consumes:
+        - "application/json"
       produces:
-      - "application/json"
-      parameters: []
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/UserBlock"
       responses:
-        default:
-          description: "successful operation"
+        200:
+          description: "User successfully blocked"
+          schema:
+            $ref: "#/definitions/ResponseSuccess"
+        400:
+          description: "Issue blocking user"
+          schema:
+            $ref: "#/definitions/ResponseFail"
   /user/profile/{id}:
     get:
       tags:
-      - "user"
+        - "user"
       summary: "Get user by user name"
       description: ""
       operationId: "getUserByName"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "id"
-        in: "path"
-        description: "The name that needs to be fetched. Use user1 for testing. "
-        required: true
-        type: "string"
+        - name: "id"
+          in: "path"
+          description: "The user identifier for fetching profile"
+          required: true
+          type: "string"
       responses:
         200:
-          description: "successful operation"
+          description: "Successfully recieved profile"
           schema:
-            $ref: "#/definitions/User"
+            $ref: "#/definitions/ProfileResponseSuccess"
         400:
-          description: "Invalid username supplied"
-        404:
-          description: "User not found"
+          description: "Could not find user"
+          schema:
+            $ref: "#/definitions/ResponseFail"
+
+  /job/search:
+    get:
+      tags:
+        - "job"
+      summary: "Search for a job"
+      description: ""
+      operationId: "search"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/JobSearch"
+      responses:
+        200:
+          description: "Search successful"
+          schema:
+            $ref: "#/definitions/JobResponseSuccess"
+        400:
+          description: "Search error"
+          schema:
+            $ref: "#/definitions/ResponseFail"
+  /job/photo/upload:
+    post:
+      tags:
+        - "job"
+      summary: "Upload a job photo"
+      description: ""
+      operationId: "jobphotoupload"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/UploadJobPhoto"
+      responses:
+        200:
+          description: "Photo uploaded successfully"
+          schema:
+            $ref: "#/definitions/UploadSuccess"
+        400:
+          description: "Photo upload failed"
+          schema:
+            $ref: "#/definitions/ResponseFail"
+
+  /job/register:
+    post:
+      tags:
+        - "job"
+      summary: "Register a job"
+      description: ""
+      operationId: "jobregister"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/RegisterJob"
+      responses:
+        200:
+          description: "Job registered successfully"
+          schema:
+            $ref: "#/definitions/ResponseSuccess"
+        400:
+          description: "Job failed to register"
+          schema:
+            $ref: "#/definitions/ResponseFail"
+  /job/view/{id}:
+    get:
+      tags:
+        - "job"
+      summary: "View a job by id"
+      description: ""
+      operationId: "jobview"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The identifier for the job"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/UserValidate"
+      responses:
+        200:
+          description: "View job success"
+          schema:
+            $ref: "#/definitions/Projects"
+        400:
+          description: "View job error"
+          schema:
+            $ref: "#/definitions/ResponseFail"
+
+  /job/bid:
+    post:
+      tags:
+        - "job"
+      summary: "Bid on a job"
+      description: ""
+      operationId: "jobbid"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/MakeBid"
+      responses:
+        200:
+          description: "User made a bid successfully"
+          schema:
+            $ref: "#/definitions/ResponseSuccess"
+        400:
+          description: "Bid failed"
+          schema:
+            $ref: "#/definitions/ResponseFail"
+  /chat/getall:
+    get:
+      tags:
+        - "chat"
+      summary: "Gets all conversation data"
+      description: ""
+      operationId: "chatget"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/UserValidate"
+      responses:
+        200:
+          description: "Retrieved data successfully"
+          schema:
+            $ref: "#/definitions/ConversationList"
+        400:
+          description: "An issue occured getting chats"
+          schema:
+            $ref: "#/definitions/ResponseFail"
+  /chat/conversation/{id}:
+    get:
+      tags:
+        - "chat"
+      summary: "Get messages with user by id"
+      description: ""
+      operationId: "getmessages"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The conversation identifier"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/UserValidate"
+      responses:
+        200:
+          description: "Chat data recieved successfully"
+          schema:
+            $ref: "#/definitions/ChatData"
+        400:
+          description: "Failed to recieve conversation"
+          schema:
+            $ref: "#/definitions/ResponseFail"
+  /chat/sendmessage:
+    post:
+      tags:
+        - "chat"
+      summary: "Send message to user, starts conversation if first message"
+      description: ""
+      operationId: "sendmessage"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/MessageSend"
+      responses:
+        200:
+          description: "Message sent successfully"
+          schema:
+            $ref: "#/definitions/ResponseSuccess"
+        400:
+          description: "Message failed to send"
+          schema:
+            $ref: "#/definitions/ResponseFail"
 definitions:
   Register:
     type: "object"
@@ -125,15 +361,11 @@ definitions:
   RegisterResponseSuccess:
     type: "object"
     properties:
-      email:
-        type: "string"
       session_token:
         type: "string"
       status:
         type: "string"
         example: "success"
-      username:
-        type: "string"
   RegisterResponseFail:
     type: "object"
     properties:
@@ -160,47 +392,203 @@ definitions:
       status:
         type: "string"
         example: "failure"
-  User:
+  UserBlock:
     type: "object"
     properties:
-      id:
+      session_token:
         type: "integer"
         format: "int64"
-      username:
+      block_id:
         type: "string"
-      firstName:
-        type: "string"
-      lastName:
-        type: "string"
-      email:
-        type: "string"
-      password:
-        type: "string"
-      phone:
-        type: "string"
-      userStatus:
-        type: "integer"
-        format: "int32"
-        description: "User Status"
-  UserReister:
+  ResponseSuccess:
     type: "object"
     properties:
-      id:
+      status:
+        type: "string"
+        example: "success"
+  ResponseFail:
+    type: "object"
+    properties:
+      error:
+        type: "string"
+      status:
+        type: "string"
+        example: "failure"
+  ProfileResponseSuccess:
+    type: "object"
+    properties:
+      business_name:
+        type: "string"
+        example: "Bob's Timber"
+      date_created:
         type: "integer"
-        format: "int64"
-      username:
+        example: 1568267256799
+      profile_picture:
         type: "string"
-      firstName:
+      description:
         type: "string"
-      lastName:
+      open_projects:
+        type: "array"
+        items:
+          $ref: '#/definitions/Projects'
+  Projects:
+    type: "object"
+    properties:
+      project_name:
         type: "string"
-      email:
-        type: "string"
-      password:
-        type: "string"
-      phone:
-        type: "string"
-      userStatus:
+        example: "Skirting board installation"
+      date_created:
         type: "integer"
-        format: "int32"
-        description: "User Status"
+        example: 1568267256799
+      description:
+        type: "string"
+      business_id:
+        type: "string"
+      current_bid:
+        type: "integer"
+      project_photos:
+        type: "array"
+        items:
+          $ref: '#/definitions/ProjectPhoto'
+  SimpleProjects:
+    type: "object"
+    properties:
+      project_name:
+        type: "string"
+        example: "Skirting board installation"
+      description:
+        type: "string"
+      business_id:
+        type: "string"
+      current_bid:
+        type: "integer"
+      project_photo:
+        $ref: '#/definitions/ProjectPhoto'
+  ProjectPhoto:
+    type: "object"
+    properties:
+      image:
+        type: "string"
+      title:
+        type: "string"
+  JobSearch:
+    type: "object"
+    properties:
+      search_terms:
+        type: "string"
+      category_1:
+        type: "string"
+      category_2:
+        type: "string"
+      order_by:
+        type: "string"
+      loacation:
+        type: "string"
+      min_price:
+        type: "string"
+      max_price:
+        type: "string"
+      distance:
+        type: "string"
+      page_amount:
+        type: "integer"
+        example: 25
+      page_number:
+        type: "integer"
+        example: 0
+  JobResponseSuccess:
+    type: "object"
+    properties:
+      amount:
+        type: "integer"
+        example: 1
+      total:
+        type: "integer"
+        example: 1
+      results:
+        type: "array"
+        items:
+          $ref: '#/definitions/SimpleProjects'
+  RegisterJob:
+    type: "object"
+    properties:
+      session_token:
+        type: "string"
+      project_title:
+        type: "string"
+      project_description:
+        type: "string"
+      project_location:
+        type: "string"
+      project_photos:
+        type: "array"
+        items:
+          $ref: '#/definitions/ProjectPhoto'
+  UploadJobPhoto:
+    type: "object"
+    properties:
+      session_token:
+        type: "string"
+      image_byte_array:
+        type: "string"
+  UploadSuccess:
+    type: "object"
+    properties:
+      url:
+        type: "string"
+  UserValidate:
+    type: "object"
+    properties:
+      session_token:
+        type: "string"
+  MakeBid:
+    type: "object"
+    properties:
+      session_token:
+        type: "string"
+      bid_value:
+        type: "string"
+  ConversationData:
+    type: "object"
+    properties:
+      user_name:
+        type: "string"
+      business_name:
+        type: "string"
+      business_picture:
+        type: "string"
+      job_link:
+        type: "string"
+      business_id:
+        type: "string"
+  ConversationList:
+    type: "array"
+    items:
+      $ref: '#/definitions/ConversationData'
+  Message:
+    type: "object"
+    properties:
+      user_id:
+        type: "string"
+      message:
+        type: "string"
+      time_sent:
+        type: "integer"
+  MessageSend:
+    type: "object"
+    properties:
+      session_token:
+        type: "string"
+      message:
+        type: "string"
+  ChatData:
+    type: "object"
+    properties:
+      conversation:
+        $ref: '#/definitions/ConversationData'
+      messages:
+        type: "array"
+        items:
+          $ref: '#/definitions/Message'
+
+        

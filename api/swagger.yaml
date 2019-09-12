@@ -94,21 +94,23 @@ paths:
           description: "Issue blocking user"
           schema:
             $ref: "#/definitions/ResponseFail"
-  /user/profile/{id}:
+  /user/profile:
     get:
       tags:
         - "user"
       summary: "Get user by user name"
       description: ""
       operationId: "getUserByName"
+      consumes:
+        - "application/json"
       produces:
         - "application/json"
       parameters:
-        - name: "id"
-          in: "path"
-          description: "The user identifier for fetching profile"
+        - in: "body"
+          name: "body"
           required: true
-          type: "string"
+          schema:
+            $ref: "#/definitions/ViewProfile"
       responses:
         200:
           description: "Successfully recieved profile"
@@ -198,7 +200,7 @@ paths:
           description: "Job failed to register"
           schema:
             $ref: "#/definitions/ResponseFail"
-  /job/view/{id}:
+  /job/view:
     get:
       tags:
         - "job"
@@ -210,16 +212,11 @@ paths:
       produces:
         - "application/json"
       parameters:
-        - name: "id"
-          in: "path"
-          description: "The identifier for the job"
-          required: true
-          type: "string"
         - in: "body"
           name: "body"
           required: true
           schema:
-            $ref: "#/definitions/UserValidate"
+            $ref: "#/definitions/ViewJob"
       responses:
         200:
           description: "View job success"
@@ -282,7 +279,7 @@ paths:
           description: "An issue occured getting chats"
           schema:
             $ref: "#/definitions/ResponseFail"
-  /chat/conversation/{id}:
+  /chat/conversation:
     get:
       tags:
         - "chat"
@@ -294,16 +291,11 @@ paths:
       produces:
         - "application/json"
       parameters:
-        - name: "id"
-          in: "path"
-          description: "The conversation identifier"
-          required: true
-          type: "string"
         - in: "body"
           name: "body"
           required: true
           schema:
-            $ref: "#/definitions/UserValidate"
+            $ref: "#/definitions/ViewConversation"
       responses:
         200:
           description: "Chat data recieved successfully"
@@ -590,5 +582,23 @@ definitions:
         type: "array"
         items:
           $ref: '#/definitions/Message'
-
-        
+  ViewProfile:
+    type: "object"
+    properties:
+      user_id:
+        type: "string"
+  ViewJob:
+    type: "object"
+    properties:
+      user_id:
+        type: "string"
+      session_token:
+        type: "string"
+  ViewConversation:
+    type: "object"
+    properties:
+      conversation_id:
+        type: "string"
+      session_token:
+        type: "string"
+      

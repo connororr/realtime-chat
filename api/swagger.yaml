@@ -43,7 +43,7 @@ paths:
           schema:
             $ref: "#/definitions/RegisterResponseFail"
   /user/login:
-    get:
+    post:
       tags:
         - "user"
       summary: "Login a user"
@@ -601,4 +601,3 @@ definitions:
         type: "string"
       session_token:
         type: "string"
-      

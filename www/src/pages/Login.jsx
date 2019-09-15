@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { navigate } from "@reach/router"
 import axios from "axios";
 import Layout from "../components/Layout";
 import styled from "styled-components";
@@ -137,7 +138,8 @@ const login = (email, password) => {
       password
     })
     .then(function(response) {
-      alert(response.data["session_token"]);
+      localStorage.setItem('session', response.data["session_token"]);
+      navigate('/');
     });
 };
 
@@ -150,7 +152,8 @@ const register = (name, business, email, password) => {
       password
     })
     .then(function(response) {
-      alert(response.data["session_token"]);
+      localStorage.setItem('session', response.data["session_token"]);
+      navigate('/');
     });
 };
 
@@ -270,7 +273,15 @@ const Login = () => {
                   setPassword(e.target.value);
                 }}
               />
-
+              <RegisterPrompt>
+                <span
+                  onClick={() => {
+                    setRegistering(true);
+                  }}
+                >
+                  Forgot your password?
+                </span>
+              </RegisterPrompt>
               <Button
                 onClick={() => {
                   login(email, password);
@@ -281,16 +292,6 @@ const Login = () => {
             </FormElements>
             <RegisterPrompt>
               Don't have an account yet?{" "}
-              <span
-                onClick={() => {
-                  setRegistering(true);
-                }}
-              >
-                Click Here
-              </span>
-              <br />
-              <br />
-              Forgot your password?{" "}
               <span
                 onClick={() => {
                   setRegistering(true);

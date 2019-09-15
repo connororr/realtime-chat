@@ -69,7 +69,7 @@ const LogoWrapper = styled(Logo)`
   cursor: pointer;
 `;
 
-const isLoggedIn = () => false;
+const isLoggedIn = () => localStorage.getItem("session") !== null;
 
 const loggedOutPages = [{ name: "Log In", special: true, location: "/login" }];
 

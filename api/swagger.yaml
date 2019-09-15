@@ -337,14 +337,16 @@ definitions:
     properties:
       email:
         type: "string"
-      username:
+      name:
+        type: "string"
+      business_name:
         type: "string"
       password:
         type: "string"
   Login:
     type: "object"
     properties:
-      username:
+      email:
         type: "string"
         example: "ben2"
       password:

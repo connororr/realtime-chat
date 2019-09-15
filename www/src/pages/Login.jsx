@@ -3,18 +3,20 @@ import axios from "axios";
 import Layout from "../components/Layout";
 import styled from "styled-components";
 import LoginImg from "../images/login2.jpg";
+import NavBar from "../components/NavBar";
 
 const FormWrapper = styled.div`
   display: flex;
 `;
 
 const Form = styled.div`
-  height: 100vh;
+  height: calc(100vh - 50px);
   position: relative;
   background-color: #fefefe;
   flex: flex-grow;
   flex-grow: 1;
   width: 50vw;
+  padding-top: 50px;
 `;
 
 const FormElements = styled.div`
@@ -27,7 +29,7 @@ const FormElements = styled.div`
 
 const H1 = styled.h1`
   margin-bottom: 2rem;
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 100;
   text-align: center;
   text-transform: capitalize;
@@ -162,6 +164,7 @@ const Login = () => {
 
   return (
     <Layout>
+      <NavBar style={{ position: "fixed", top: 0, left: 0, zIndex: 3 }} />
       <FormWrapper>
         {registering ? (
           <Form>

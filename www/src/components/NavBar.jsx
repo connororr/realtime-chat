@@ -65,7 +65,11 @@ const SpecialButton = styled(Link)`
   }
 `;
 
-const isLoggedIn = () => true;
+const LogoWrapper = styled(Logo)`
+  cursor: pointer;
+`;
+
+const isLoggedIn = () => false;
 
 const loggedOutPages = [{ name: "Log In", special: true, location: "/login" }];
 
@@ -76,9 +80,11 @@ const loggedInPages = [
   { name: "Bids", special: false, location: "/" }
 ];
 
-const NavBar = ({ active }) => (
-  <Wrapper>
-    <Logo />
+const NavBar = ({ active, style }) => (
+  <Wrapper style={style}>
+    <Link to="/">
+      <LogoWrapper />
+    </Link>
     <Buttons>
       {(isLoggedIn() ? loggedInPages : loggedOutPages).map(page =>
         page.special ? (

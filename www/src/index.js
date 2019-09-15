@@ -4,11 +4,15 @@ import { Router, Link } from "@reach/router";
 import * as serviceWorker from "./serviceWorker";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
+import Search from "./pages/Search";
+import Project from "./pages/Project";
 
 ReactDOM.render(
   <Router>
     <Landing path="/" />
     <Login path="/login" />
+    <Search path="/search" />
+    <Project path="/project/:bid"/>
   </Router>,
   document.getElementById("root")
 );

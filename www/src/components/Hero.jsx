@@ -7,6 +7,7 @@ const Wrapper = styled.div`
   width: 100%;
   height: 450px;
   background: rgba(0, 0, 0, 0.49);
+  position: relative;
 `;
 
 const Background = styled.div`

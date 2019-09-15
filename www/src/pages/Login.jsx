@@ -61,15 +61,15 @@ const Input = styled.input`
     -webkit-box-shadow: 0 0 0px 1000px var(--color-background) inset;
   }
 
-  :focus {
+  & :focus {
     outline: none;
   }
 
-  :disabled {
+  & :disabled {
     opacity: var(--opacity-disabled);
   }
 
-  ::placeholder {
+  & ::placeholder {
     opacity: var(--opacity-placeholder);
   }
 `;
@@ -115,10 +115,36 @@ const Image = styled.div`
   }
 `;
 
+const RegisterPrompt = styled.p`
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 30px;
+
+  & span {
+    color: #0000ff;
+    cursor: pointer;
+  }
+`;
+
 const login = (email, password) => {
   axios
     .post("http://localhost:3800/user/login", {
-      username: email,
+      email,
+      password
+    })
+    .then(function(response) {
+      alert(response.data["session_token"]);
+    });
+};
+
+const register = (name, business, email, password) => {
+  axios
+    .post("http://localhost:3800/user/register", {
+      name,
+      business_name: business,
+      email,
       password
     })
     .then(function(response) {
@@ -129,47 +155,149 @@ const login = (email, password) => {
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [business, setBusiness] = useState("");
+
+  const [registering, setRegistering] = useState(false);
 
   return (
     <Layout>
       <FormWrapper>
-        <Form>
-          <H1>Welcome Back</H1>
-          <FormElements>
-            <Label htmlFor="email">email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="charlie@gmail.com"
-              value={email}
-              onChange={e => {
-                setEmail(e.target.value);
-              }}
-              autoFocus
-            />
-            <Label htmlFor="password">
-              password <Recede>(min. 6 characters)</Recede>
-            </Label>
+        {registering ? (
+          <Form>
+            <H1>
+              Welcome to
+              <br />
+              UA Consultants
+            </H1>
+            <FormElements>
+              <Label htmlFor="name">name</Label>
+              <Input
+                id="name"
+                type="text"
+                placeholder="Charlie"
+                value={name}
+                onChange={e => {
+                  setName(e.target.value);
+                }}
+                autoFocus
+              />
 
-            <Input
-              id="password"
-              type="password"
-              placeholder="Passw0rd!"
-              value={password}
-              onChange={e => {
-                setPassword(e.target.value);
-              }}
-            />
+              <Label htmlFor="business">business name</Label>
+              <Input
+                id="business"
+                type="text"
+                placeholder="Charlie's Carpentry"
+                value={business}
+                onChange={e => {
+                  setBusiness(e.target.value);
+                }}
+                autoFocus
+              />
 
-            <Button
-              onClick={() => {
-                login(email, password);
-              }}
-            >
-              sign in
-            </Button>
-          </FormElements>
-        </Form>
+              <Label htmlFor="email">email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="charlie@gmail.com"
+                value={email}
+                onChange={e => {
+                  setEmail(e.target.value);
+                }}
+                autoFocus
+              />
+              <Label htmlFor="password">
+                password <Recede>(min. 6 characters)</Recede>
+              </Label>
+
+              <Input
+                id="password"
+                type="password"
+                placeholder="Passw0rd!"
+                value={password}
+                onChange={e => {
+                  setPassword(e.target.value);
+                }}
+              />
+
+              <Button
+                onClick={() => {
+                  register(name, business, email, password);
+                }}
+              >
+                Register
+              </Button>
+            </FormElements>
+            <RegisterPrompt>
+              Already have an account?{" "}
+              <span
+                onClick={() => {
+                  setRegistering(false);
+                }}
+              >
+                Click Here
+              </span>
+            </RegisterPrompt>
+          </Form>
+        ) : (
+          <Form>
+            <H1>Welcome Back</H1>
+            <FormElements>
+              <Label htmlFor="email">email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="charlie@gmail.com"
+                value={email}
+                onChange={e => {
+                  setEmail(e.target.value);
+                }}
+                autoFocus
+              />
+              <Label htmlFor="password">
+                password <Recede>(min. 6 characters)</Recede>
+              </Label>
+
+              <Input
+                id="password"
+                type="password"
+                placeholder="Passw0rd!"
+                value={password}
+                onChange={e => {
+                  setPassword(e.target.value);
+                }}
+              />
+
+              <Button
+                onClick={() => {
+                  login(email, password);
+                }}
+              >
+                Log In
+              </Button>
+            </FormElements>
+            <RegisterPrompt>
+              Don't have an account yet?{" "}
+              <span
+                onClick={() => {
+                  setRegistering(true);
+                }}
+              >
+                Click Here
+              </span>
+              <br />
+              <br />
+              Forgot your password?{" "}
+              <span
+                onClick={() => {
+                  setRegistering(true);
+                }}
+              >
+                Click Here
+              </span>
+            </RegisterPrompt>
+          </Form>
+        )}
         <Image />
       </FormWrapper>
     </Layout>

@@ -1,5 +1,7 @@
 import React from "react";
+import { Link } from "@reach/router";
 import styled from "styled-components";
+import Avatar from "react-avatar";
 import Logo from "./Logo";
 
 const Wrapper = styled.div`
@@ -13,58 +15,93 @@ const Wrapper = styled.div`
 `;
 
 const Buttons = styled.div`
-  display: flex;
-  justify-content: flex-end;
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  @media screen and (max-width: 810px) {
+    display: none;
+  }
 `;
 
-const Button = styled.button`
-  flex: 1;
-  width: 118px;
+const Button = styled(Link)`
   background: #fff;
   border: 0;
   cursor: pointer;
   font-size: 13px;
-  
+  font-weight: 500;
+  padding: 6px 26px;
+  margin: 17.5px;
+  display: inline-block;
+  text-decoration: none;
+  width: 10px;
+  text-align: center;
+  color: #333;
+
   &:hover {
     text-decoration: underline;
   }
 `;
 
-const SpecialButton = styled.button`
-  flex: 1;
-  width: 179px;
+const SpecialButton = styled(Link)`
   background: #fff;
   border: 1px solid #02c68d;
   border-radius: 30px;
   cursor: pointer;
   font-size: 13px;
-  margin: 13px 0;
-  padding: 0 10px;
   color: #02c68d;
   font-weight: 500;
   margin-right: 13px;
   background: #54dbb417;
-  
-   &:hover {
-    color: black;
+  padding: 6px 26px;
+  margin: 17.5px;
+  display: inline-block;
+  text-decoration: none;
+  width: 49px;
+  text-align: center;
+
+  &:hover {
+    color: #99bdb2;
   }
 `;
 
-const pages = [
-  { name: "How it works" },
-  { name: "Our services" },
-  { name: "Sign up" },
-  { name: "login" }
+const isLoggedIn = () => true;
+
+const loggedOutPages = [{ name: "Log In", special: true, location: "/login" }];
+
+const loggedInPages = [
+  { name: "Search", special: false, location: "/" },
+  { name: "Messages", special: false, location: "/" },
+  { name: "Profile", special: false, location: "/" },
+  { name: "Bids", special: false, location: "/" }
 ];
 
 const NavBar = ({ active }) => (
   <Wrapper>
     <Logo />
     <Buttons>
-      {pages.map(page => (
-        <Button>{page.name}</Button>
-      ))}
-      <SpecialButton>List your business</SpecialButton>
+      {(isLoggedIn() ? loggedInPages : loggedOutPages).map(page =>
+        page.special ? (
+          <SpecialButton to={page.location}>{page.name}</SpecialButton>
+        ) : (
+          <Button to={page.location}>{page.name}</Button>
+        )
+      )}
+      {isLoggedIn() ? (
+        <Button
+          to="/"
+          style={{
+            width: "max-content",
+            padding: "0 4px",
+            marginTop: -2,
+            whiteSpace: "nowrap",
+            maxWidth: 150
+          }}
+        >
+          <Avatar name="Foo Bar" size={40} round />
+          <span style={{ marginLeft: 10 }}>BuildIt</span>
+        </Button>
+      ) : null}
     </Buttons>
   </Wrapper>
 );

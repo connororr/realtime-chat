@@ -41,7 +41,7 @@ const buttonStyles = `
   &:hover {
     text-decoration: underline;
   }
-`
+`;
 
 const Button = styled(Link)`
   ${buttonStyles}
@@ -79,7 +79,7 @@ const LogoWrapper = styled(Logo)`
 
 const logout = () => {
   localStorage.clear();
-  navigate('/');
+  navigate("/");
 };
 
 const isLoggedIn = () => localStorage.getItem("session") !== null;
@@ -108,7 +108,9 @@ const NavBar = ({ active, style }) => (
       )}
       {isLoggedIn() ? (
         <ButtonBasic
-          onClick={() => {logout()}}
+          onClick={() => {
+            logout();
+          }}
           style={{
             width: "max-content",
             padding: "0 4px",
@@ -117,10 +119,12 @@ const NavBar = ({ active, style }) => (
             maxWidth: 150
           }}
         >
-          <Avatar name="Foo Bar" size={40} round />
-          <span style={{ marginLeft: 10 }}>BuildIt</span>
+          <Avatar name={localStorage.getItem("u_name")} size={40} round />
+          <span style={{ marginLeft: 10 }}>
+            {localStorage.getItem("b_name")}
+          </span>
         </ButtonBasic>
-      ): null}
+      ) : null}
     </Buttons>
   </Wrapper>
 );

@@ -144,6 +144,8 @@ const login = (email, password) => {
 };
 
 const register = (name, business, email, password) => {
+  localStorage.setItem('u_name', name);
+  localStorage.setItem('b_name', business);
   axios
     .post("http://localhost:3800/user/register", {
       name,

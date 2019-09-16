@@ -1,0 +1,27 @@
+{
+  "name": "mocker",
+  "version": "2.3.0",
+  "description": "Designed to be a generic system for quick mocking of services.",
+  "main": "bin/Mocker.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "supervisor app.js"
+  },
+  "author": "PseudoRAM",
+  "dependencies": {
+    "colors": "^1.3.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "shortid": "^2.2.14",
+    "supervisor": "^0.12.0",
+    "swagger-parser": "^8.0.0",
+    "treeify": "^1.1.0"
+  },
+  "keywords": [
+    "mocker",
+    "swagger",
+    "js",
+    "api"
+  ],
+  "license": "Apache-2.0"
+}

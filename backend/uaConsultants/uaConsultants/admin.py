@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import conversation
+from .models import conversationData
 
-admin.site.register(conversation)
+admin.site.register(conversationData)

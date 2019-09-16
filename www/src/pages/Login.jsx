@@ -172,9 +172,7 @@ const Login = () => {
         {registering ? (
           <Form>
             <H1>
-              Welcome to
-              <br />
-              UA Consultants
+              Join UA Consultants
             </H1>
             <FormElements>
               <Label htmlFor="name">name</Label>

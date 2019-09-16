@@ -74,10 +74,10 @@ const isLoggedIn = () => localStorage.getItem("session") !== null;
 const loggedOutPages = [{ name: "Log In", special: true, location: "/login" }];
 
 const loggedInPages = [
-  { name: "Search", special: false, location: "/" },
-  { name: "Messages", special: false, location: "/" },
-  { name: "Profile", special: false, location: "/" },
-  { name: "Bids", special: false, location: "/" }
+  { name: "Search", special: false, location: "/search" },
+  { name: "Messages", special: false, location: "/conversations" },
+  { name: "Profile", special: false, location: "/profile" },
+  { name: "Bids", special: false, location: "/profile/bids" }
 ];
 
 const NavBar = ({ active, style }) => (

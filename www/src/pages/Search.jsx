@@ -16,7 +16,7 @@ const SearchResults = styled.div`
   height: calc(100vh - 66px);
   overflow-y: scroll;
   float: right;
-  width: calc(100vw - 181px);
+  width: calc(100vw - 204px);
 
   display: flex;
   flex-wrap: wrap;
@@ -46,6 +46,9 @@ class Search extends React.Component {
             desc={result.description}
             key={result["business_id"]}
             b_id={result["business_id"]}
+            bid={result["current_bid"]}
+            b_name={result["business_name"]}
+            location={result["location"]}
             image={result["project_photo"].image}
             alt={result["project_photo"].title}
           />

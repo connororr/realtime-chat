@@ -1,10 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
+import { FaMapMarkerAlt, FaBriefcase, FaDollarSign } from "react-icons/fa";
+
 const Card = styled.div`
   width: 250px;
   height: 250px;
-  margin: 10px;
+  margin: 18px;
   position: relative;
   cursor: pointer;
 `;
@@ -20,14 +22,13 @@ const Image = styled.img`
 const Info = styled.div`
   background: #fff;
   position: absolute;
-  top: 50%;
+  top: 47%;
   width: 90%;
   display: block;
   margin: 0 5%;
-  height: 143px;
   border-radius: 8px;
   box-shadow: 3px 4px 6px -3px #6c6c6c;
-  height: 119px;
+  height: 133px;
 `;
 
 const Name = styled.h3`
@@ -49,14 +50,51 @@ const Description = styled.p`
   margin: 0;
   font-weight: 100;
   font-size: 15px;
+  margin-bottom: 11px;
 `;
 
-const JobCard = ({ project, desc, b_id, image, alt }) => {
+const Detail = styled.div`
+  display: block;
+  font-size: 14px;
+  padding: 0 9px;
+  margin: 4px 0;
+`;
+
+const Text = styled.p`
+  display: inline-block;
+  margin: 0;
+  color: #666;
+  margin-left: 7px;
+`;
+
+const Icon = styled.div`
+  color: #666;
+  display: inline-block;
+`;
+
+const JobCard = ({ project, desc, b_id, b_name, image, alt, bid, location }) => {
   return (
     <Card>
       <Info>
         <Name>{project}</Name>
         <Description>{desc}</Description>
+        <Detail>
+          <Icon>
+            <FaMapMarkerAlt />
+            <Text>{location}</Text>
+          </Icon>
+        </Detail>
+        <Detail>
+          <Icon>
+            <FaDollarSign />
+            <Text>{bid}</Text>
+          </Icon>
+        </Detail>
+        <Detail>
+          <Icon>
+            <FaBriefcase /> <Text>{b_name}</Text>
+          </Icon>
+        </Detail>
       </Info>
       <Image src={image} alt={alt} />
     </Card>

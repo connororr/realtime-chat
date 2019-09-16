@@ -25,7 +25,7 @@ def chat(request):
     if request.method == 'GET':
         response_data=[]
         for field in conversationData.objects.all():
-            response_data.append(field.business_id)
+            response_data.append(field.business_id+" "+field.business_name+" "+field.business_picture+" "+field.job_link+" "+field.user_name)
         return HttpResponse(json.dumps(response_data), content_type="application/json")
     elif request.method == 'POST':
-    return HttpResponse('400')
+        return HttpResponse('400')

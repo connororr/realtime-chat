@@ -38,6 +38,8 @@ const Select = styled.select`
   font-size: 13px;
   text-align: center;
   padding-right: 15px;
+  padding-left: 10px;
+  border-radius: 0;
 `;
 
 const FindBtn = styled.button`

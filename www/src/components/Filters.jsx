@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -32,6 +32,7 @@ const Select = styled.select`
   margin: auto;
   border-radius: 8px;
   margin-bottom: 14px;
+  padding-left: 10px;
 `;
 
 const SearchInput = styled.input`
@@ -64,10 +65,18 @@ const Button = styled.button`
 `;
 
 const Filters = () => {
+  const [searchTerms, setSearchTerms] = useState("");
+
   return (
     <Wrapper>
       <Title>Filters</Title>
-      <SearchInput placeholder="Search.." value=""/>
+      <SearchInput
+        placeholder="Search.."
+        value={searchTerms}
+        onChange={e => {
+          setSearchTerms(e.target.value);
+        }}
+      />
       <Select>
         <option value="" disabled selected>
           Job Type

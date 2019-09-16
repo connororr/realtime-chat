@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "@reach/router";
+import { Link, navigate } from "@reach/router";
 import styled from "styled-components";
 import Avatar from "react-avatar";
 import Logo from "./Logo";
@@ -24,7 +24,7 @@ const Buttons = styled.div`
   }
 `;
 
-const Button = styled(Link)`
+const buttonStyles = `
   background: #fff;
   border: 0;
   cursor: pointer;
@@ -41,6 +41,14 @@ const Button = styled(Link)`
   &:hover {
     text-decoration: underline;
   }
+`
+
+const Button = styled(Link)`
+  ${buttonStyles}
+`;
+
+const ButtonBasic = styled.button`
+  ${buttonStyles}
 `;
 
 const SpecialButton = styled(Link)`
@@ -69,6 +77,11 @@ const LogoWrapper = styled(Logo)`
   cursor: pointer;
 `;
 
+const logout = () => {
+  localStorage.clear();
+  navigate('/');
+};
+
 const isLoggedIn = () => localStorage.getItem("session") !== null;
 
 const loggedOutPages = [{ name: "Log In", special: true, location: "/login" }];
@@ -94,8 +107,8 @@ const NavBar = ({ active, style }) => (
         )
       )}
       {isLoggedIn() ? (
-        <Button
-          to="/"
+        <ButtonBasic
+          onClick={() => {logout()}}
           style={{
             width: "max-content",
             padding: "0 4px",
@@ -106,8 +119,8 @@ const NavBar = ({ active, style }) => (
         >
           <Avatar name="Foo Bar" size={40} round />
           <span style={{ marginLeft: 10 }}>BuildIt</span>
-        </Button>
-      ) : null}
+        </ButtonBasic>
+      ): null}
     </Buttons>
   </Wrapper>
 );

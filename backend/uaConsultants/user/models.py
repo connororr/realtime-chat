@@ -1,6 +1,6 @@
 from django.db import models
 
-class user(models.Model):
+class User(models.Model):
     user_id = models.CharField(max_length=50)
     email = models.CharField(max_length=50)
     name = models.CharField(max_length=50)
@@ -11,4 +11,3 @@ class user(models.Model):
     date_created = models.IntegerField()
     profile_picture = models.CharField(max_length=50)
     description = models.CharField(max_length=50)
-

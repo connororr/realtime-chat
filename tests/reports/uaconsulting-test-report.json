@@ -1,0 +1,137 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 3,
+    "passes": 0,
+    "pending": 0,
+    "failures": 3,
+    "start": "2019-09-19T09:16:29.995Z",
+    "end": "2019-09-19T09:16:46.963Z",
+    "duration": 16968,
+    "testsRegistered": 3,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "passPercentClass": "danger",
+    "pendingPercentClass": "danger"
+  },
+  "suites": {
+    "uuid": "65d07614-bdf0-4c31-8a68-90bae7dfa39c",
+    "title": "",
+    "fullFile": "",
+    "file": "",
+    "beforeHooks": [],
+    "afterHooks": [],
+    "tests": [],
+    "suites": [
+      {
+        "uuid": "d995aec9-7476-4d4d-b2b8-82c036f414d0",
+        "title": "As a Client/Supplier, I want to search relevant job information from the main screen, so that I can find the information I need as soon as possible",
+        "fullFile": "/Users/pseudoram/Programming/capstone/tests/spec/search/functionalitytest.spec.js",
+        "file": "/spec/search/functionalitytest.spec.js",
+        "beforeHooks": [],
+        "afterHooks": [
+          {
+            "title": "\"after all\" hook",
+            "fullTitle": "As a Client/Supplier, I want to search relevant job information from the main screen, so that I can find the information I need as soon as possible \"after all\" hook",
+            "timedOut": false,
+            "duration": 113,
+            "pass": false,
+            "fail": false,
+            "pending": false,
+            "code": "driver.quit()",
+            "err": {},
+            "isRoot": false,
+            "uuid": "51315075-eef9-4a8d-9001-5cf81e04597f",
+            "isHook": true,
+            "skipped": false
+          }
+        ],
+        "tests": [
+          {
+            "title": "Test 1",
+            "fullTitle": "As a Client/Supplier, I want to search relevant job information from the main screen, so that I can find the information I need as soon as possible Test 1",
+            "timedOut": false,
+            "duration": 15475,
+            "state": "failed",
+            "pass": false,
+            "fail": true,
+            "pending": false,
+            "code": "await driver.get(\"http://localhost:3000\");\nconst filters = [\"Roofing\", \"NSW\"];\nfilters.forEach(async field => {\n  const e = await getElement(By.css(`option[value='${field}']`));\n  e.click();\n});\nconst e = await getElement(By.xpath(\"//*[text()[contains(.,'FIND')]]\"));\ne.click();\n//element.getText()\nawait driver.wait(until.urlContains(\"search\"));\nconst url = await driver.getCurrentUrl();\nexpect().to.equal(true);\nexpect(new RegExp(filters.join(\"|\")).test(url)).to.equal(true);",
+            "err": {
+              "message": "AssertionError: expected undefined to equal true",
+              "estack": "AssertionError: expected undefined to equal true\n    at Context.it (spec/search/functionalitytest.spec.js:32:17)\n    at process._tickCallback (internal/process/next_tick.js:68:7)"
+            },
+            "isRoot": false,
+            "uuid": "6e090bf6-ee0d-4d02-a335-47308c9d6822",
+            "isHook": false,
+            "skipped": false
+          },
+          {
+            "title": "Test 2",
+            "fullTitle": "As a Client/Supplier, I want to search relevant job information from the main screen, so that I can find the information I need as soon as possible Test 2",
+            "timedOut": false,
+            "duration": 777,
+            "state": "failed",
+            "pass": false,
+            "fail": true,
+            "pending": false,
+            "code": "await driver.get(\"http://localhost:3000\");\nconst filters = [\"Rain Water Tanks\", \"ACT\"];\nfilters.forEach(async field => {\n  const e = await getElement(By.css(`option[value='${field}']`));\n  e.click();\n});\nconst e = await getElement(By.xpath(\"//*[text()[contains(.,'FIND')]]\"));\ne.click();\n//element.getText()\nawait driver.wait(until.urlContains(\"search\"));\nconst url = await driver.getCurrentUrl();\nexpect().to.equal(true);\nexpect(new RegExp(filters.join(\"|\")).test(url)).to.equal(true);",
+            "err": {
+              "message": "AssertionError: expected undefined to equal true",
+              "estack": "AssertionError: expected undefined to equal true\n    at Context.it (spec/search/functionalitytest.spec.js:50:17)\n    at process._tickCallback (internal/process/next_tick.js:68:7)"
+            },
+            "isRoot": false,
+            "uuid": "5238d180-288d-48f4-beff-90c132b64f40",
+            "isHook": false,
+            "skipped": false
+          },
+          {
+            "title": "Test 3",
+            "fullTitle": "As a Client/Supplier, I want to search relevant job information from the main screen, so that I can find the information I need as soon as possible Test 3",
+            "timedOut": false,
+            "duration": 584,
+            "state": "failed",
+            "pass": false,
+            "fail": true,
+            "pending": false,
+            "code": "await driver.get(\"http://localhost:3000\");\nconst filters = [\"Waterproofing\", \"SA\"];\nfilters.forEach(async field => {\n  const e = await getElement(By.css(`option[value='${field}']`));\n  e.click();\n});\nconst e = await getElement(By.xpath(\"//*[text()[contains(.,'FIND')]]\"));\ne.click();\n//element.getText()\nawait driver.wait(until.urlContains(\"search\"));\nconst url = await driver.getCurrentUrl();\nexpect().to.equal(true);\nexpect(new RegExp(filters.join(\"|\")).test(url)).to.equal(true);",
+            "err": {
+              "message": "AssertionError: expected undefined to equal true",
+              "estack": "AssertionError: expected undefined to equal true\n    at Context.it (spec/search/functionalitytest.spec.js:68:17)\n    at process._tickCallback (internal/process/next_tick.js:68:7)"
+            },
+            "isRoot": false,
+            "uuid": "7cce6786-e926-41de-955a-2aa9c764ebe6",
+            "isHook": false,
+            "skipped": false
+          }
+        ],
+        "suites": [],
+        "passes": [],
+        "failures": [
+          "6e090bf6-ee0d-4d02-a335-47308c9d6822",
+          "5238d180-288d-48f4-beff-90c132b64f40",
+          "7cce6786-e926-41de-955a-2aa9c764ebe6"
+        ],
+        "pending": [],
+        "skipped": [],
+        "duration": 16836,
+        "root": false,
+        "rootEmpty": false,
+        "_timeout": 0
+      }
+    ],
+    "passes": [],
+    "failures": [],
+    "pending": [],
+    "skipped": [],
+    "duration": 0,
+    "root": true,
+    "rootEmpty": true,
+    "_timeout": 0
+  },
+  "copyrightYear": 2019
+}

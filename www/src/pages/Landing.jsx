@@ -71,197 +71,197 @@ const Landing = () => {
         <FormHolder>
           <Select
             onChange={e => {
-              setCategory(e.target.value.split("|")[1]);
+              setCategory(e.target.value);
             }}
             id="select1"
           >
             <option value="" disabled selected>
               Job Type
             </option>
-            <option value="48|Air Conditioning">Air Conditioning</option>
-            <option value="145|Antenna Services">Antenna Services</option>
-            <option value="1424|Appliance Installation">
+            <option value="Air Conditioning">Air Conditioning</option>
+            <option value="Antenna Services">Antenna Services</option>
+            <option value="Appliance Installation">
               Appliance Installation
             </option>
-            <option value="99|Appliance Repairs">Appliance Repairs</option>
-            <option value="47|Arborists">Arborists</option>
-            <option value="1|Architects">Architects</option>
-            <option value="89|Asbestos Removal">Asbestos Removal</option>
-            <option value="355|Asphalt Concreting">Asphalt Concreting</option>
-            <option value="225|Awning Suppliers">Awning Suppliers</option>
-            <option value="124|Awnings">Awnings</option>
-            <option value="86|Balustrades">Balustrades</option>
-            <option value="1148|Bamboo Flooring">Bamboo Flooring</option>
-            <option value="18|Bath Resurfacing">Bath Resurfacing</option>
-            <option value="100|Bathroom Accessories">
+            <option value="Appliance Repairs">Appliance Repairs</option>
+            <option value="Arborists">Arborists</option>
+            <option value="Architects">Architects</option>
+            <option value="Asbestos Removal">Asbestos Removal</option>
+            <option value="Asphalt Concreting">Asphalt Concreting</option>
+            <option value="Awning Suppliers">Awning Suppliers</option>
+            <option value="Awnings">Awnings</option>
+            <option value="Balustrades">Balustrades</option>
+            <option value="Bamboo Flooring">Bamboo Flooring</option>
+            <option value="Bath Resurfacing">Bath Resurfacing</option>
+            <option value="Bathroom Accessories">
               Bathroom Accessories
             </option>
-            <option value="3|Bathroom Renovations">Bathroom Renovations</option>
-            <option value="451|Blind Suppliers">Blind Suppliers</option>
-            <option value="122|Blinds">Blinds</option>
-            <option value="51|Bricklayers">Bricklayers</option>
-            <option value="5|Builders">Builders</option>
-            <option value="148|Building Certifiers">Building Certifiers</option>
-            <option value="56|Building Consultants">
+            <option value="Bathroom Renovations">Bathroom Renovations</option>
+            <option value="Blind Suppliers">Blind Suppliers</option>
+            <option value="Blinds">Blinds</option>
+            <option value="Bricklayers">Bricklayers</option>
+            <option value="Builders">Builders</option>
+            <option value="Building Certifiers">Building Certifiers</option>
+            <option value="Building Consultants">
               Building Consultants
             </option>
-            <option value="43|Building Designers">Building Designers</option>
-            <option value="72|Building Inspections">
+            <option value="Building Designers">Building Designers</option>
+            <option value="Building Inspections">
               Building Inspections
             </option>
-            <option value="50|Building Suppliers">Building Suppliers</option>
-            <option value="149|Building Surveyors">Building Surveyors</option>
-            <option value="4|Cabinet Makers">Cabinet Makers</option>
-            <option value="19|Carpenters">Carpenters</option>
-            <option value="23|Carpet Cleaning">Carpet Cleaning</option>
-            <option value="6|Carpet Layers">Carpet Layers</option>
-            <option value="769|Carpet Suppliers">Carpet Suppliers</option>
-            <option value="125|Carpets">Carpets</option>
-            <option value="98|Carports">Carports</option>
-            <option value="1437|Ceilings">Ceilings</option>
-            <option value="82|Cladding">Cladding</option>
-            <option value="93|Commercial Cleaning">Commercial Cleaning</option>
-            <option value="102|Concrete Kerbs">Concrete Kerbs</option>
-            <option value="143|Concrete Resurfacing">
+            <option value="Building Suppliers">Building Suppliers</option>
+            <option value="Building Surveyors">Building Surveyors</option>
+            <option value="Cabinet Makers">Cabinet Makers</option>
+            <option value="Carpenters">Carpenters</option>
+            <option value="Carpet Cleaning">Carpet Cleaning</option>
+            <option value="Carpet Layers">Carpet Layers</option>
+            <option value="Carpet Suppliers">Carpet Suppliers</option>
+            <option value="Carpets">Carpets</option>
+            <option value="Carports">Carports</option>
+            <option value="Ceilings">Ceilings</option>
+            <option value="Cladding">Cladding</option>
+            <option value="Commercial Cleaning">Commercial Cleaning</option>
+            <option value="Concrete Kerbs">Concrete Kerbs</option>
+            <option value="Concrete Resurfacing">
               Concrete Resurfacing
             </option>
-            <option value="22|Concreting">Concreting</option>
-            <option value="123|Curtains">Curtains</option>
-            <option value="137|Custom Furniture">Custom Furniture</option>
-            <option value="103|Damp Proofing">Damp Proofing</option>
-            <option value="58|Decking">Decking</option>
-            <option value="42|Demolition">Demolition</option>
-            <option value="328|Door Suppliers">Door Suppliers</option>
-            <option value="66|Doors">Doors</option>
-            <option value="41|Drafting">Drafting</option>
-            <option value="1367|Drains">Drains</option>
-            <option value="8|Electricians">Electricians</option>
-            <option value="24|Equipment Hire">Equipment Hire</option>
-            <option value="76|Excavation">Excavation</option>
-            <option value="25|Fencing">Fencing</option>
-            <option value="459|Fireplaces">Fireplaces</option>
-            <option value="139|Floor Coatings">Floor Coatings</option>
-            <option value="88|Floor Sanding">Floor Sanding</option>
-            <option value="68|Fly Screens">Fly Screens</option>
-            <option value="96|Garages">Garages</option>
-            <option value="49|Garden Designers">Garden Designers</option>
-            <option value="70|Garden Supplies">Garden Supplies</option>
-            <option value="78|Gardeners">Gardeners</option>
-            <option value="1142|Gas Fitters">Gas Fitters</option>
-            <option value="128|Gates">Gates</option>
-            <option value="106|Gazebo">Gazebo</option>
-            <option value="1183|Glass Balustrades">Glass Balustrades</option>
-            <option value="874|Glass Suppliers">Glass Suppliers</option>
-            <option value="27|Glazier">Glazier</option>
-            <option value="142|Gutter Cleaning">Gutter Cleaning</option>
-            <option value="1185|Gutter Protection">Gutter Protection</option>
-            <option value="71|Guttering">Guttering</option>
-            <option value="132|Handrails">Handrails</option>
-            <option value="55|Handyman">Handyman</option>
-            <option value="1189|Heaters">Heaters</option>
-            <option value="87|Heating Systems">Heating Systems</option>
-            <option value="54|Home Renovations">Home Renovations</option>
-            <option value="44|Home Security">Home Security</option>
-            <option value="62|Home Theatre">Home Theatre</option>
-            <option value="108|Hot Water Systems">Hot Water Systems</option>
-            <option value="65|House Cleaning">House Cleaning</option>
-            <option value="1443|IKEA Bathrooms">IKEA Bathrooms</option>
-            <option value="1428|IKEA Kitchen Installers">
+            <option value="Concreting">Concreting</option>
+            <option value="Curtains">Curtains</option>
+            <option value="Custom Furniture">Custom Furniture</option>
+            <option value="Damp Proofing">Damp Proofing</option>
+            <option value="Decking">Decking</option>
+            <option value="Demolition">Demolition</option>
+            <option value="Door Suppliers">Door Suppliers</option>
+            <option value="Doors">Doors</option>
+            <option value="Drafting">Drafting</option>
+            <option value="Drains">Drains</option>
+            <option value="Electricians">Electricians</option>
+            <option value="Equipment Hire">Equipment Hire</option>
+            <option value="Excavation">Excavation</option>
+            <option value="Fencing">Fencing</option>
+            <option value="Fireplaces">Fireplaces</option>
+            <option value="Floor Coatings">Floor Coatings</option>
+            <option value="Floor Sanding">Floor Sanding</option>
+            <option value="Fly Screens">Fly Screens</option>
+            <option value="Garages">Garages</option>
+            <option value="Garden Designers">Garden Designers</option>
+            <option value="Garden Supplies">Garden Supplies</option>
+            <option value="Gardeners">Gardeners</option>
+            <option value="Gas Fitters">Gas Fitters</option>
+            <option value="Gates">Gates</option>
+            <option value="Gazebo">Gazebo</option>
+            <option value="Glass Balustrades">Glass Balustrades</option>
+            <option value="Glass Suppliers">Glass Suppliers</option>
+            <option value="Glazier">Glazier</option>
+            <option value="Gutter Cleaning">Gutter Cleaning</option>
+            <option value="Gutter Protection">Gutter Protection</option>
+            <option value="Guttering">Guttering</option>
+            <option value="Handrails">Handrails</option>
+            <option value="Handyman">Handyman</option>
+            <option value="Heaters">Heaters</option>
+            <option value="Heating Systems">Heating Systems</option>
+            <option value="Home Renovations">Home Renovations</option>
+            <option value="Home Security">Home Security</option>
+            <option value="Home Theatre">Home Theatre</option>
+            <option value="Hot Water Systems">Hot Water Systems</option>
+            <option value="House Cleaning">House Cleaning</option>
+            <option value="IKEA Bathrooms">IKEA Bathrooms</option>
+            <option value="IKEA Kitchen Installers">
               IKEA Kitchen Installers
             </option>
-            <option value="59|Insulation">Insulation</option>
-            <option value="7|Interior Decorators">Interior Decorators</option>
-            <option value="39|Interior Designers">Interior Designers</option>
-            <option value="109|Irrigation Systems">Irrigation Systems</option>
-            <option value="134|Joiners">Joiners</option>
-            <option value="1128|Kitchen Designers">Kitchen Designers</option>
-            <option value="10|Kitchens">Kitchens</option>
-            <option value="28|Landscape Architecture">
+            <option value="Insulation">Insulation</option>
+            <option value="Interior Decorators">Interior Decorators</option>
+            <option value="Interior Designers">Interior Designers</option>
+            <option value="Irrigation Systems">Irrigation Systems</option>
+            <option value="Joiners">Joiners</option>
+            <option value="Kitchen Designers">Kitchen Designers</option>
+            <option value="Kitchens">Kitchens</option>
+            <option value="Landscape Architecture">
               Landscape Architecture
             </option>
-            <option value="2|Landscapers">Landscapers</option>
-            <option value="84|Lawn &amp; Turf">Lawn &amp; Turf</option>
-            <option value="95|Lawn Mowing">Lawn Mowing</option>
-            <option value="110|Lighting">Lighting</option>
-            <option value="1386|Limestone">Limestone</option>
-            <option value="29|Locksmiths">Locksmiths</option>
-            <option value="111|Mirrors">Mirrors</option>
-            <option value="12|Painters">Painters</option>
-            <option value="81|Patios">Patios</option>
-            <option value="26|Pavers">Pavers</option>
-            <option value="57|Pergolas">Pergolas</option>
-            <option value="30|Pest Control">Pest Control</option>
-            <option value="92|Pest Inspections">Pest Inspections</option>
-            <option value="31|Plastering">Plastering</option>
-            <option value="11|Plumbers">Plumbers</option>
-            <option value="144|Pool Fencing">Pool Fencing</option>
-            <option value="1209|Pool Heating">Pool Heating</option>
-            <option value="94|Pool Maintenance">Pool Maintenance</option>
-            <option value="64|Pressure Cleaner">Pressure Cleaner</option>
-            <option value="1212|Privacy Screens">Privacy Screens</option>
-            <option value="75|Rain Water Tanks">Rain Water Tanks</option>
-            <option value="91|Removalists">Removalists</option>
-            <option value="1214|Render">Render</option>
-            <option value="46|Rendering">Rendering</option>
-            <option value="74|Retaining Walls">Retaining Walls</option>
-            <option value="1307|Roller Doors">Roller Doors</option>
-            <option value="1216|Roller Shutters">Roller Shutters</option>
-            <option value="90|Roof Repairs">Roof Repairs</option>
-            <option value="13|Roofing">Roofing</option>
-            <option value="34|Rubbish Removal">Rubbish Removal</option>
-            <option value="32|Scaffolding">Scaffolding</option>
-            <option value="67|Security Screen Doors">
+            <option value="Landscapers">Landscapers</option>
+            <option value="Lawn &amp; Turf">Lawn &amp; Turf</option>
+            <option value="Lawn Mowing">Lawn Mowing</option>
+            <option value="Lighting">Lighting</option>
+            <option value="Limestone">Limestone</option>
+            <option value="Locksmiths">Locksmiths</option>
+            <option value="Mirrors">Mirrors</option>
+            <option value="Painters">Painters</option>
+            <option value="Patios">Patios</option>
+            <option value="Pavers">Pavers</option>
+            <option value="Pergolas">Pergolas</option>
+            <option value="Pest Control">Pest Control</option>
+            <option value="Pest Inspections">Pest Inspections</option>
+            <option value="Plastering">Plastering</option>
+            <option value="Plumbers">Plumbers</option>
+            <option value="Pool Fencing">Pool Fencing</option>
+            <option value="Pool Heating">Pool Heating</option>
+            <option value="Pool Maintenance">Pool Maintenance</option>
+            <option value="Pressure Cleaner">Pressure Cleaner</option>
+            <option value="Privacy Screens">Privacy Screens</option>
+            <option value="Rain Water Tanks">Rain Water Tanks</option>
+            <option value="Removalists">Removalists</option>
+            <option value="Render">Render</option>
+            <option value="Rendering">Rendering</option>
+            <option value="Retaining Walls">Retaining Walls</option>
+            <option value="Roller Doors">Roller Doors</option>
+            <option value="Roller Shutters">Roller Shutters</option>
+            <option value="Roof Repairs">Roof Repairs</option>
+            <option value="Roofing">Roofing</option>
+            <option value="Rubbish Removal">Rubbish Removal</option>
+            <option value="Scaffolding">Scaffolding</option>
+            <option value="Security Screen Doors">
               Security Screen Doors
             </option>
-            <option value="52|Shade Sails">Shade Sails</option>
-            <option value="97|Sheds">Sheds</option>
-            <option value="146|Shopfitters">Shopfitters</option>
-            <option value="1423|Shower Repairs">Shower Repairs</option>
-            <option value="113|Shower Screens">Shower Screens</option>
-            <option value="21|Shutters">Shutters</option>
-            <option value="40|Skip &amp; Truck Hire">
+            <option value="Shade Sails">Shade Sails</option>
+            <option value="Sheds">Sheds</option>
+            <option value="Shopfitters">Shopfitters</option>
+            <option value="Shower Repairs">Shower Repairs</option>
+            <option value="Shower Screens">Shower Screens</option>
+            <option value="Shutters">Shutters</option>
+            <option value="Skip &amp; Truck Hire">
               Skip &amp; Truck Hire
             </option>
-            <option value="33|Skylights">Skylights</option>
-            <option value="1147|Solar Power">Solar Power</option>
-            <option value="121|Splashbacks">Splashbacks</option>
-            <option value="61|Staircases">Staircases</option>
-            <option value="77|Stonemasons">Stonemasons</option>
-            <option value="138|Storage">Storage</option>
-            <option value="104|Structural Engineer">Structural Engineer</option>
-            <option value="115|Surveyor">Surveyor</option>
-            <option value="129|Swimming Pool Builders">
+            <option value="Skylights">Skylights</option>
+            <option value="Solar Power">Solar Power</option>
+            <option value="Splashbacks">Splashbacks</option>
+            <option value="Staircases">Staircases</option>
+            <option value="Stonemasons">Stonemasons</option>
+            <option value="Storage">Storage</option>
+            <option value="Structural Engineer">Structural Engineer</option>
+            <option value="Surveyor">Surveyor</option>
+            <option value="Swimming Pool Builders">
               Swimming Pool Builders
             </option>
-            <option value="35|Tilers">Tilers</option>
-            <option value="15|Timber Flooring">Timber Flooring</option>
-            <option value="218|Town Planning Services">
+            <option value="Tilers">Tilers</option>
+            <option value="Timber Flooring">Timber Flooring</option>
+            <option value="Town Planning Services">
               Town Planning Services
             </option>
-            <option value="37|Tree Fellers">Tree Fellers</option>
-            <option value="105|Trusses">Trusses</option>
-            <option value="458|Underfloor Heating Systems">
+            <option value="Tree Fellers">Tree Fellers</option>
+            <option value="Trusses">Trusses</option>
+            <option value="Underfloor Heating Systems">
               Underfloor Heating Systems
             </option>
-            <option value="1438|Underpinning">Underpinning</option>
-            <option value="117|Upholstery Repair">Upholstery Repair</option>
-            <option value="118|Ventilation">Ventilation</option>
-            <option value="1364|Verandahs">Verandahs</option>
-            <option value="45|Vinyl &amp; Laminate">
+            <option value="Underpinning">Underpinning</option>
+            <option value="Upholstery Repair">Upholstery Repair</option>
+            <option value="Ventilation">Ventilation</option>
+            <option value="Verandahs">Verandahs</option>
+            <option value="Vinyl &amp; Laminate">
               Vinyl &amp; Laminate
             </option>
-            <option value="80|Wallpapering">Wallpapering</option>
-            <option value="79|Wardrobes">Wardrobes</option>
-            <option value="119|Water Features">Water Features</option>
-            <option value="53|Waterproofing">Waterproofing</option>
-            <option value="85|Window Cleaning">Window Cleaning</option>
-            <option value="36|Window Repair">Window Repair</option>
-            <option value="83|Window Tinting">Window Tinting</option>
-            <option value="16|Windows">Windows</option>
+            <option value="Wallpapering">Wallpapering</option>
+            <option value="Wardrobes">Wardrobes</option>
+            <option value="Water Features">Water Features</option>
+            <option value="Waterproofing">Waterproofing</option>
+            <option value="Window Cleaning">Window Cleaning</option>
+            <option value="Window Repair">Window Repair</option>
+            <option value="Window Tinting">Window Tinting</option>
+            <option value="Windows">Windows</option>
           </Select>
           <Select
             onChange={e => {
-              setLocation(e.target.value.split("|")[1]);
+              setLocation(e.target.value);
             }}
             id="select2"
           >

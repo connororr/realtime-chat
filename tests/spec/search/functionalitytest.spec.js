@@ -24,12 +24,13 @@ describe("As a Client/Supplier, I want to search relevant job information from t
       e.click();
     });
 
+    await driver.sleep(1000);
+
     const e = await getElement(By.xpath("//*[text()[contains(.,'FIND')]]"));
     e.click();
     //element.getText()
     await driver.wait(until.urlContains("search"));
     const url = await driver.getCurrentUrl();
-    expect().to.equal(true);
     expect(new RegExp(filters.join("|")).test(url)).to.equal(true);
   });
 
@@ -42,12 +43,13 @@ describe("As a Client/Supplier, I want to search relevant job information from t
       e.click();
     });
 
+    await driver.sleep(1000);
+
     const e = await getElement(By.xpath("//*[text()[contains(.,'FIND')]]"));
     e.click();
     //element.getText()
     await driver.wait(until.urlContains("search"));
     const url = await driver.getCurrentUrl();
-    expect().to.equal(true);
     expect(new RegExp(filters.join("|")).test(url)).to.equal(true);
   });
 
@@ -60,12 +62,13 @@ describe("As a Client/Supplier, I want to search relevant job information from t
       e.click();
     });
 
+    await driver.sleep(1000);
+
     const e = await getElement(By.xpath("//*[text()[contains(.,'FIND')]]"));
     e.click();
     //element.getText()
     await driver.wait(until.urlContains("search"));
     const url = await driver.getCurrentUrl();
-    expect().to.equal(true);
     expect(new RegExp(filters.join("|")).test(url)).to.equal(true);
   });
 

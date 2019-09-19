@@ -1,0 +1,32 @@
+{
+  "name": "uaconsulting-test",
+  "fullName": "UA Consulting BDD",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:api": "(cd ../api/emulate && npm start)",
+    "start:server": "(cd ../www && BROWSER=none npm start)",
+    "start:server-and-api": "start-test start:api 3800/healthcheck start:server",
+    "test": "mocha spec/**/*.spec.js --reporter mochawesome --reporter-options reportDir=reports,reportFilename=uaconsulting-test-report --timeout 0",
+    "bamboo": "mocha spec/**/*.spec.js --reporter mocha-bamboo-reporter --timeout 0",
+    "test:all": "start-test start:server-and-api 3000 test"
+  },
+  "author": "Benjamin Jelavic",
+  "license": "ISC",
+  "dependencies": {
+    "package.json": "^2.0.1",
+    "selenium-webdriver": "^4.0.0-alpha.1",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "mochawesome": "^3.1.2"
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.6",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "mocha-bamboo-reporter": "*",
+    "mochawesome": "^3.1.2",
+    "start-server-and-test": "^1.10.2"
+  }
+}

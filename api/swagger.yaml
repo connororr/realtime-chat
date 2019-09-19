@@ -331,6 +331,26 @@ paths:
           description: "Message failed to send"
           schema:
             $ref: "#/definitions/ResponseFail"
+  /healthcheck:
+    get:
+      tags:
+        - "healthcheck"
+      summary: "Tests server connection"
+      description: ""
+      operationId: "healthcheck"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Message sent successfully"
+          schema:
+            $ref: "#/definitions/ResponseSuccess"
+        400:
+          description: "Message failed to send"
+          schema:
+            $ref: "#/definitions/ResponseFail"
 definitions:
   Register:
     type: "object"

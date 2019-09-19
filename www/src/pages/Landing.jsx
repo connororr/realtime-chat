@@ -73,6 +73,7 @@ const Landing = () => {
             onChange={e => {
               setCategory(e.target.value.split("|")[1]);
             }}
+            id="select1"
           >
             <option value="" disabled selected>
               Job Type
@@ -262,6 +263,7 @@ const Landing = () => {
             onChange={e => {
               setLocation(e.target.value.split("|")[1]);
             }}
+            id="select2"
           >
             <option value="" disabled selected>
               Location

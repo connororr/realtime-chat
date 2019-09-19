@@ -6,6 +6,12 @@ from django.http import JsonResponse
 import json
 from .models import *
 
+from rest_framework import generics
+
+from . import models
+from . import serializers
+
+
 # #### /User Responses ###
 # #/User/register
 def userRegister(request):
@@ -37,6 +43,9 @@ def userProfile(request):
     elif request.method == 'POST':
         return HttpResponse('400')
 
+# class allUserView(generics.ListAPIView):
+#     queryset = models.User.objects.all()
+#     serializer_class = serializers.UserSerializer
 
 # ##example json dump
 #         # response_data=[]

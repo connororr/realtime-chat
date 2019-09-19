@@ -3,7 +3,7 @@ from djongo import models
 
 class JobPhoto(models.Model):
     image = models.CharField(max_length=300)
-    title = models.CharFIeld(max_length=50)
+    title = models.CharField(max_length=50)
 
 class Job(models.Model):
     job_name = models.CharField(max_length=50)

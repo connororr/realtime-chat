@@ -1,8 +1,8 @@
-import React from "react";
-import { Link, navigate } from "@reach/router";
-import styled from "styled-components";
-import Avatar from "react-avatar";
-import Logo from "./Logo";
+import React from 'react';
+import { Link, navigate } from '@reach/router';
+import styled from 'styled-components';
+import Avatar from 'react-avatar';
+import Logo from './Logo';
 
 const Wrapper = styled.div`
   height: 50px;
@@ -28,13 +28,12 @@ const buttonStyles = `
   background: #fff;
   border: 0;
   cursor: pointer;
-  font-size: 13px;
-  font-weight: 500;
-  padding: 6px 26px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 8px;
   margin: 17.5px;
   display: inline-block;
   text-decoration: none;
-  width: 10px;
   text-align: center;
   color: #333;
 
@@ -53,14 +52,14 @@ const ButtonBasic = styled.button`
 
 const SpecialButton = styled(Link)`
   background: #fff;
-  border: 1px solid #02c68d;
+  border: 1px solid #ff7c4e;
   border-radius: 30px;
   cursor: pointer;
-  font-size: 13px;
-  color: #02c68d;
+  font-size: 14px;
+  color: #ff7c4e;
   font-weight: 500;
   margin-right: 13px;
-  background: #54dbb417;
+  background: #ff7c4e1a;
   padding: 6px 26px;
   margin: 17.5px;
   display: inline-block;
@@ -79,18 +78,18 @@ const LogoWrapper = styled(Logo)`
 
 const logout = () => {
   localStorage.clear();
-  navigate("/");
+  navigate('/');
 };
 
-const isLoggedIn = () => localStorage.getItem("session") !== null;
+const isLoggedIn = () => localStorage.getItem('session') !== null;
 
-const loggedOutPages = [{ name: "Log In", special: true, location: "/login" }];
+const loggedOutPages = [{ name: 'Log In', special: true, location: '/login' }];
 
 const loggedInPages = [
-  { name: "Search", special: false, location: "/search" },
-  { name: "Messages", special: false, location: "/conversations" },
-  { name: "Profile", special: false, location: "/profile" },
-  { name: "Bids", special: false, location: "/profile/bids" }
+  { name: 'Search', special: false, location: '/search' },
+  { name: 'Messages', special: false, location: '/conversations' },
+  { name: 'Profile', special: false, location: '/profile' },
+  { name: 'Bids', special: false, location: '/profile/bids' },
 ];
 
 const NavBar = ({ active, style }) => (
@@ -112,16 +111,16 @@ const NavBar = ({ active, style }) => (
             logout();
           }}
           style={{
-            width: "max-content",
-            padding: "0 4px",
+            width: 'max-content',
+            padding: '0 4px',
             marginTop: -2,
-            whiteSpace: "nowrap",
-            maxWidth: 150
+            whiteSpace: 'nowrap',
+            maxWidth: 150,
           }}
         >
-          <Avatar name={localStorage.getItem("u_name")} size={40} round />
+          <Avatar name={localStorage.getItem('u_name')} size={40} round />
           <span style={{ marginLeft: 10 }}>
-            {localStorage.getItem("b_name")}
+            {localStorage.getItem('b_name')}
           </span>
         </ButtonBasic>
       ) : null}

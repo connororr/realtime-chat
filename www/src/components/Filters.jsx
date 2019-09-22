@@ -4,14 +4,17 @@ import styled from "styled-components";
 const Wrapper = styled.div`
   width: 204px;
   height: calc(100vh - 66px);
-  background: #86b5a7;
+  background: #14274a;
   float: left;
 `;
 
 const Title = styled.h3`
   color: #fff;
   width: 100%;
-  text-align: center;
+  text-align: left;
+  margin: 21px 20px;
+  font-size: 1.3rem;
+  font-weight: 500;
 `;
 
 const Select = styled.select`
@@ -48,7 +51,7 @@ const SearchInput = styled.input`
 `;
 
 const Button = styled.button`
-  background-color: #02c68d;
+  background-color: #ff7c4e;
   width: 170px;
   height: 40px;
   font-size: 13px;

@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { navigate } from "@reach/router";
-import Layout from "../components/Layout";
-import styled from "styled-components";
-import Hero from "../components/Hero";
-import NavBar from "../components/NavBar";
+import React, { useState } from 'react';
+import { navigate } from '@reach/router';
+import Layout from '../components/Layout';
+import styled from 'styled-components';
+import Hero from '../components/Hero';
+import NavBar from '../components/NavBar';
 
 const Heading = styled.h2`
   width: 100%;
   text-align: center;
-  color: #ffffff;
+  color: #000000;
   margin: 0;
   font-size: 35px;
   font-weight: 800;
@@ -34,17 +34,17 @@ const Select = styled.select`
   background-repeat: no-repeat;
   width: 170px;
   height: 40px;
-  border: 1px solid #e6e6e6;
   font-size: 13px;
   text-align: center;
   padding-right: 15px;
   padding-left: 10px;
   border-radius: 0;
+  border: 0;
 `;
 
 const FindBtn = styled.button`
   border: 0;
-  background: #02c68d;
+  background: #ff7c4e;
   height: 40px;
   color: #fff;
   width: 124px;
@@ -53,19 +53,33 @@ const FindBtn = styled.button`
   cursor: pointer;
 `;
 
+const BGFade = styled.div`
+  height: 170px;
+  margin-top: 83px;
+  width: 100%;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgb(255, 255, 255) 100%
+  );
+`;
+
 const search = (category, location) => {
-  if (category !== "" && location !== "") {
+  if (category !== '' && location !== '') {
     navigate(`/search?type=${category}&state=${location}`);
   }
 };
 
 const Landing = () => {
-  const [category, setCategory] = useState("");
-  const [location, setLocation] = useState("");
+  const [category, setCategory] = useState('');
+  const [location, setLocation] = useState('');
 
   return (
     <Layout>
-      <NavBar />
+      <NavBar
+        style={{ position: 'fixed', background: 'transparent', zIndex: 3 }}
+      />
       <Hero>
         <Heading>GET YOUR THINGS DONE</Heading>
         <FormHolder>
@@ -73,6 +87,7 @@ const Landing = () => {
             onChange={e => {
               setCategory(e.target.value);
             }}
+            style={{borderRight: '1px solid #e6e6e6'}}
             id="select1"
           >
             <option value="" disabled selected>
@@ -93,22 +108,16 @@ const Landing = () => {
             <option value="Balustrades">Balustrades</option>
             <option value="Bamboo Flooring">Bamboo Flooring</option>
             <option value="Bath Resurfacing">Bath Resurfacing</option>
-            <option value="Bathroom Accessories">
-              Bathroom Accessories
-            </option>
+            <option value="Bathroom Accessories">Bathroom Accessories</option>
             <option value="Bathroom Renovations">Bathroom Renovations</option>
             <option value="Blind Suppliers">Blind Suppliers</option>
             <option value="Blinds">Blinds</option>
             <option value="Bricklayers">Bricklayers</option>
             <option value="Builders">Builders</option>
             <option value="Building Certifiers">Building Certifiers</option>
-            <option value="Building Consultants">
-              Building Consultants
-            </option>
+            <option value="Building Consultants">Building Consultants</option>
             <option value="Building Designers">Building Designers</option>
-            <option value="Building Inspections">
-              Building Inspections
-            </option>
+            <option value="Building Inspections">Building Inspections</option>
             <option value="Building Suppliers">Building Suppliers</option>
             <option value="Building Surveyors">Building Surveyors</option>
             <option value="Cabinet Makers">Cabinet Makers</option>
@@ -122,9 +131,7 @@ const Landing = () => {
             <option value="Cladding">Cladding</option>
             <option value="Commercial Cleaning">Commercial Cleaning</option>
             <option value="Concrete Kerbs">Concrete Kerbs</option>
-            <option value="Concrete Resurfacing">
-              Concrete Resurfacing
-            </option>
+            <option value="Concrete Resurfacing">Concrete Resurfacing</option>
             <option value="Concreting">Concreting</option>
             <option value="Curtains">Curtains</option>
             <option value="Custom Furniture">Custom Furniture</option>
@@ -210,18 +217,14 @@ const Landing = () => {
             <option value="Roofing">Roofing</option>
             <option value="Rubbish Removal">Rubbish Removal</option>
             <option value="Scaffolding">Scaffolding</option>
-            <option value="Security Screen Doors">
-              Security Screen Doors
-            </option>
+            <option value="Security Screen Doors">Security Screen Doors</option>
             <option value="Shade Sails">Shade Sails</option>
             <option value="Sheds">Sheds</option>
             <option value="Shopfitters">Shopfitters</option>
             <option value="Shower Repairs">Shower Repairs</option>
             <option value="Shower Screens">Shower Screens</option>
             <option value="Shutters">Shutters</option>
-            <option value="Skip &amp; Truck Hire">
-              Skip &amp; Truck Hire
-            </option>
+            <option value="Skip &amp; Truck Hire">Skip &amp; Truck Hire</option>
             <option value="Skylights">Skylights</option>
             <option value="Solar Power">Solar Power</option>
             <option value="Splashbacks">Splashbacks</option>
@@ -247,9 +250,7 @@ const Landing = () => {
             <option value="Upholstery Repair">Upholstery Repair</option>
             <option value="Ventilation">Ventilation</option>
             <option value="Verandahs">Verandahs</option>
-            <option value="Vinyl &amp; Laminate">
-              Vinyl &amp; Laminate
-            </option>
+            <option value="Vinyl &amp; Laminate">Vinyl &amp; Laminate</option>
             <option value="Wallpapering">Wallpapering</option>
             <option value="Wardrobes">Wardrobes</option>
             <option value="Water Features">Water Features</option>
@@ -282,6 +283,7 @@ const Landing = () => {
             FIND
           </FindBtn>
         </FormHolder>
+        <BGFade />
       </Hero>
     </Layout>
   );

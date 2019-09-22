@@ -5,29 +5,31 @@ import { FaMapMarkerAlt, FaBriefcase, FaDollarSign } from "react-icons/fa";
 
 const Card = styled.div`
   width: 250px;
-  height: 250px;
+  height: 275px;
   margin: 18px;
   position: relative;
   cursor: pointer;
+  box-shadow: 0px 0px 11px -5px #000;
+  padding-top: 10px;
+  border-radius: 8px;
 `;
 
-const Image = styled.img`
-  width: 250px;
-  height: 187px;
-  object-fit: cover;
+const Image = styled.div`
+  width: 230px;
+  height: 131px;
+  background-size: cover;
+  background-position: center;
   border-radius: 8px;
-  box-shadow: 3px 4px 6px -3px #6c6c6c;
+  margin: 0 10px;
 `;
 
 const Info = styled.div`
   background: #fff;
-  position: absolute;
-  top: 47%;
   width: 90%;
   display: block;
+  position: absolute;
   margin: 0 5%;
   border-radius: 8px;
-  box-shadow: 3px 4px 6px -3px #6c6c6c;
   height: 133px;
 `;
 
@@ -41,6 +43,7 @@ const Name = styled.h3`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  
 `;
 
 const Description = styled.p`
@@ -75,6 +78,7 @@ const Icon = styled.div`
 const JobCard = ({ project, desc, b_id, b_name, image, alt, bid, location }) => {
   return (
     <Card>
+      <Image style={{backgroundImage: `url(${image}`}} />
       <Info>
         <Name>{project}</Name>
         <Description>{desc}</Description>
@@ -96,7 +100,6 @@ const JobCard = ({ project, desc, b_id, b_name, image, alt, bid, location }) => 
           </Icon>
         </Detail>
       </Info>
-      <Image src={image} alt={alt} />
     </Card>
   );
 };

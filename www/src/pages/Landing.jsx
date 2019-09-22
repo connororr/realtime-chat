@@ -23,6 +23,7 @@ const FormHolder = styled.div`
   overflow: hidden;
   border-radius: 24px;
   margin-top: 81px;
+  border: 1px solid rgb(230, 230, 230);
 `;
 
 const selectStyles = `

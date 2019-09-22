@@ -25,7 +25,7 @@ const Buttons = styled.div`
 `;
 
 const buttonStyles = `
-  background: #fff;
+  background: inherit;
   border: 0;
   cursor: pointer;
   font-size: 14px;
@@ -51,7 +51,6 @@ const ButtonBasic = styled.button`
 `;
 
 const SpecialButton = styled(Link)`
-  background: #fff;
   border: 1px solid #ff7c4e;
   border-radius: 30px;
   cursor: pointer;

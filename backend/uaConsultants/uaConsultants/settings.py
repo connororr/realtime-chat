@@ -111,8 +111,12 @@ WSGI_APPLICATION = 'uaConsultants.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'sys',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'uaconsdb',
+        'USER': 'postgres',
+        'PASSWORD': 'django1234',
+        'HOST': 'localhost',
+        'PORT' : '5432',
     }
 }
 

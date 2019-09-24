@@ -9,8 +9,10 @@ urlpatterns = [
     # path('block/', views.userBlock),
     # path('profile/', views.userProfile),
     # path('logout/',views.userLogout),
-    # path('allusers', views.allUserView.as_view()),
+    path('profile/all/', views.allUserView.as_view()),
     path('', include('rest_auth.urls')),
     path('registration/', include('rest_auth.registration.urls')),
+    path('profile/<int:pk>/',views.UserProfile.as_view()),
+    # path('profile', views.sample_view),
     
 ] 

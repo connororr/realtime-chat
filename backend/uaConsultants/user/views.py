@@ -7,7 +7,7 @@ import json
 from .models import *
 
 from rest_framework import generics
-
+from .serializers import UserSerializer
 from . import models
 from . import serializers
 
@@ -36,16 +36,24 @@ def userBlock(request):
     elif request.method == 'POST':
         return HttpResponse('400')
 
-# #/User/Profile
-def userProfile(request):
-    if request.method == 'GET':
-        return HttpResponse('200')
-    elif request.method == 'POST':
-        return HttpResponse('400')
+# # #/User/Profile
+# def userProfile(request):
+#     # if request.method == 'GET':
+#     #     return HttpResponse('200')
+#     # elif request.method == 'POST':
+#     #     return HttpResponse('400')
 
-# class allUserView(generics.ListAPIView):
-#     queryset = models.User.objects.all()
-#     serializer_class = serializers.UserSerializer
+# def sample_view(request):
+#     current_user = request.user
+#     return current_user.id
+
+class UserProfile(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class allUserView(generics.ListAPIView):
+    queryset = models.User.objects.all()
+    serializer_class = serializers.UserSerializer
 
 # ##example json dump
 #         # response_data=[]

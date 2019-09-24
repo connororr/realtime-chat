@@ -12,11 +12,16 @@
     "react-scripts": "3.1.1",
     "styled-components": "^4.3.2"
   },
+  "devDependencies": {
+    "start-server-and-test": "^1.10.2"
+  },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start:api": "(cd ../api/emulate && npm start)",
+    "dev": "start-test start:api 3800/healthcheck start"
   },
   "eslintConfig": {
     "extends": "react-app"

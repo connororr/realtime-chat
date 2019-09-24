@@ -458,6 +458,12 @@ definitions:
         type: "string"
       business_id:
         type: "string"
+      business_name:
+        type: "string"
+        example: "Paul's skirtings"
+      location:
+        type: "string"
+        example: "Newtown, NSW"
       current_bid:
         type: "integer"
       project_photos:

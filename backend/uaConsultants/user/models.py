@@ -1,24 +1,17 @@
+
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from django.conf import settings
 
-from django.db.models.functions import Concat
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+class CustomUser(AbstractUser):
+    business_name = models.CharField(max_length=50,default='My Company')
+    username = models.CharField(max_length=30,unique=True, primary_key=True)
     description = models.TextField(max_length=500, blank=True)
-    location = models.CharField(max_length=30, blank=True)
-    date_created = models.DateField(null=True, blank=True)
-    business_name = models.CharField(null=True,max_length=30)
-    profile_picture = models.ImageField(null=True)
+    profile_picture = models.ImageField(blank=True)
+    
 
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.create(user=instance)
-    instance.userprofile.save()
+    def __str__(self):
+        return "{}".format(self.username)
 
-# @receiver(post_save, sender=User)
-# def save_user_profile(sender, instance, **kwargs):
-#     instance.userprofile.save()
+
+

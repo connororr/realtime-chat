@@ -3,10 +3,6 @@ from . import models
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.User
-        fields = (  'username', 'email', 'first_name',)
+        model = models.CustomUser
+        fields = (  'username', 'email','business_name', 'date_joined','description', 'profile_picture')
 
-class UserProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.UserProfile
-        fields = ( 'buss_name',)

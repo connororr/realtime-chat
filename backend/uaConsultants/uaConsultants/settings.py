@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # 'user',
     'chat.apps.ChatConfig',
     'job.apps.JobConfig',
     'noti.apps.NotiConfig',
@@ -56,7 +57,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 SITE_ID = 1
 
-# AUTH_USER_MODEL = 'user.CustomUser'
+AUTH_USER_MODEL = 'user.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -111,8 +112,12 @@ WSGI_APPLICATION = 'uaConsultants.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'sys',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'uaconsuldb',
+        'USER': 'postgres',
+        'PASSWORD': 'django321',
+        'HOST': 'localhost',
+        'PORT' : '5432',
     }
 }
 

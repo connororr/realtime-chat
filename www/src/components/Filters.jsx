@@ -5,12 +5,12 @@ import { jobFilter, locationFilter } from '../helper/filters';
 const Wrapper = styled.div`
   width: 204px;
   height: calc(100vh - 66px);
-  background: #14274a;
+  background: #f6f9ff;
   float: left;
 `;
 
 const Title = styled.h3`
-  color: #fff;
+  color: #333;
   width: 100%;
   text-align: left;
   margin: 21px 20px;
@@ -30,7 +30,7 @@ const selectStyles = `
   height: 40px;
   border: 1px solid #e6e6e6;
   font-size: 13px;
-  text-align: center;
+  text-align: left;
   padding-right: 15px;
   display: block;
   margin: auto;
@@ -48,19 +48,20 @@ const SelectLocation = styled(locationFilter)`
 `;
 
 const SearchInput = styled.input`
-  width: 170px;
+  width: 150px;
   height: 40px;
   border: 1px solid #e6e6e6;
   font-size: 13px;
-  text-align: center;
+  text-align: left;
   display: block;
   margin: auto;
   border-radius: 8px;
   margin-bottom: 14px;
+  padding: 0 10px;
 `;
 
 const Button = styled.button`
-  background-color: #ff7c4e;
+  background-color: #f0932b;
   width: 170px;
   height: 40px;
   font-size: 13px;

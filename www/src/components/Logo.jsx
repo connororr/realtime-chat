@@ -1,15 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import logo from '../images/logo.png';
 
-const TextLogo = styled.h5`
-  font-family: "Righteous", cursive;
-  color: #345da8;
-  font-size: 20px;
+
+const ImgLogo = styled.img`
   margin: 0;
   display: inline-block;
-  line-height: 66px;
-  padding: 0 50px;
+  max-height: 45px;
 `;
 
-const Logo = () => <TextLogo>UA Consultants</TextLogo>;
+const Logo = () => <ImgLogo src={logo} alt='UA Consultants' />;
 export default Logo;

@@ -7,17 +7,27 @@ import Logo from './Logo';
 const Wrapper = styled.div`
   height: 50px;
   width: 100%;
-  background: #ffffff;
+  background: #317ee3;
   color: #333333;
-  height: 66px;
+  height: 72px;
   display: flex;
   justify-content: space-between;
 `;
 
+const Content = styled.div`
+  padding: 0 60px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+`;
+
 const Buttons = styled.div`
-  position: absolute;
   top: 0;
   right: 0;
+  display: flex;
+  align-content: center;
+  align-items: center;
 
   @media screen and (max-width: 810px) {
     display: none;
@@ -30,15 +40,16 @@ const buttonStyles = `
   cursor: pointer;
   font-size: 14px;
   font-weight: 600;
-  padding: 6px 8px;
-  margin: 17.5px;
+  padding: 5px 8px;
+  margin: 0 17.5px;
   display: inline-block;
   text-decoration: none;
   text-align: center;
-  color: #333;
+  color: #ffffff;
+  font-family: 'Raleway', sans-serif;
 
   &:hover {
-    text-decoration: underline;
+    border-bottom: 3px solid #f0932b;
   }
 `;
 
@@ -51,23 +62,54 @@ const ButtonBasic = styled.button`
 `;
 
 const SpecialButton = styled(Link)`
-  border: 1px solid #ff7c4e;
-  border-radius: 30px;
+  background-color: #f0932b;
+  border-bottom-color: rgba(0, 0, 0, 0);
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-image-outset: 0;
+  border-image-repeat: stretch;
+  border-image-slice: 100%;
+  border-image-source: none;
+  border-image-width: 1;
+  border-left-color: rgba(0, 0, 0, 0);
+  border-left-style: solid;
+  border-left-width: 2px;
+  border-right-color: rgba(0, 0, 0, 0);
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-top-color: rgba(0, 0, 0, 0);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  box-sizing: border-box;
+  color: rgb(255, 255, 255);
   cursor: pointer;
-  font-size: 14px;
-  color: #ff7c4e;
-  font-weight: 500;
-  margin-right: 13px;
-  background: #ff7c4e1a;
-  padding: 6px 26px;
-  margin: 17.5px;
   display: inline-block;
-  text-decoration: none;
-  width: 49px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 14.4px;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  line-height: 21.6px;
+  max-width: 100%;
+  outline-color: rgb(255, 255, 255);
+  outline-style: none;
+  outline-width: 0px;
+  padding-bottom: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  position: relative;
   text-align: center;
+  text-decoration: none;
+  text-decoration-color: rgb(255, 255, 255);
+  text-decoration-line: none;
+  
 
   &:hover {
-    color: #99bdb2;
+    opacity: 0.8;
   }
 `;
 
@@ -93,37 +135,40 @@ const loggedInPages = [
 
 const NavBar = ({ active, style }) => (
   <Wrapper style={style}>
-    <Link to="/">
-      <LogoWrapper />
-    </Link>
-    <Buttons>
-      {(isLoggedIn() ? loggedInPages : loggedOutPages).map(page =>
-        page.special ? (
-          <SpecialButton to={page.location}>{page.name}</SpecialButton>
-        ) : (
-          <Button to={page.location}>{page.name}</Button>
-        )
-      )}
-      {isLoggedIn() ? (
-        <ButtonBasic
-          onClick={() => {
-            logout();
-          }}
-          style={{
-            width: 'max-content',
-            padding: '0 4px',
-            marginTop: -2,
-            whiteSpace: 'nowrap',
-            maxWidth: 150,
-          }}
-        >
-          <Avatar name={localStorage.getItem('u_name')} size={40} round />
-          <span style={{ marginLeft: 10 }}>
-            {localStorage.getItem('b_name')}
-          </span>
-        </ButtonBasic>
-      ) : null}
-    </Buttons>
+    <Content>
+      <Link to="/">
+        <LogoWrapper />
+      </Link>
+      <Buttons>
+        {(isLoggedIn() ? loggedInPages : loggedOutPages).map(page =>
+          page.special ? (
+            <SpecialButton to={page.location}>{page.name}</SpecialButton>
+          ) : (
+            <Button to={page.location}>{page.name}</Button>
+          )
+        )}
+        {isLoggedIn() ? (
+          <ButtonBasic
+            onClick={() => {
+              logout();
+            }}
+            style={{
+              width: 'max-content',
+              padding: '0 4px',
+              marginTop: -2,
+              whiteSpace: 'nowrap',
+              maxWidth: 150,
+              pointerEvents: 'none'
+            }}
+          >
+            <Avatar name={localStorage.getItem('u_name')} size={40} round />
+            <span style={{ marginLeft: 10 }}>
+              {localStorage.getItem('b_name')}
+            </span>
+          </ButtonBasic>
+        ) : null}
+      </Buttons>
+    </Content>
   </Wrapper>
 );
 

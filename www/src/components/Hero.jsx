@@ -1,26 +1,35 @@
 import React from "react";
 import styled from "styled-components";
 
-import * as heroBg from "../images/hero.jpg";
+// import * as heroBg from "../images/hero.jpg";
+
+import frame from "../images/construction.svg";
 
 const Wrapper = styled.div`
   width: 100%;
   height: 550px;
-  /* background: rgba(0, 0, 0, 0.49); */
   position: relative;
+  z-index: 1;
 `;
 
+const Image = styled.img`
+  position: absolute;
+  bottom: 10vh;
+  height: 60vh;
+  z-index: 0;
+  right: 0;
+`
+
 const Background = styled.div`
-  background-image: url(https://images.unsplash.com/photo-1483694583352-6af4091a9498?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80);
-  background-size: cover;
-  background-position: center;
+  background-color: #317ee3;
   width: inherit;
-  height: inherit;
+  min-height: 100vh;
 `;
 
 const Hero = ({ children }) => (
   <Background>
     <Wrapper>{children}</Wrapper>
+    <Image src={frame} alt={''}/>
   </Background>
 );
 export default Hero;

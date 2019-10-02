@@ -466,6 +466,8 @@ definitions:
         example: "Newtown, NSW"
       current_bid:
         type: "integer"
+      bid_amount:
+        type: "integer"
       project_photos:
         type: "array"
         items:
@@ -489,6 +491,9 @@ definitions:
       current_bid:
         type: "integer"
         example: "2500"
+      bid_amount:
+        type: "integer"
+        example: "5"
       project_photo:
         $ref: '#/definitions/ProjectPhoto'
   ProjectPhoto:

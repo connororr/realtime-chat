@@ -9,11 +9,14 @@ import { jobFilter, locationFilter } from '../helper/filters';
 const Heading = styled.h2`
   width: 100%;
   text-align: center;
-  color: #000000;
+  color: #ffffff;
   margin: 0;
-  font-size: 35px;
-  font-weight: 800;
+  font-weight: 900;
   padding-top: 135px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 66px;
+  line-height: 76px;
+  letter-spacing: 4px;
 `;
 
 const FormHolder = styled.div`
@@ -21,9 +24,9 @@ const FormHolder = styled.div`
   display: block;
   margin: auto;
   overflow: hidden;
-  border-radius: 24px;
+  border-radius: 8px;
   margin-top: 81px;
-  border: 1px solid rgb(230, 230, 230);
+  /* border: 1px solid rgb(230, 230, 230); */
 `;
 
 const selectStyles = `
@@ -54,25 +57,14 @@ const SelectLocation = styled(locationFilter)`
 
 const FindBtn = styled.button`
   border: 0;
-  background: #ff7c4e;
+  background: #f0932b;
   height: 40px;
   color: #fff;
   width: 124px;
   font-weight: 500;
   font-size: 13px;
   cursor: pointer;
-`;
-
-const BGFade = styled.div`
-  height: 170px;
-  margin-top: 83px;
-  width: 100%;
-  background: rgb(255, 255, 255);
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgb(255, 255, 255) 100%
-  );
+  padding: 0;
 `;
 
 const search = (category, location) => {
@@ -88,10 +80,10 @@ const Landing = () => {
   return (
     <Layout>
       <NavBar
-        style={{ position: 'fixed', background: 'transparent', zIndex: 3 }}
+        style={{ position: 'fixed', zIndex: 3 }}
       />
       <Hero>
-        <Heading>GET YOUR THINGS DONE</Heading>
+        <Heading>Get things done</Heading>
         <FormHolder>
           <SelectJob
             onChange={e => {
@@ -115,7 +107,6 @@ const Landing = () => {
             FIND
           </FindBtn>
         </FormHolder>
-        <BGFade />
       </Hero>
     </Layout>
   );

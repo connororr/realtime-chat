@@ -19,6 +19,7 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin-top: 20px;
+  margin-bottom: 30px;
 `;
 
 const Image = styled.img`
@@ -72,8 +73,17 @@ const Icon = styled.div`
 `;
 
 const MapWrapper = styled.div`
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 1px 6px -5px #000;
+
   & > div {
     width: 100% !important;
+    margin-bottom: -4px;
+  }
+  
+  & div > span {
+    display: none;
   }
 `;
 

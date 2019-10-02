@@ -1,9 +1,11 @@
 import React from 'react';
 import { FaMapMarkerAlt, FaBriefcase, FaDollarSign } from 'react-icons/fa';
+import Map from 'pigeon-maps';
 import Layout from '../components/Layout';
 import styled from 'styled-components';
 import NavBar from '../components/NavBar';
 import axios from 'axios';
+import Bid from '../components/Bid';
 
 const Wrapper = styled.div`
   display: block;
@@ -15,19 +17,28 @@ const Title = styled.h1``;
 
 const ContentWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  margin-top: 20px;
 `;
 
 const Image = styled.img`
   margin: 0 20px;
-  width: 400px;
-  height: auto;
+  width: 260px;
+  height: max-content;
   overflow: hidden;
   border-radius: 8px;
 `;
 
 const Info = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+`;
+
+const InfoWrapper = styled.div`
+  width: max-content;
+  max-width: 600px;
   width: 100%;
-  height: max-content;
   margin: 0 20px;
 `;
 
@@ -58,6 +69,12 @@ const Text = styled.p`
 const Icon = styled.div`
   color: #666;
   display: inline-block;
+`;
+
+const MapWrapper = styled.div`
+  & > div {
+    width: 100% !important;
+  }
 `;
 
 class Project extends React.Component {
@@ -94,25 +111,37 @@ class Project extends React.Component {
                 alt="project photo"
               />
               <Info>
-                <Title>{projectData['project_name']}</Title>
-                <Description>{projectData.description}</Description>
-                <Detail>
-                  <Icon>
-                    <FaMapMarkerAlt />
-                    <Text>{projectData.location}</Text>
-                  </Icon>
-                </Detail>
-                <Detail>
-                  <Icon>
-                    <FaDollarSign />
-                    <Text>{projectData['current_bid']}</Text>
-                  </Icon>
-                </Detail>
-                <Detail>
-                  <Icon>
-                    <FaBriefcase /> <Text>{projectData['business_name']}</Text>
-                  </Icon>
-                </Detail>
+                <InfoWrapper>
+                  <Title>{projectData['project_name']}</Title>
+                  <Description>{projectData.description}</Description>
+                  <Detail>
+                    <Icon>
+                      <FaMapMarkerAlt />
+                      <Text>{projectData.location}</Text>
+                    </Icon>
+                  </Detail>
+                  <Detail>
+                    <Icon>
+                      <FaDollarSign />
+                      <Text>{projectData['current_bid']}</Text>
+                    </Icon>
+                  </Detail>
+                  <Detail>
+                    <Icon>
+                      <FaBriefcase />{' '}
+                      <Text>{projectData['business_name']}</Text>
+                    </Icon>
+                  </Detail>
+                  <Bid initialBid={projectData['current_bid']} />
+                  <MapWrapper>
+                    <Map
+                      center={[-33.8875665, 151.1886607]}
+                      zoom={15}
+                      width={600}
+                      height={400}
+                    />
+                  </MapWrapper>
+                </InfoWrapper>
               </Info>
             </ContentWrapper>
           </Wrapper>

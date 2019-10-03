@@ -1,9 +1,7 @@
 import React from 'react';
 import { FaMapMarkerAlt, FaBriefcase, FaDollarSign } from 'react-icons/fa';
 import Map from 'pigeon-maps';
-import Layout from '../components/Layout';
 import styled from 'styled-components';
-import NavBar from '../components/NavBar';
 import axios from 'axios';
 import Bid from '../components/Bid';
 
@@ -81,7 +79,7 @@ const MapWrapper = styled.div`
     width: 100% !important;
     margin-bottom: -4px;
   }
-  
+
   & div > span {
     display: none;
   }
@@ -111,8 +109,7 @@ class Project extends React.Component {
   render() {
     const { projectData } = this.state;
     return (
-      <Layout>
-        <NavBar />
+      <>
         {projectData ? (
           <Wrapper>
             <ContentWrapper>
@@ -128,12 +125,6 @@ class Project extends React.Component {
                     <Icon>
                       <FaMapMarkerAlt />
                       <Text>{projectData.location}</Text>
-                    </Icon>
-                  </Detail>
-                  <Detail>
-                    <Icon>
-                      <FaDollarSign />
-                      <Text>{projectData['current_bid']}</Text>
                     </Icon>
                   </Detail>
                   <Detail>
@@ -158,7 +149,7 @@ class Project extends React.Component {
         ) : (
           <h4>Loading...</h4>
         )}
-      </Layout>
+      </>
     );
   }
 }

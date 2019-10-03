@@ -1,10 +1,8 @@
-import React, { useState } from "react";
-import { navigate } from "@reach/router"
-import axios from "axios";
-import Layout from "../components/Layout";
-import styled from "styled-components";
-import LoginImg from "../images/login2.jpg";
-import NavBar from "../components/NavBar";
+import React, { useState } from 'react';
+import { navigate } from '@reach/router';
+import axios from 'axios';
+import styled from 'styled-components';
+import LoginImg from '../images/login2.jpg';
 
 const FormWrapper = styled.div`
   display: flex;
@@ -100,7 +98,7 @@ const Button = styled.button`
   }
 `;
 
-const Recede = styled("span")`
+const Recede = styled('span')`
   opacity: 0.5;
 `;
 
@@ -133,12 +131,12 @@ const RegisterPrompt = styled.p`
 
 const login = (email, password) => {
   axios
-    .post("http://localhost:3800/user/login", {
+    .post('http://localhost:3800/user/login', {
       email,
-      password
+      password,
     })
     .then(function(response) {
-      localStorage.setItem('session', response.data["session_token"]);
+      localStorage.setItem('session', response.data['session_token']);
       navigate('/');
     });
 };
@@ -147,164 +145,159 @@ const register = (name, business, email, password) => {
   localStorage.setItem('u_name', name);
   localStorage.setItem('b_name', business);
   axios
-    .post("http://localhost:3800/user/register", {
+    .post('http://localhost:3800/user/register', {
       name,
       business_name: business,
       email,
-      password
+      password,
     })
     .then(function(response) {
-      localStorage.setItem('session', response.data["session_token"]);
+      localStorage.setItem('session', response.data['session_token']);
       navigate('/');
     });
 };
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [business, setBusiness] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [business, setBusiness] = useState('');
 
   const [registering, setRegistering] = useState(false);
 
   return (
-    <Layout>
-      <NavBar style={{ position: "fixed", top: 0, left: 0, zIndex: 3 }} />
-      <FormWrapper>
-        {registering ? (
-          <Form>
-            <H1>
-              Join UA Consultants
-            </H1>
-            <FormElements>
-              <Label htmlFor="name">name</Label>
-              <Input
-                id="name"
-                type="text"
-                placeholder="Charlie"
-                value={name}
-                onChange={e => {
-                  setName(e.target.value);
-                }}
-                autoFocus
-              />
+    <FormWrapper>
+      {registering ? (
+        <Form>
+          <H1>Join UA Consultants</H1>
+          <FormElements>
+            <Label htmlFor="name">name</Label>
+            <Input
+              id="name"
+              type="text"
+              placeholder="Charlie"
+              value={name}
+              onChange={e => {
+                setName(e.target.value);
+              }}
+              autoFocus
+            />
 
-              <Label htmlFor="business">business name</Label>
-              <Input
-                id="business"
-                type="text"
-                placeholder="Charlie's Carpentry"
-                value={business}
-                onChange={e => {
-                  setBusiness(e.target.value);
-                }}
-                autoFocus
-              />
+            <Label htmlFor="business">business name</Label>
+            <Input
+              id="business"
+              type="text"
+              placeholder="Charlie's Carpentry"
+              value={business}
+              onChange={e => {
+                setBusiness(e.target.value);
+              }}
+              autoFocus
+            />
 
-              <Label htmlFor="email">email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="charlie@gmail.com"
-                value={email}
-                onChange={e => {
-                  setEmail(e.target.value);
-                }}
-                autoFocus
-              />
-              <Label htmlFor="password">
-                password <Recede>(min. 6 characters)</Recede>
-              </Label>
+            <Label htmlFor="email">email</Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="charlie@gmail.com"
+              value={email}
+              onChange={e => {
+                setEmail(e.target.value);
+              }}
+              autoFocus
+            />
+            <Label htmlFor="password">
+              password <Recede>(min. 6 characters)</Recede>
+            </Label>
 
-              <Input
-                id="password"
-                type="password"
-                placeholder="Passw0rd!"
-                value={password}
-                onChange={e => {
-                  setPassword(e.target.value);
-                }}
-              />
+            <Input
+              id="password"
+              type="password"
+              placeholder="Passw0rd!"
+              value={password}
+              onChange={e => {
+                setPassword(e.target.value);
+              }}
+            />
 
-              <Button
-                onClick={() => {
-                  register(name, business, email, password);
-                }}
-              >
-                Register
-              </Button>
-            </FormElements>
+            <Button
+              onClick={() => {
+                register(name, business, email, password);
+              }}
+            >
+              Register
+            </Button>
+          </FormElements>
+          <RegisterPrompt>
+            Already have an account?{' '}
+            <span
+              onClick={() => {
+                setRegistering(false);
+              }}
+            >
+              Click Here
+            </span>
+          </RegisterPrompt>
+        </Form>
+      ) : (
+        <Form>
+          <H1>Welcome Back</H1>
+          <FormElements>
+            <Label htmlFor="email">email</Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="charlie@gmail.com"
+              value={email}
+              onChange={e => {
+                setEmail(e.target.value);
+              }}
+              autoFocus
+            />
+            <Label htmlFor="password">
+              password <Recede>(min. 6 characters)</Recede>
+            </Label>
+
+            <Input
+              id="password"
+              type="password"
+              placeholder="Passw0rd!"
+              value={password}
+              onChange={e => {
+                setPassword(e.target.value);
+              }}
+            />
             <RegisterPrompt>
-              Already have an account?{" "}
-              <span
-                onClick={() => {
-                  setRegistering(false);
-                }}
-              >
-                Click Here
-              </span>
-            </RegisterPrompt>
-          </Form>
-        ) : (
-          <Form>
-            <H1>Welcome Back</H1>
-            <FormElements>
-              <Label htmlFor="email">email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="charlie@gmail.com"
-                value={email}
-                onChange={e => {
-                  setEmail(e.target.value);
-                }}
-                autoFocus
-              />
-              <Label htmlFor="password">
-                password <Recede>(min. 6 characters)</Recede>
-              </Label>
-
-              <Input
-                id="password"
-                type="password"
-                placeholder="Passw0rd!"
-                value={password}
-                onChange={e => {
-                  setPassword(e.target.value);
-                }}
-              />
-              <RegisterPrompt>
-                <span
-                  onClick={() => {
-                    setRegistering(true);
-                  }}
-                >
-                  Forgot your password?
-                </span>
-              </RegisterPrompt>
-              <Button
-                onClick={() => {
-                  login(email, password);
-                }}
-              >
-                Log In
-              </Button>
-            </FormElements>
-            <RegisterPrompt>
-              Don't have an account yet?{" "}
               <span
                 onClick={() => {
                   setRegistering(true);
                 }}
               >
-                Click Here
+                Forgot your password?
               </span>
             </RegisterPrompt>
-          </Form>
-        )}
-        <Image />
-      </FormWrapper>
-    </Layout>
+            <Button
+              onClick={() => {
+                login(email, password);
+              }}
+            >
+              Log In
+            </Button>
+          </FormElements>
+          <RegisterPrompt>
+            Don't have an account yet?{' '}
+            <span
+              onClick={() => {
+                setRegistering(true);
+              }}
+            >
+              Click Here
+            </span>
+          </RegisterPrompt>
+        </Form>
+      )}
+      <Image />
+    </FormWrapper>
   );
 };
 

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { navigate } from '@reach/router';
-import Layout from '../components/Layout';
 import styled from 'styled-components';
 import Hero from '../components/Hero';
-import NavBar from '../components/NavBar';
 import { jobFilter, locationFilter } from '../helper/filters';
 
 const Heading = styled.h2`
@@ -12,7 +10,6 @@ const Heading = styled.h2`
   color: #ffffff;
   margin: 0;
   font-weight: 900;
-  padding-top: 135px;
   font-family: 'Raleway', sans-serif;
   font-size: 66px;
   line-height: 76px;
@@ -26,6 +23,7 @@ const FormHolder = styled.div`
   overflow: hidden;
   border-radius: 8px;
   margin-top: 81px;
+  margin-bottom: 140px;
   /* border: 1px solid rgb(230, 230, 230); */
 `;
 
@@ -78,37 +76,32 @@ const Landing = () => {
   const [location, setLocation] = useState('');
 
   return (
-    <Layout>
-      <NavBar
-        style={{ position: 'fixed', zIndex: 3 }}
-      />
-      <Hero>
-        <Heading>Get things done</Heading>
-        <FormHolder>
-          <SelectJob
-            onChange={e => {
-              setCategory(e.target.value);
-            }}
-            style={{ borderRight: '1px solid #e6e6e6' }}
-            id="select1"
-          />
-          <SelectLocation
-            onChange={e => {
-              setLocation(e.target.value);
-            }}
-            style={{ borderRight: '1px solid #e6e6e6' }}
-            id="select2"
-          />
-          <FindBtn
-            onClick={() => {
-              search(category, location);
-            }}
-          >
-            FIND
-          </FindBtn>
-        </FormHolder>
-      </Hero>
-    </Layout>
+    <Hero>
+      <Heading>Get things done</Heading>
+      <FormHolder>
+        <SelectJob
+          onChange={e => {
+            setCategory(e.target.value);
+          }}
+          style={{ borderRight: '1px solid #e6e6e6' }}
+          id="select1"
+        />
+        <SelectLocation
+          onChange={e => {
+            setLocation(e.target.value);
+          }}
+          style={{ borderRight: '1px solid #e6e6e6' }}
+          id="select2"
+        />
+        <FindBtn
+          onClick={() => {
+            search(category, location);
+          }}
+        >
+          FIND
+        </FindBtn>
+      </FormHolder>
+    </Hero>
   );
 };
 

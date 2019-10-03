@@ -4,7 +4,7 @@ import { jobFilter, locationFilter } from '../helper/filters';
 
 const Wrapper = styled.div`
   width: 204px;
-  height: calc(100vh - 66px);
+  height: calc(100vh - 72px);
   background: #f6f9ff;
   float: left;
 `;

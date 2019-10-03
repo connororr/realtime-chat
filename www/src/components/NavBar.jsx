@@ -106,7 +106,6 @@ const SpecialButton = styled(Link)`
   text-decoration: none;
   text-decoration-color: rgb(255, 255, 255);
   text-decoration-line: none;
-  
 
   &:hover {
     opacity: 0.8;
@@ -158,7 +157,7 @@ const NavBar = ({ active, style }) => (
               marginTop: -2,
               whiteSpace: 'nowrap',
               maxWidth: 150,
-              pointerEvents: 'none'
+              pointerEvents: 'none',
             }}
           >
             <Avatar name={localStorage.getItem('u_name')} size={40} round />

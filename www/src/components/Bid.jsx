@@ -69,7 +69,7 @@ const Bid = ({ initialBid }) => {
         <input
           type="number"
           value={bid}
-          min={initialBid}
+          min={parseInt(initialBid) + 1}
           onChange={e => {
             setBid(e.target.value);
           }}

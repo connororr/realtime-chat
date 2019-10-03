@@ -1,15 +1,18 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 // import * as heroBg from "../images/hero.jpg";
 
-import frame from "../images/construction.svg";
+import frame from '../images/construction.svg';
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 550px;
   position: relative;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 72px);
 `;
 
 const Image = styled.img`
@@ -18,18 +21,18 @@ const Image = styled.img`
   height: 60vh;
   z-index: 0;
   right: 0;
-`
+`;
 
 const Background = styled.div`
   background-color: #317ee3;
   width: inherit;
-  min-height: 100vh;
+  min-height: calc(100vh - 72px);
 `;
 
 const Hero = ({ children }) => (
   <Background>
-    <Wrapper>{children}</Wrapper>
-    <Image src={frame} alt={''}/>
+    <Wrapper><div>{children}</div></Wrapper>
+    <Image src={frame} alt={''} />
   </Background>
 );
 export default Hero;

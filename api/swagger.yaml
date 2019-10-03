@@ -586,14 +586,19 @@ definitions:
     properties:
       user_name:
         type: "string"
+        example: "Albert"
       business_name:
         type: "string"
-      business_picture:
+        example: "Bob's Kitchens"
+      profile_picture:
         type: "string"
+        example: "https://via.placeholder.com/150C/O"
       job_link:
         type: "string"
-      business_id:
+      conversation_id:
         type: "string"
+      last_message:
+        $ref: '#/definitions/Message'
   ConversationList:
     type: "array"
     items:
@@ -605,8 +610,10 @@ definitions:
         type: "string"
       message:
         type: "string"
+        example: "This is a test message that is pretty long"
       time_sent:
         type: "integer"
+        example: 1568267256799
   MessageSend:
     type: "object"
     properties:

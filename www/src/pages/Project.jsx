@@ -1,9 +1,11 @@
 import React from 'react';
-import { FaMapMarkerAlt, FaBriefcase, FaDollarSign } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaBriefcase, FaComments } from 'react-icons/fa';
 import Map from 'pigeon-maps';
+import Marker from 'pigeon-marker';
 import styled from 'styled-components';
 import axios from 'axios';
 import Bid from '../components/Bid';
+import { navigate } from '@reach/router';
 
 const Wrapper = styled.div`
   display: block;
@@ -85,6 +87,16 @@ const MapWrapper = styled.div`
   }
 `;
 
+const MessageIcon = styled(FaComments)`
+  cursor: pointer;
+  padding-left: 10px;
+  color: #f0932b;
+
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
 class Project extends React.Component {
   constructor(props) {
     super(props);
@@ -130,7 +142,14 @@ class Project extends React.Component {
                   <Detail>
                     <Icon>
                       <FaBriefcase />{' '}
-                      <Text>{projectData['business_name']}</Text>
+                      <Text>
+                        {projectData['business_name']}
+                        <MessageIcon
+                          onClick={() => {
+                            navigate('/conversations');
+                          }}
+                        />
+                      </Text>
                     </Icon>
                   </Detail>
                   <Bid initialBid={projectData['current_bid']} />
@@ -140,7 +159,9 @@ class Project extends React.Component {
                       zoom={15}
                       width={600}
                       height={400}
-                    />
+                    >
+                      <Marker anchor={[-33.8875665, 151.1886607]} />
+                    </Map>
                   </MapWrapper>
                 </InfoWrapper>
               </Info>

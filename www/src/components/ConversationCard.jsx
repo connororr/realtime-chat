@@ -6,13 +6,14 @@ const CardWrapper = styled.div`
   width: 100%;
   border-bottom: 1px solid #eaeaea;
   display: flex;
+  cursor: pointer;
 `;
 
 const Avatar = styled.img`
   width: 55px;
   height: 55px;
   overflow: hidden;
-  border-radius: 50%;
+  border-radius: 24px;
   padding: 10px;
 `;
 

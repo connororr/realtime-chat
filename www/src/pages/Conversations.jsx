@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ConversationCard from '../components/ConversationCard';
 import axios from 'axios';
+import Messages from '../components/Messages';
 
 const Wrapper = styled.div`
   height: calc(100vh - 72px);
+  display: flex;
 `;
 
 const ConversationHolder = styled.div`
@@ -15,10 +17,12 @@ const ConversationHolder = styled.div`
 
 const Conversations = () => {
   const [conversations, setConversations] = useState([]);
+  const [selectedConversation, setSelectedConversation] = useState(null);
 
   useEffect(() => {
     axios.get('http://localhost:3800/chat/getall').then(response => {
       setConversations(response.data);
+      setSelectedConversation(0);
     });
   }, []);
 
@@ -36,6 +40,23 @@ const Conversations = () => {
           />
         ))}
       </ConversationHolder>
+      <Messages
+        image={
+          selectedConversation !== null
+            ? conversations[selectedConversation]['profile_picture']
+            : null
+        }
+        name={
+          selectedConversation !== null
+            ? conversations[selectedConversation]['user_name']
+            : null
+        }
+        business={
+          selectedConversation !== null
+            ? conversations[selectedConversation]['business_name']
+            : null
+        }
+      />
     </Wrapper>
   );
 };

@@ -29,7 +29,7 @@ const Buttons = styled.div`
   align-content: center;
   align-items: center;
 
-  @media screen and (max-width: 810px) {
+  @media screen and (max-width: 665px) {
     display: none;
   }
 `;

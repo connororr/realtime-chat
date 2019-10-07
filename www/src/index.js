@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Search from './pages/Search';
 import Project from './pages/Project';
 import Conversations from './pages/Conversations';
+import Profile from './pages/Profile';
 import NavBar from './components/NavBar';
 import Layout from './components/Layout';
 
@@ -19,6 +20,7 @@ ReactDOM.render(
       <Search path="/search" />
       <Project path="/project/:bid" />
       <Conversations path="/conversations" />
+      <Profile path="/profile" />
     </Router>
   </Layout>,
   document.getElementById('root')

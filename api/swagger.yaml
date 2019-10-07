@@ -439,9 +439,15 @@ definitions:
         example: 1568267256799
       profile_picture:
         type: "string"
+        example: "https://via.placeholder.com/150C/O"
       description:
         type: "string"
-      open_projects:
+        example: "Genuine timber work at genuine prices"
+      user_projects:
+        type: "array"
+        items:
+          $ref: '#/definitions/Projects'
+      open_bids:
         type: "array"
         items:
           $ref: '#/definitions/Projects'

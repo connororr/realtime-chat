@@ -134,7 +134,7 @@ const ChangeButton = styled.button`
   display: block;
   margin: auto;
   border-radius: 8px;
-  margin-bottom: 14px;
+  margin-bottom: 0;
   color: #ffffff;
   border: 0;
   font-weight: 500;
@@ -147,11 +147,16 @@ const ChangeButton = styled.button`
   }
 `;
 
+const logout = () => {
+  localStorage.clear();
+  window.location.href = '/';
+};
+
 const Profile = () => {
   const [profileInfo, setProfileInfo] = useState(null);
   const [businessName, setBusinessName] = useState('');
   const [description, setDescription] = useState('');
-  const [admin] = useState(false);
+  const [admin] = useState(true);
 
   useEffect(() => {
     axios.get('http://localhost:3800/user/profile').then(response => {
@@ -169,6 +174,9 @@ const Profile = () => {
             <AvatarWrapper>
               <Avatar alt="profile" src={profileInfo['profile_picture']} />
               {admin ? <ChangeButton>Change</ChangeButton> : null}
+              {admin ? (
+                <ChangeButton onClick={logout}>Logout</ChangeButton>
+              ) : null}
             </AvatarWrapper>
             <Info>
               <InfoWrapper>

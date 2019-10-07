@@ -1,0 +1,43 @@
+User
+-user_id: int (primary key)
+-email: string,
+-name: string,
+-business_name: string,
+-password: string,
+-date_created: date,
+-profile_picture: string,
+-description: string,
+-session_token: string,
+-block_status: string,
+-open_projects:foreign key referencing jobs (zero to many)
+
+
+Jobs
+-project_id: int (primary key),
+-project_name: string,
+-description: string,
+-business_id: int (foreign key),
+-Business_name: string (foreign key),
+-location: string,
+-current_bid: int,
+-bid_amount: int,
+-project_photo: foreign key  referencing Job_photos 
+
+Job_photos
+-Project_id: foreign key,
+-photo_ref: string,
+-photo_title: string,
+
+Conversation
+-conversation_id": "string"
+-user_name: foreign key referencing User,
+-business_name: foreign key referencing User,
+-profile_picture: foreign key referencing User,
+-job_link: string,
+-Messages: foreign key referencing messages
+
+Messages
+-conversation_id: int foreign key referencing conversation,    
+-user_id: foreign key referencing User,
+-message: string,
+-time_sent": time

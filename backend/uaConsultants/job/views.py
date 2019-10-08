@@ -1,43 +1,18 @@
 from django.shortcuts import render
-
 from django.http import HttpResponse 
 from django.http import JsonResponse
 import json
-from .models import *
+from rest_framework import generics
+from .serializers import jobSerializer
+from . import models, permissions
+from . import serializers
 
-#### /Job Responses ###
+
+# #### /Job Responses ###
 #/Job/search
-def jobSearch(request):
-    if request.method == 'GET':
-        return HttpResponse('200')
-    elif request.method == 'POST':
-        return HttpResponse('400')
+class jobView(generics.ListAPIView):
+    permission_classes = [permissions.IsOwnerOrReadOnly]
+    queryset = models.job.objects.all()
+    serializer_class = jobSerializer
 
-#/Job/photo/upload
-def jobPhotoUpload(request):
-    if request.method == 'GET':
-        return HttpResponse('200')
-    elif request.method == 'POST':
-        return HttpResponse('400')
-
-#/Job/register
-def jobRegister(request):
-    if request.method == 'GET':
-        return HttpResponse('200')
-    elif request.method == 'POST':
-        return HttpResponse('400')
-
-#/Job/view
-def jobView(request):
-    if request.method == 'GET':
-        return HttpResponse('200')
-    elif request.method == 'POST':
-        return HttpResponse('400')
-
-#/Job/bid
-def jobBid(request):
-    if request.method == 'GET':
-        return HttpResponse('200')
-    elif request.method == 'POST':
-        return HttpResponse('400')
 

@@ -4,5 +4,5 @@ from . import models
 class jobSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.job
-        fields = (  'project_name', 'description','business_name', 'business_id', 'location','current_bid', 'bid_amount', 'project_photo')
+        fields = ('job_name', 'job_description','date_created','business_name', 'job_location','current_bid', 'bid_amount', 'project_photos')
 

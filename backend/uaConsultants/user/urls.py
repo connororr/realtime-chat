@@ -7,7 +7,8 @@ urlpatterns = [
     
     path('profile/all/', views.allUserView.as_view()),
     path('', include('rest_auth.urls')),
-    path('registration/', include('rest_auth.registration.urls')),
+    # path('log/',views.CustomRegisterView.as_view()),
+    path('register/', include('rest_auth.registration.urls')),
     path('profile/<int:pk>/',views.UserProfile.as_view()),
     
     

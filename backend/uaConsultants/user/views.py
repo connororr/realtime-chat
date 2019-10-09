@@ -25,6 +25,18 @@ class allUserView(generics.ListAPIView):
     queryset = models.CustomUser.objects.all()
     serializer_class = serializers.UserSerializer
 
+from rest_auth.views import LoginView
+from rest_auth.serializers import LoginSerializer
+
+# class CustomLoginView(LoginView):
+#     queryset = CustomUser.objects.all()
+#     serializer_class = LoginSerializer
+# from rest_auth.registration.views import RegisterView
+
+# class CustomRegisterView(RegisterView):
+#     queryset = models.CustomUser.objects.all()
+#     serializer_class = serializers.RegSerializer
+
 
 # # #### /User Responses ###
 # # #/User/register

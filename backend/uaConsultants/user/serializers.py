@@ -1,8 +1,33 @@
 from rest_framework import serializers
 from . import models
+import rest_auth.serializers
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CustomUser
-        fields = (  'username', 'email','business_name', 'date_joined','description', 'profile_picture')
+        # fields = '__all__'
+        fields = [ 'email','business_name', 'date_joined','description', 'profile_picture','name',]
+        # exclude = ['']
+        
+
+from rest_auth.registration.serializers import RegisterSerializer
+class CustomRegisterSerializer(RegisterSerializer):
+        email = serializers.EmailField(required=True)
+        password1 = serializers.CharField(write_only=True)
+        business_name = serializers.CharField(required=True,max_length=50)
+        name = serializers.CharField(required=True,max_length=40)
+
+        def get_cleaned_data(self):
+            super(CustomRegisterSerializer, self).get_cleaned_data()
+
+            return {
+                'password1': self.validated_data.get('password1', ''),
+                'email': self.validated_data.get('email', ''),
+                'business_name': self.validated_data.get('business_name', ''),
+                'name': self.validated_data.get('name', ''),
+                
+            }
+
+
+
 

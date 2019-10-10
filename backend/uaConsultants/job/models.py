@@ -22,6 +22,6 @@ class project_photos(models.Model):
     image = models.TextField(max_length=500, blank=True)
     title = models.TextField(max_length=100, default = "Title")
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s: %s' % (self.image, self.title)
     

@@ -18,7 +18,7 @@ def jobView(request):
         userID = req_dict['user_id']
         #query database for user_id, if found return data via jobSerializer. 
         try:
-            serialized_qs = serializers.jobSerialize(models.job.objects.get(business_id=userID))
+            serialized_qs = serializers.jobSerialize(models.job.objects.get(id=userID))
             serialized_qs.data
             return HttpResponse(JSONRenderer().render(serialized_qs.data), content_type='application/json')
         except:

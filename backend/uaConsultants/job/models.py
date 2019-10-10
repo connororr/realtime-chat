@@ -13,7 +13,15 @@ class job(models.Model):
     location = models.TextField(max_length=500, blank=True)
     current_bid = models.TextField(max_length=500, blank=True)
     bid_amount = models.TextField(max_length=500, blank=True)
-    project_photos = models.ImageField(blank=True)
 
     def __str__(self):
-      return "{}".format(self.project_name)
+      return self.project_name
+
+class project_photos(models.Model):
+    project = models.ForeignKey(job,on_delete=models.PROTECT, related_name='project_photos')
+    image = models.TextField(max_length=500, blank=True)
+    title = models.TextField(max_length=100, default = "Title")
+
+    def __unicode__(self):
+        return '%s: %s' % (self.image, self.title)
+    

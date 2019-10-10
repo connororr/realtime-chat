@@ -11,16 +11,6 @@ from . import serializers
 
 
 # #### /Job Responses ###
-#/Job/search
-# class jobView(generics.RetrieveUpdateDestroyAPIView):
-#     permission_classes = [permissions.IsOwnerOrReadOnly]
-#     queryset = models.job.objects.all()
-#     serializer_class = jobSerializer
-
-# def jobView(request, job_id):
-#     queryset = models.job.objects.get(id=job_id)
-#     return HttpResponse("You're looking at question %s." % job_id)
-
 def jobView(request):
     req_dict = dict()
     userID=""

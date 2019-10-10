@@ -6,7 +6,7 @@ urlpatterns = [
     # path('search/', views.jobSearch),
     # path('photo/upload/', views.jobPhotoUpload),
     #path('register/', views.jobRegister),
-     path('view/<pk>/', views.jobView.as_view()),
+     path('view', views.jobView),
     # path('bid/', views.jobBid),
     
 ] 

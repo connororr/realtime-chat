@@ -17,7 +17,7 @@ class job(models.Model):
       return self.project_name
 
 class project_photos(models.Model):
-    project = models.ForeignKey(job,on_delete=models.PROTECT, related_name='project_photos')
+    project = models.ForeignKey(job,on_delete=models.CASCADE, related_name='project_photos')
     image = models.TextField(max_length=500, blank=True)
     title = models.TextField(max_length=100, default = "Title")
 

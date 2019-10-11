@@ -15,7 +15,7 @@ from datetime import date
 
 
 
-##### /Job/view Responses ###
+##### GET: /Job/view ###
 def jobView(request):
     if request.method == 'GET':
         #load http request body into python dictionary, req_dict
@@ -27,17 +27,23 @@ def jobView(request):
             serialized_qs.data
             return HttpResponse(JSONRenderer().render(serialized_qs.data), content_type='application/json')
         except:
-            return JsonResponse({'error':'lookup failed','status':'failure'}, status=404)
+            return JsonResponse({'error':'lookup failed','status':'failure'}, status=400)
     elif request.method == 'POST':
-        return JsonResponse({'error':'invalid request','status':'failure'}, status=404)
+        return JsonResponse({'error':'invalid request','status':'failure'}, status=400)
 
-@csrf_exempt
+##### POST: /Job/Register ###
 def jobRegister(request):
     if request.method == 'POST':
-        if request.user.is_authenticated:
-            req_dict = json.loads(request.body)  
-            models.job.objects.create(project_name=req_dict['project_title'], date_created=date.today(),description=req_dict['project_description'],business=request.user,location=req_dict['project_location'],current_bid="0",bid_amount="0")
-            return HttpResponse(req_dict['project_title'], status=404)
-    return JsonResponse({'error':'invalid request','status':'failure'}, status=404)
+        try:
+            #If authenticated create a model for job, then create a project_photo entry for every photo
+            if request.user.is_authenticated:
+                req_dict = json.loads(request.body)  
+                test = models.job.objects.create(project_name=req_dict['project_title'], date_created=date.today(),description=req_dict['project_description'],business=request.user,location=req_dict['project_location'],current_bid="0",bid_amount="0")
+                for photo in req_dict['project_photos']:
+                    models.project_photos.objects.create(project=test,image=photo['image'],title=photo['title'])
+            return JsonResponse({'status':'success'}, status=200)
+        except:
+            return JsonResponse({'error':'failed register job','status':'failure'}, status=400)    
+    return JsonResponse({'error':'failed register job','status':'failure'}, status=400)
 
 

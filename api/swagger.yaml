@@ -587,6 +587,10 @@ definitions:
         type: "string"
       bid_value:
         type: "string"
+      current_bid:
+        type: "string"
+      job_id:
+        type: "string"
   ConversationData:
     type: "object"
     properties:

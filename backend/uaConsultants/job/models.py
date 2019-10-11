@@ -9,7 +9,6 @@ class job(models.Model):
     date_created = models.DateTimeField(default=datetime.datetime.now)
     description = models.TextField(max_length=500, blank=True)
     business = models.ForeignKey(CustomUser,on_delete=models.PROTECT)
-    business_name = models.TextField(max_length=500, blank=True)
     location = models.TextField(max_length=500, blank=True)
     current_bid = models.TextField(max_length=500, blank=True)
     bid_amount = models.TextField(max_length=500, blank=True)
@@ -22,6 +21,6 @@ class project_photos(models.Model):
     image = models.TextField(max_length=500, blank=True)
     title = models.TextField(max_length=100, default = "Title")
 
-    def __str__(self):
+    def __unicode__(self):
         return '%s: %s' % (self.image, self.title)
     

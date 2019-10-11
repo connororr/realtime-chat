@@ -8,6 +8,11 @@ from rest_framework.renderers import JSONRenderer
 from .serializers import jobSerialize
 from . import models, permissions
 from . import serializers
+from django.views.decorators.csrf import csrf_exempt
+from datetime import date    
+
+
+
 
 
 ##### /Job/view Responses ###
@@ -26,13 +31,13 @@ def jobView(request):
     elif request.method == 'POST':
         return JsonResponse({'error':'invalid request','status':'failure'}, status=404)
 
+@csrf_exempt
 def jobRegister(request):
     if request.method == 'POST':
-        # req_dict = json.loads(request.body)  
-        # for i in req_dict:
-        #     print(i)
-        return JsonResponse({'error':'invalid request','status':'failure'}, status=404)
-    elif request.method == 'GET':
-        return JsonResponse({'error':'invalid request','status':'failure'}, status=404)
+        if request.user.is_authenticated:
+            req_dict = json.loads(request.body)  
+            models.job.objects.create(project_name=req_dict['project_title'], date_created=date.today(),description=req_dict['project_description'],business=request.user,location=req_dict['project_location'],current_bid="0",bid_amount="0")
+            return HttpResponse(req_dict['project_title'], status=404)
+    return JsonResponse({'error':'invalid request','status':'failure'}, status=404)
 
 

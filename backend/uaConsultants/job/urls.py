@@ -7,6 +7,6 @@ urlpatterns = [
     # path('photo/upload/', views.jobPhotoUpload),
     path('register', views.jobRegister),
     path('view', views.jobView),
-    # path('bid/', views.jobBid),
+    path('bid', views.jobBid),
     
 ] 

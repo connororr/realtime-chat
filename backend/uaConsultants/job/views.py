@@ -24,7 +24,7 @@ def jobView(request):
         #query database for user_id, if found return data via jobSerializer. 
         try:
             serialized_qs = serializers.jobSerialize(models.job.objects.get(id=userID))
-            serialized_qs.data
+            #serialized_qs.data
             return HttpResponse(JSONRenderer().render(serialized_qs.data), content_type='application/json')
         except:
             return JsonResponse({'error':'lookup failed','status':'failure'}, status=400)
@@ -47,3 +47,25 @@ def jobRegister(request):
     return JsonResponse({'error':'failed register job','status':'failure'}, status=400)
 
 
+##### POST: /job/bid ###
+def jobBid(request):
+    req_dict = {}
+
+    if request.method == "POST":
+        try:
+            if request.user.is_authenticated:   # if authenticated, add bid to the job
+
+                req_dict = json.loads(request.body)
+                model = models.job.objects.get(id=req_dict['job_id'])
+
+                    #check bid amount is bigger than current top bid amount
+                if model.bid_amount != '':
+                    if int(req_dict['bid_value']) < int(model.bid_amount):
+                        return JsonResponse({'error': 'current bid is less than top bidder', 'status': 'failure'})
+
+                serialized_qs = serializers.jobSerialize(model, data={'bid_amount': req_dict['bid_value'], 'current_bid': req_dict['current_bid']}, partial=True)
+                if serialized_qs.is_valid():
+                    serialized_qs.save()
+                return JsonResponse({'status': 'success'}, status=200)
+        except:
+            return JsonResponse({'error':'failed job bidding','status':'failure'}, status=400)

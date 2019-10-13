@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from user.models import CustomUser
+from django import forms
 import datetime
 
 
@@ -17,10 +18,9 @@ class job(models.Model):
       return self.project_name
 
 class project_photos(models.Model):
-    project = models.ForeignKey(job,on_delete=models.CASCADE, related_name='project_photos')
-    image = models.TextField(max_length=500, blank=True)
-    title = models.TextField(max_length=100, default = "Title")
+    project = models.ForeignKey(job, blank = True, on_delete=models.CASCADE, related_name='project_photos')
+    image = models.ImageField(upload_to='images/')
+    title = models.TextField(blank = True, max_length=100, default = "Title")
 
     def __unicode__(self):
         return '%s: %s' % (self.image, self.title)
-    

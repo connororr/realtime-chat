@@ -9,8 +9,12 @@ from .serializers import jobSerialize
 from . import models, permissions
 from . import serializers
 from django.views.decorators.csrf import csrf_exempt
-from datetime import date    
-
+from datetime import date
+import io
+import base64
+from PIL import Image, ImageDraw
+from pathlib import Path
+import uuid
 
 
 
@@ -69,3 +73,21 @@ def jobBid(request):
                 return JsonResponse({'status': 'success'}, status=200)
         except:
             return JsonResponse({'error':'failed job bidding','status':'failure'}, status=400)
+
+##### POST: /Job/Photo/upload ###
+@csrf_exempt
+def jobPhotoUpload(request):
+    if request.method == 'POST':
+        # try:
+        #     #If authenticated create a model for job, then create a project_photo entry for every photo
+        #     # if request.user.is_authenticated:
+                try:
+                    req_dict = json.loads(request.body)
+                    tempname =  str(uuid.uuid4())
+                    f = open('media/images/'+tempname+'.jpeg', 'wb')
+                    f.write(base64.b64decode(req_dict['image_byte_array']) )
+                    f.close()
+                    return HttpResponse("yeet", content_type="application/json")
+                except:
+                    return JsonResponse({'error':'failed register job','status':'failure'}, status=400)    
+    return JsonResponse({'error':'failed register job','status':'failure'}, status=400)

@@ -1,74 +1,75 @@
 # from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib import auth
-from django.http import HttpResponse 
+from django.http import HttpResponse
 from django.http import JsonResponse
 import json
+from rest_framework import status
 from .models import *
 from rest_framework import permissions
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 # from rest_framework.decorators import list_route
-
+from rest_framework import mixins
 from rest_framework import generics
-from .serializers import UserSerializer
+# from .serializers import UserSerializer
 from . import models,permissions
 from . import serializers
+from django.shortcuts import get_object_or_404
+from rest_framework.exceptions import APIException
+from rest_framework.views import APIView
+from rest_framework.decorators import api_view, renderer_classes
+from rest_framework.response import Response
 
-
-class UserProfile(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [permissions.IsOwnerOrReadOnly]
-    queryset = CustomUser.objects.all()
-    serializer_class = UserSerializer
 
 class allUserView(generics.ListAPIView):
-    permission_classes = [permissions.IsOwnerOrReadOnly]
+    # permission_classes = [permissions.IsOwnerOrReadOnly]
     queryset = models.CustomUser.objects.all()
-    serializer_class = serializers.UserSerializer
+    serializer_class = serializers.allUserSerializer
+from rest_framework.renderers import StaticHTMLRenderer
 
+# @api_view(['GET', 'POST'])
+# def user_page_view(request):
+#     """
+#     View or Update user details.
+#     """
+    
+#     try:
+#         user_profile_data = CustomUser.objects.get(id=request.user.id)
+        
+#     except:
+#         raise APIException('No profile linked with this user')
 
-# # #### /User Responses ###
-# # #/User/register
-# def userRegister(request):
 #     if request.method == 'GET':
-#         return HttpResponse('400')
+        
+#         serializer = serializers.UserSerializer(user_profile_data)
+#         return Response(serializer.data)
+
 #     elif request.method == 'POST':
-#         response_data =   ["session_token","status"]
-#         return HttpResponse(json.dumps(response_data), content_type="application/json")
-#         return HttpResponse('200')
+#         serializer = serializers.UserSerializer_(user_profile_data, data=request.data)
+#         # data['name']=
+#         # print(request.data.)
+#         if serializer.is_valid():
+            
+#             serializer.save()
+#             return Response(serializer.data)
+        
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# # #/User/login
-# def userLogin(request):
-#     if request.method == 'GET':
-#         return HttpResponse('200')
-#     elif request.method == 'POST':
-#         return HttpResponse('400')
+from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
+class CustomUserDetailsView(RetrieveUpdateAPIView):
+    
+    serializer_class = serializers.CustomUserDetailsSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
-# # #/User/block
-# def userBlock(request):
-#     if request.method == 'GET':
-#         return HttpResponse('200')
-#     elif request.method == 'POST':
-#         return HttpResponse('400')
+    def get_object(self):
+        return self.request.user
 
-# # # #/User/Profile
-# # def userProfile(request):
-# #     # if request.method == 'GET':
-# #     #     return HttpResponse('200')
-# #     # elif request.method == 'POST':
-# #     #     return HttpResponse('400')
+    def get_queryset(self):
+        
+        return get_user_model().objects.none()
 
-# # def sample_view(request):
-# #     current_user = request.user
-# #     return current_user.id
+from rest_auth.views import LoginView
+from rest_framework.authentication import TokenAuthentication
 
-# # @list_route(methods=['get'], url_path='profile/(?P<username>\w+)')
-# def getByUsername(self, request, username ):
-#     user = get_object_or_404(CustomUser, username=username)
-#     return Response(UserSerializer(CustomUser).data, status=status.HTTP_200_OK)
-
-
-# # ##example json dump
-# #         # response_data=[]
-# #         # for field in conversationData.objects.all():
-# #         #     response_data.append(field.business_id+" "+field.business_name+" "+field.business_picture+" "+field.job_link+" "+field.user_name)
-# #         # return HttpResponse(json.dumps(response_data), content_type="application/json")
+class LoginViewCustom(LoginView):
+    authentication_classes = (TokenAuthentication,)

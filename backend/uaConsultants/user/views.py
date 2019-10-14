@@ -19,7 +19,7 @@ from rest_framework.exceptions import APIException
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.response import Response
-
+from rest_framework.authentication import TokenAuthentication
 
 class allUserView(generics.ListAPIView):
     # permission_classes = [permissions.IsOwnerOrReadOnly]
@@ -57,7 +57,7 @@ from rest_framework.renderers import StaticHTMLRenderer
 
 from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
 class CustomUserDetailsView(RetrieveUpdateAPIView):
-    
+    # authentication_classes = (TokenAuthentication,)
     serializer_class = serializers.CustomUserDetailsSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
@@ -68,8 +68,18 @@ class CustomUserDetailsView(RetrieveUpdateAPIView):
         
         return get_user_model().objects.none()
 
-from rest_auth.views import LoginView
-from rest_framework.authentication import TokenAuthentication
+from rest_auth.views import LoginView, LogoutView
+
+class LogoutViewCustom(LogoutView):
+    authentication_classes = (TokenAuthentication,)
 
 class LoginViewCustom(LoginView):
+    authentication_classes = (TokenAuthentication,)
+
+from rest_auth.registration.views import VerifyEmailView, RegisterView
+
+class RegisterViewCustom(RegisterView):
+    authentication_classes = (TokenAuthentication,)
+
+class VerifyEmailViewCustom(VerifyEmailView):
     authentication_classes = (TokenAuthentication,)

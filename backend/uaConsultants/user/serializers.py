@@ -2,16 +2,35 @@ from rest_framework import serializers
 from . import models
 import rest_auth.serializers
 
-class UserSerializer(serializers.ModelSerializer):
+class CustomUserDetailsSerializer(serializers.ModelSerializer):
+    """
+    User model w/o password
+    """
+    class Meta:
+        model = models.CustomUser
+        fields = ('pk', 'username', 'email', 'name', 'business_name', 'profile_picture','description')
+        read_only_fields = ('email','username' )
+
+
+# class UserSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = models.CustomUser
+        
+#         # fields = '__all__'
+#         fields = [ 'email','business_name', 'date_joined','description', 'profile_picture','name',]
+#         # exclude = ['']
+
+class allUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CustomUser
         # fields = '__all__'
-        fields = [ 'email','business_name', 'date_joined','description', 'profile_picture','name',]
+        fields = [ 'business_name','description', 'profile_picture','name',]
         # exclude = ['']
         
 
 from rest_auth.registration.serializers import RegisterSerializer
 class CustomRegisterSerializer(RegisterSerializer):
+        
         email = serializers.EmailField(required=True)
         password1 = serializers.CharField(write_only=True)
         business_name = serializers.CharField(required=True,max_length=50)

@@ -13,13 +13,13 @@ from rest_auth.views import (
 
 urlpatterns = [
     
-    path('login/', LoginView.as_view(), name="user-login"),
-    path('logout/', LogoutView.as_view(), name='user-logout'),
-    path('password/change/', PasswordChangeView.as_view(), name='rest_password_change'),
+    path('login', LoginView.as_view(), name="user-login"),
+    path('logout', LogoutView.as_view(), name='user-logout'),
+    path('password/change', PasswordChangeView.as_view(), name='rest_password_change'),
     path('password/reset', PasswordResetView.as_view(), name='rest_password_reset'),
-    path('password/reset/confirm/', PasswordResetConfirmView.as_view(), name='rest_password_reset_confirm'),
-    path('profile/',views.CustomUserDetailsView.as_view()),
-    path('profile/all/', views.allUserView.as_view()),
-    path('register/', include('rest_auth.registration.urls')),
+    path('password/reset/confirm', PasswordResetConfirmView.as_view(), name='rest_password_reset_confirm'),
+    path('profile',views.CustomUserDetailsView.as_view()),
+    path('profile/all', views.allUserView.as_view()),
+    path('register', include('rest_auth.registration.urls')),
 ]
 

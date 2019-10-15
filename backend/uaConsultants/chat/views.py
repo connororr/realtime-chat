@@ -72,9 +72,44 @@ def chatGetall(request):
 #/Chat/conversation
 def chatConversation(request):
     if request.method == 'GET':
-        return HttpResponse('200')
-    elif request.method == 'POST':
-        return HttpResponse('400')
+
+        req_dict = json.loads(request.body)
+        conversation_id = req_dict['conversation_id']
+        response_object = {}
+        
+        try:
+            serialized_qs = serializers.ConversationSerialize(models.Conversation.objects.get(id=conversation_id))
+
+            # check if user is the sender or receiver, and return the corresponding object
+            if request.user.business_name == serialized_qs.data['sender_business_name']:
+                response_object = {
+                    "conversation": {
+                        "user_name": serialized_qs.data['receiver_user_name'],
+                        "business_name": serialized_qs.data['receiver_business_name'],
+                        "profile_picture": serialized_qs.data['receiver_profile_picture'],
+                        "job_link": serialized_qs.data['job_link'],
+                        "conversation_id": serialized_qs.data['id'],
+                        "last_message": serialized_qs.data['messages'][-1] if len(serialized_qs.data['messages']) > 0 else {}
+                    },
+                    "messages": serialized_qs.data['messages']
+                }
+
+            else: # user is receiver
+                response_object = {
+                    "conversation": {
+                        "user_name": serialized_qs.data['sender_user_name'],
+                        "business_name": serialized_qs.data['sender_business_name'],
+                        "profile_picture": serialized_qs.data['sender_profile_picture'],
+                        "job_link": serialized_qs.data['job_link'],
+                        "conversation_id": serialized_qs.data['id'],
+                        "last_message": serialized_qs.data['messages'][-1] if len(serialized_qs.data['messages']) > 0 else {}
+                    },
+                    "messages": serialized_qs.data['messages']
+                }
+        except:
+            return JsonResponse({'error':'lookup failed','status':'failure'}, status=400)
+        return JsonResponse(response_object, status=200)
+        
 
 #/Chat/sendmessage
 def chatSendmessage(request):

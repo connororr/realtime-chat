@@ -61,7 +61,7 @@ def jobBid(request):
                     #check bid amount is bigger than current top bid amount
                 if model.bid_amount != '':
                     if int(req_dict['bid_value']) < int(model.bid_amount):
-                        return JsonResponse({'error': 'current bid is less than top bidder', 'status': 'failure'})
+                        return JsonResponse({'error': 'current bid is less than top bidder', 'status': 'failure'}, status=400)
 
                 serialized_qs = serializers.jobSerialize(model, data={'bid_amount': req_dict['bid_value'], 'current_bid': req_dict['current_bid']}, partial=True)
                 if serialized_qs.is_valid():

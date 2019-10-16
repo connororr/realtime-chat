@@ -7,6 +7,7 @@ from .serializers import ConversationSerialize
 from . import models
 from . import serializers
 from django.core.exceptions import ObjectDoesNotExist
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 
@@ -76,7 +77,7 @@ def chatConversation(request):
         req_dict = json.loads(request.body)
         conversation_id = req_dict['conversation_id']
         response_object = {}
-        
+
         try:
             serialized_qs = serializers.ConversationSerialize(models.Conversation.objects.get(id=conversation_id))
 
@@ -113,8 +114,18 @@ def chatConversation(request):
 
 #/Chat/sendmessage
 def chatSendmessage(request):
-    if request.method == 'GET':
-        return HttpResponse('200')
-    elif request.method == 'POST':
-        return HttpResponse('400')
+    if request.method == 'POST':
+
+        req_dict = json.loads(request.body)
+        conversation_id = req_dict['conversation_id']
+
+        try:
+        
+            conversation = models.Conversation.objects.get(id=conversation_id)
+            new_message = models.Message.objects.create(conversation=conversation, user_id=request.user, message=req_dict['message'])
+            
+            return JsonResponse({'status': 'success'}, status=200)
+        except:
+            return JsonResponse({'error':'failed posting message','status':'failure'}, status=400)
+
 

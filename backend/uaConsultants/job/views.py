@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse 
 from django.http import JsonResponse
 from django.urls import reverse
+from django.conf import settings
 import json
 from rest_framework import generics
 from rest_framework.renderers import JSONRenderer
@@ -44,12 +45,11 @@ def jobRegister(request):
                 req_dict = json.loads(request.body)  
                 test = models.job.objects.create(project_name=req_dict['project_title'], date_created=date.today(),description=req_dict['project_description'],business=request.user,location=req_dict['project_location'],current_bid="0",bid_amount="0")
                 for photo in req_dict['project_photos']:
-                    models.project_photos.objects.create(project=test,image=photo['image'],title=photo['title'])
+                    v
             return JsonResponse({'status':'success'}, status=200)
         except:
             return JsonResponse({'error':'failed register job','status':'failure'}, status=400)    
     return JsonResponse({'error':'failed register job','status':'failure'}, status=400)
-
 
 ##### POST: /job/bid ###
 def jobBid(request):
@@ -75,19 +75,15 @@ def jobBid(request):
             return JsonResponse({'error':'failed job bidding','status':'failure'}, status=400)
 
 ##### POST: /Job/Photo/upload ###
-@csrf_exempt
 def jobPhotoUpload(request):
     if request.method == 'POST':
-        # try:
-        #     #If authenticated create a model for job, then create a project_photo entry for every photo
-        #     # if request.user.is_authenticated:
-                try:
-                    req_dict = json.loads(request.body)
-                    tempname =  str(uuid.uuid4())
-                    f = open('media/images/'+tempname+'.jpeg', 'wb')
-                    f.write(base64.b64decode(req_dict['image_byte_array']) )
-                    f.close()
-                    return HttpResponse("yeet", content_type="application/json")
-                except:
-                    return JsonResponse({'error':'failed register job','status':'failure'}, status=400)    
-    return JsonResponse({'error':'failed register job','status':'failure'}, status=400)
+        try:
+            req_dict = json.loads(request.body)
+            tempname =  str(uuid.uuid4())
+            f = open('media/images/'+tempname+'.jpeg', 'wb')
+            f.write(base64.b64decode(req_dict['image_byte_array']) )
+            f.close()
+            return HttpResponse(settings.MEDIA_URL+'images/'+tempname+'.jpeg', content_type="application/json")
+        except:
+            return JsonResponse({'error':'failed photo upload','status':'failure'}, status=400)    
+    return JsonResponse({'error':'failed photo upload','status':'failure'}, status=400)

@@ -19,7 +19,7 @@ class job(models.Model):
 
 class project_photos(models.Model):
     project = models.ForeignKey(job, blank = True, on_delete=models.CASCADE, related_name='project_photos')
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='job_images')
     title = models.TextField(blank = True, max_length=100, default = "Title")
 
     def __unicode__(self):

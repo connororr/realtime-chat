@@ -6,7 +6,7 @@ from user.serializers import CustomUserDetailsSerializer
 class jobPhotoSerialize(serializers.ModelSerializer):
     class Meta:
         model = models.project_photos
-        fields = ('title')
+        fields = ('image','title')
 
 
 class jobSerialize(serializers.ModelSerializer):

@@ -643,6 +643,8 @@ definitions:
   ViewProfile:
     type: "object"
     properties:
+      session_token:
+        type: "string"
       user_id:
         type: "string"
   ViewJob:

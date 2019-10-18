@@ -1,0 +1,390 @@
+{
+	"info": {
+		"_postman_id": "486cbfd5-d7ee-48ab-8520-320af9d8f7d5",
+		"name": "Capstone Prod",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "noti",
+			"item": []
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"ben@test.com.au\",\n  \"password\": \"testing123\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"ben5@test.com\",\n  \"name\": \"Ben\",\n  \"business_name\": \"Ikea\",\n\t\"password1\": \"ben0000000\",\n\t\"password2\": \"ben0000000\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/user/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Block User",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"session_token\": 0,\n  \"block_id\": \"string\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/user/block",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"user",
+								"block"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"session_token\": \"string\",\n  \"user_id\": \"string\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/user/profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "job",
+			"item": [
+				{
+					"name": "Register",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"session_token\": \"bb59ed441bdca6ddbc326c8047c3adce3594bf01\",\n  \"project_title\": \"string\",\n  \"project_description\": \"string\",\n  \"project_location\": \"string\",\n  \"project_photos\": [\n    {\n      \"image\": \"https://images.unsplash.com/photo-1556020685-ae41abfc9365?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60\",\n      \"title\": \"string\"\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/job/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"job",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"search_terms\": \"string\",\n  \"category_1\": \"string\",\n  \"category_2\": \"string\",\n  \"order_by\": \"string\",\n  \"loacation\": \"string\",\n  \"min_price\": \"string\",\n  \"max_price\": \"string\",\n  \"distance\": \"string\",\n  \"page_amount\": 25,\n  \"page_number\": 0\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/job/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"job",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": \"string\",\n  \"session_token\": \"string\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/job/view",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"job",
+								"view"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bid",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"session_token\": \"string\",\n  \"bid_value\": \"string\",\n  \"current_bid\": \"string\",\n  \"job_id\": \"string\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/job/bid",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"job",
+								"bid"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "chat",
+			"item": [
+				{
+					"name": "Get All",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"session_token\": \"string\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/chat/getall",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"chat",
+								"getall"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Conversation",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"conversation_id\": \"string\",\n  \"session_token\": \"string\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/chat/conversation",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"chat",
+								"conversation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Message",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"session_token\": \"string\",\n  \"message\": \"string\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/chat/sendmessage",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"chat",
+								"sendmessage"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

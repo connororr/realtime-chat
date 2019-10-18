@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { navigate } from '@reach/router';
 import axios from 'axios';
 import styled from 'styled-components';
 import LoginImg from '../images/login2.jpg';
@@ -137,7 +136,7 @@ const login = (email, password) => {
     })
     .then(function(response) {
       localStorage.setItem('session', response.data['session_token']);
-      navigate('/');
+      window.location.href = '/';
     });
 };
 
@@ -153,7 +152,7 @@ const register = (name, business, email, password) => {
     })
     .then(function(response) {
       localStorage.setItem('session', response.data['session_token']);
-      navigate('/');
+      window.location.href = '/';
     });
 };
 

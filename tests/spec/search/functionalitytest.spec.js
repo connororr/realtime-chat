@@ -9,7 +9,8 @@ let chromeOptions = {
     "--disable-extensions",
     "--ignore-certificate-errors",
     "no-sandbox" /*, "--headless"*/
-  ]
+  ],
+  port
 };
 chromeCapabilities.set("chromeOptions", chromeOptions);
 const driver = new Builder().withCapabilities(chromeCapabilities).build();
@@ -72,7 +73,7 @@ describe("As a Client/Supplier, I want to search relevant job information from t
     expect(new RegExp(filters.join("|")).test(url)).to.equal(true);
   });
 
-  after(async () => driver.quit());
+  // after(async () => driver.quit());
 });
 
 const getElement = async (locator, maxDuration = 20000) => {

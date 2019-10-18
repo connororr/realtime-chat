@@ -1,12 +1,12 @@
 from rest_framework import serializers
 from . import models
-from user.serializers import UserSerializer
+from user.serializers import CustomUserDetailsSerializer
 
 
 class jobPhotoSerialize(serializers.ModelSerializer):
     class Meta:
         model = models.project_photos
-        fields = ('title')
+        fields = ('image','title')
 
 
 class jobSerialize(serializers.ModelSerializer):

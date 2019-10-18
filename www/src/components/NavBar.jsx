@@ -116,11 +116,6 @@ const LogoWrapper = styled(Logo)`
   cursor: pointer;
 `;
 
-const logout = () => {
-  localStorage.clear();
-  navigate('/');
-};
-
 const isLoggedIn = () => localStorage.getItem('session') !== null;
 
 const loggedOutPages = [{ name: 'Log In', special: true, location: '/login' }];
@@ -148,9 +143,6 @@ const NavBar = ({ active, style }) => (
         )}
         {isLoggedIn() ? (
           <ButtonBasic
-            onClick={() => {
-              logout();
-            }}
             style={{
               width: 'max-content',
               padding: '0 4px',

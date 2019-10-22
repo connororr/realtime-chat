@@ -4,7 +4,6 @@ from user.models import CustomUser
 from django import forms
 import datetime
 
-
 class job(models.Model):
     project_name = models.CharField(max_length=50,default='My Project')
     date_created = models.DateTimeField(default=datetime.datetime.now)
@@ -19,7 +18,7 @@ class job(models.Model):
 
 class project_photos(models.Model):
     project = models.ForeignKey(job, blank = True, on_delete=models.CASCADE, related_name='project_photos')
-    image = models.ImageField(upload_to='job_images')
+    image = models.TextField(blank = True, max_length=100, default = "Title")
     title = models.TextField(blank = True, max_length=100, default = "Title")
 
     def __unicode__(self):

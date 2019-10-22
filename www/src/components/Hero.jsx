@@ -17,6 +17,7 @@ const Wrapper = styled.div`
     margin-left: 10vw;
     margin-right: 10vw;
     left: 0;
+    pointer-events: all;
   }
 `;
 

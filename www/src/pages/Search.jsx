@@ -4,10 +4,19 @@ import styled from 'styled-components';
 import Filters from '../components/Filters';
 import axios from 'axios';
 import JobCard from '../components/JobCard';
+import SearchBar from '../components/SearchBar';
 
 const ContentWrapper = styled.div`
   height: calc(100vh - 72px);
   width: 100vw;
+`;
+
+const SearchWrapper = styled.div`
+  background: #e7f6fd;
+  padding-top: 81px;
+  padding-bottom: 38px;
+  margin-bottom: 17px;
+  border-bottom-left-radius: 54px;
 `;
 
 const SearchResults = styled.div`
@@ -20,6 +29,10 @@ const SearchResults = styled.div`
   flex-wrap: wrap;
   align-items: flex-start;
   flex-direction: row;
+`;
+
+const StyledSearch = styled(SearchBar)`
+  margin: 0 auto;
 `;
 
 class Search extends React.Component {
@@ -61,6 +74,9 @@ class Search extends React.Component {
     const { results } = this.state;
     return (
       <ContentWrapper>
+        <SearchWrapper>
+          <StyledSearch />
+        </SearchWrapper>
         <Filters />
         <SearchResults>{results}</SearchResults>
       </ContentWrapper>

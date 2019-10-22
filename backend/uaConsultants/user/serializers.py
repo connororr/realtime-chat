@@ -1,34 +1,45 @@
 from rest_framework import serializers
 from . import models
+from job import models as job_mod
 import rest_auth.serializers
+from job.serializers import jobSerialize, jobPhotoSerialize 
+from rest_auth.registration.serializers import RegisterSerializer
+
 
 class CustomUserDetailsSerializer(serializers.ModelSerializer):
     """
-    User model w/o password
+    User details based on pk for authenticated user with project info
     """
-    class Meta:
-        model = models.CustomUser
-        fields = ('pk', 'username', 'email', 'name', 'business_name', 'profile_picture','description')
-        read_only_fields = ('email','username' )
-
-
-# class UserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = models.CustomUser
-        
-#         # fields = '__all__'
-#         fields = [ 'email','business_name', 'date_joined','description', 'profile_picture','name',]
-#         # exclude = ['']
-
-class allUserSerializer(serializers.ModelSerializer):
+    jobs = jobSerialize(many=True, read_only=True)
+    
     class Meta:
         model = models.CustomUser
         # fields = '__all__'
-        fields = [ 'business_name','description', 'profile_picture','name',]
+        fields = ('pk', 'username', 'email', 'name', 'business_name', 'profile_picture','description','jobs')
+        read_only_fields = ('email','username' )
+
+class CustomUserDetailsSerializerAnon(serializers.ModelSerializer):
+    """
+    User details based on pk with minimal info
+    """
+    class Meta:
+        model = models.CustomUser
+    
+        fields = ('email', 'name', 'business_name', 'profile_picture','description')
+        read_only_fields = ('email','username' )
+
+
+class allUserSerializer(serializers.ModelSerializer):
+    jobs = jobSerialize(many=True, read_only=True)
+    class Meta:
+        model = models.CustomUser
+        
+        fields = '__all__'
+        # fields = [ 'business_name','description', 'profile_picture','name','job']
         # exclude = ['']
         
 
-from rest_auth.registration.serializers import RegisterSerializer
+
 class CustomRegisterSerializer(RegisterSerializer):
         
         email = serializers.EmailField(required=True)

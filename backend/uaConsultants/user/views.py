@@ -7,7 +7,7 @@ import json
 from rest_framework import status
 from .models import *
 from rest_framework import permissions
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
 # from rest_framework.decorators import list_route
 from rest_framework import mixins
 from rest_framework import generics
@@ -19,38 +19,47 @@ from rest_framework.exceptions import APIException
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.response import Response
-from rest_framework.authentication import TokenAuthentication
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from django.contrib.sessions.models import Session
+from rest_framework.authtoken.models import Token
+from rest_framework.renderers import StaticHTMLRenderer
+from rest_auth.registration.views import VerifyEmailView, RegisterView
 
 class allUserView(generics.ListAPIView):
-    # permission_classes = [permissions.IsOwnerOrReadOnly]
+    permission_classes = [IsAdminUser]
     queryset = models.CustomUser.objects.all()
     serializer_class = serializers.allUserSerializer
-from rest_framework.renderers import StaticHTMLRenderer
 
 @api_view(['GET', 'POST'])
 def user_page_view(request):
     """
     View or Update user details.
     """
-    
+    # authentication_classes = (SessionAuthentication,)
     try:
-        # user_profile_data = CustomUser.objects.get(id=request.user.id)
+        body_unicode = request.body.decode('utf-8')
+        body_data = json.loads(body_unicode)
+        uid_req = body_data['user_id']
         session_key = request.session.session_key
-        # print(session_key)
         session = Session.objects.get(session_key=session_key)
         session_data = session.get_decoded()
-        # print (session_data)
         uid = session_data.get('_auth_user_id')
-        user_profile_data = CustomUser.objects.get(id=uid)
         
+        if uid == uid_req and request.method == 'GET':
+            user_profile_data = CustomUser.objects.get(id=uid_req)
+            serializer = serializers.CustomUserDetailsSerializer(user_profile_data)
+            return Response(serializer.data)
+        else:
+            user_profile_data = CustomUser.objects.get(id=uid_req)
+            serializer = serializers.CustomUserDetailsSerializerAnon(user_profile_data)
+            return Response(serializer.data)     
     except:
         raise APIException('No profile linked with this user')
 
-    if request.method == 'GET':
+    # if request.method == 'GET':
         
-        serializer = serializers.CustomUserDetailsSerializer(user_profile_data)
-        return Response(serializer.data)
+    #     serializer = serializers.CustomUserDetailsSerializer(user_profile_data)
+    #     return Response(serializer.data)
 
     # elif request.method == 'POST':
     #     serializer = serializers.UserSerializer_(user_profile_data, data=request.data)
@@ -80,11 +89,20 @@ from rest_auth.views import LoginView, LogoutView
 
 class LogoutViewCustom(LogoutView):
     authentication_classes = (TokenAuthentication,)
+    
+    
 
 class LoginViewCustom(LoginView):
     authentication_classes = (TokenAuthentication,)
 
-from rest_auth.registration.views import VerifyEmailView, RegisterView
+
+
+
+    
+    
+
+
+
 
 class RegisterViewCustom(RegisterView):
     authentication_classes = (TokenAuthentication,)

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from . import models
-from user.serializers import CustomUserDetailsSerializer
+# from user.serializers import CustomUserDetailsSerializer
 
 
 class jobPhotoSerialize(serializers.ModelSerializer):

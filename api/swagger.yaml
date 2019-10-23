@@ -631,6 +631,10 @@ definitions:
         type: "string"
       message:
         type: "string"
+      job_link:
+        type: "string"
+      other_user_id:
+        type: "string"
   ChatData:
     type: "object"
     properties:

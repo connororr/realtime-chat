@@ -8,6 +8,7 @@ from . import models
 from . import serializers
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.authtoken.models import Token
 # Create your views here.
 
 
@@ -111,21 +112,32 @@ def chatConversation(request):
             return JsonResponse({'error':'lookup failed','status':'failure'}, status=400)
         return JsonResponse(response_object, status=200)
         
-
 #/Chat/sendmessage
-def chatSendmessage(request):
+def chatSendMessage(request):
+
     if request.method == 'POST':
 
         req_dict = json.loads(request.body)
-        conversation_id = req_dict['conversation_id']
-
+      
         try:
-        
-            conversation = models.Conversation.objects.get(id=conversation_id)
-            new_message = models.Message.objects.create(conversation=conversation, user_id=request.user, message=req_dict['message'])
-            
+    
+            token = Token.objects.get(key=req_dict['session_token'])
+            user = CustomUser.objects.get(id=token.user_id)
+            receiving_user = CustomUser.objects.get(id=req_dict['other_user_id'])
+
+            # if conversation does not exist, create it in the exception
+            conversation = Conversation.objects.get(sender=user, receiver=receiving_user)
+            new_message = Message.objects.create(conversation=conversation, user_id=user, message=req_dict['message'])
             return JsonResponse({'status': 'success'}, status=200)
+
+        except ObjectDoesNotExist:
+
+            conversation = Conversation.objects.create(sender=user, receiver=receiving_user, job_link=req_dict['job_link'])
+            new_message = Message.objects.create(conversation=conversation, user_id=user, message=req_dict['message'])
+            return JsonResponse({'status': 'success'}, status=200)
+            
         except:
             return JsonResponse({'error':'failed posting message','status':'failure'}, status=400)
+
 
 

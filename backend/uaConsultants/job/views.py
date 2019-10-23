@@ -18,6 +18,7 @@ import base64
 from PIL import Image, ImageDraw
 from pathlib import Path
 import uuid
+import operator
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
@@ -92,16 +93,28 @@ def jobPhotoUpload(request):
          return JsonResponse({'error':'failed photo upload','status':'failure'}, status=400)    
     return JsonResponse({'error':'failed photo upload','status':'failure'}, status=400)
 
+
+class resultPage(object):
+    def __init__(self, amount, total, results):
+        self.amount = amount
+        self.total = total
+        self.results = results
+
+sorted_hash = []
 #GET: /job/search
 @api_view(["GET"])
 def jobSearch(request):
     req_dict = request.data
     try:
         terms = req_dict['search_terms'].split()
+        order = req_dict['order_by']
+        searchLocal = req_dict['location']
         minPrice = int(req_dict['min_price'])
         maxPrice =int(req_dict['max_price'])
-        result_list = []
-        #search job, description and business for search terms
+        pageAmount = int(req_dict['page_amount'])
+        pageNumber =int(req_dict['page_number'])
+        result_hash = {}
+            #search job, description and business for search terms
         job_list = models.job.objects.all()
 
         for term in terms:
@@ -110,14 +123,48 @@ def jobSearch(request):
                 Q(description__contains=term) | 
                 Q(business__business_name__contains=term))
             for q in queryset:
-                if q not in result_list:
-                    currBid = int(q.current_bid)
-                    #check job is between min and max price
-                    if(minPrice<=currBid & maxPrice>=currBid):
-                        result_list.append(q)
-        size = len(result_list)
-        return HttpResponse(size)
+                currBid = int(q.current_bid)
+                if(searchLocal == "" or searchLocal.casefold() in q.location.casefold()):
+                    if(minPrice<=currBid and maxPrice>=currBid):
+                        #order by relevance
+                        if(order == "relevance"):
+                            if q in result_hash.keys():
+                                result_hash[q] = result_hash[q]+1
+                            else:
+                                result_hash[q] = 1
+                        #order by bid
+                        if(order == "bid_desc" or order == "bid_asc"):
+                            if q not in result_hash.keys():
+                                result_hash[q] = currBid
+                        #order by date
+                        if(order == "date_desc" or order == "date_asc"):
+                            if q not in result_hash.keys():
+                                result_hash[q] = q.date_created
+            #order dict depending on choice
+        if(order == "relevance" or order == "bid_desc" or order == "date_desc"):
+            sorted_hash = sorted(result_hash.items(), key=operator.itemgetter(1), reverse=True)
+        else:
+            sorted_hash = sorted(result_hash.items(), key=operator.itemgetter(1))
+
+        
+        #Display Results according to page parameters
+        temp_list = []
+        if(len(sorted_hash)<=pageAmount):
+            if(pageNumber==0):
+                for i in sorted_hash:
+                    temp_list.append(i[0])
+            else:
+                return HttpResponse("")
+        else:
+            temp_list = []
+            for i in range(pageAmount*pageNumber, (pageAmount*pageNumber)+pageAmount):
+                temp_list.append(sorted_hash[i][0])
+        pageResponse = resultPage(len(temp_list),len(sorted_hash),temp_list)
+
+        serialized_qs = serializers.resultSerializer(pageResponse)
+        return HttpResponse(JSONRenderer().render(serialized_qs.data), content_type='application/json')
+
     except:
-        return HttpResponse("invalid inputs")                   
+        return JsonResponse({'error':'search failed','status':'failure'}, status=400)
 
 

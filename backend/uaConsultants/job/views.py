@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.urls import reverse
 from django.conf import settings
+from django.db.models import Q
 import json
 from rest_framework import generics
 from rest_framework.renderers import JSONRenderer
@@ -90,3 +91,33 @@ def jobPhotoUpload(request):
     except:
          return JsonResponse({'error':'failed photo upload','status':'failure'}, status=400)    
     return JsonResponse({'error':'failed photo upload','status':'failure'}, status=400)
+
+#GET: /job/search
+@api_view(["GET"])
+def jobSearch(request):
+    req_dict = request.data
+    try:
+        terms = req_dict['search_terms'].split()
+        minPrice = int(req_dict['min_price'])
+        maxPrice =int(req_dict['max_price'])
+        result_list = []
+        #search job, description and business for search terms
+        job_list = models.job.objects.all()
+
+        for term in terms:
+            queryset = job_list.filter(
+                Q(project_name__contains=term) | 
+                Q(description__contains=term) | 
+                Q(business__business_name__contains=term))
+            for q in queryset:
+                if q not in result_list:
+                    currBid = int(q.current_bid)
+                    #check job is between min and max price
+                    if(minPrice<=currBid & maxPrice>=currBid):
+                        result_list.append(q)
+        size = len(result_list)
+        return HttpResponse(size)
+    except:
+        return HttpResponse("invalid inputs")                   
+
+

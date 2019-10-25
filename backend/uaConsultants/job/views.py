@@ -67,6 +67,7 @@ def jobBid(request):
         user = CustomUser.objects.get(id=token.user_id)  
         model = models.job.objects.get(id=req_dict['job_id'])
         #check bid amount is bigger than current top bid amount
+        currBid = int(req_['current_bid'])
         if model.bid_amount != '':
             if int(req_dict['bid_value']) < int(model.bid_amount):
                 return JsonResponse({'error': 'current bid is less than top bidder', 'status': 'failure'}, status=400)

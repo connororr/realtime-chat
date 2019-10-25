@@ -46,7 +46,7 @@ def jobRegister(request):
         req_dict = request.data
         token = Token.objects.get(key=req_dict['session_token'])
         user = CustomUser.objects.get(id=token.user_id)  
-        test = models.job.objects.create(project_name=req_dict['project_title'], date_created=date.today(),description=req_dict['project_description'],business=user,location=req_dict['project_location'],current_bid="0",bid_amount="0")
+        test = models.job.objects.create(project_name=req_dict['project_title'], date_created=date.today(),description=req_dict['project_description'], category=req_dict['project_category'], jobType=req_dict['project_type'],business=user,location=req_dict['project_location'],current_bid="0",bid_amount="0")
         for photo in req_dict['project_photos']:
             models.project_photos.objects.create(project=test,image=photo['image'],title=photo['title'])
         return JsonResponse({"status":"success"}, status=200)
@@ -109,14 +109,78 @@ def jobSearch(request):
         terms = req_dict['search_terms'].split()
         order = req_dict['order_by']
         searchLocal = req_dict['location']
+        category = req_dict['category_1']
+        jobType = req_dict['category_2']
         minPrice = int(req_dict['min_price'])
         maxPrice =int(req_dict['max_price'])
         pageAmount = int(req_dict['page_amount'])
         pageNumber =int(req_dict['page_number'])
         result_hash = {}
-            #search job, description and business for search terms
         job_list = models.job.objects.all()
-
+        #Search job based on category
+        if (category!=""):
+            queryset = job_list.filter(
+                Q(category__contains=category))
+            for q in queryset:
+                currBid = int(q.current_bid)
+                if(minPrice<=currBid and maxPrice>=currBid):
+                        #order by relevance
+                    if(order == "relevance"):
+                        if q in result_hash.keys():
+                            result_hash[q] = result_hash[q]+1
+                        else:
+                            result_hash[q] = 1
+                    #order by bid
+                    if(order == "bid_desc" or order == "bid_asc"):
+                        if q not in result_hash.keys():
+                            result_hash[q] = currBid
+                    #order by date
+                    if(order == "date_desc" or order == "date_asc"):
+                        if q not in result_hash.keys():
+                            result_hash[q] = q.date_created        
+        #Search job based on type 
+        if (jobType!=""):
+            queryset = job_list.filter(
+                Q(jobType__contains=jobType))
+            for q in queryset:
+                currBid = int(q.current_bid)
+                if(minPrice<=currBid and maxPrice>=currBid):
+                        #order by relevance
+                    if(order == "relevance"):
+                        if q in result_hash.keys():
+                            result_hash[q] = result_hash[q]+1
+                        else:
+                            result_hash[q] = 1
+                    #order by bid
+                    if(order == "bid_desc" or order == "bid_asc"):
+                        if q not in result_hash.keys():
+                            result_hash[q] = currBid
+                    #order by date
+                    if(order == "date_desc" or order == "date_asc"):
+                        if q not in result_hash.keys():
+                            result_hash[q] = q.date_created
+        #Search job based on location   
+        if (searchLocal!=""):
+            queryset = job_list.filter(
+                Q(location__contains=searchLocal))
+            for q in queryset:
+                currBid = int(q.current_bid)
+                if(minPrice<=currBid and maxPrice>=currBid):
+                        #order by relevance
+                    if(order == "relevance"):
+                        if q in result_hash.keys():
+                            result_hash[q] = result_hash[q]+1
+                        else:
+                            result_hash[q] = 1
+                    #order by bid
+                    if(order == "bid_desc" or order == "bid_asc"):
+                        if q not in result_hash.keys():
+                            result_hash[q] = currBid
+                    #order by date
+                    if(order == "date_desc" or order == "date_asc"):
+                        if q not in result_hash.keys():
+                            result_hash[q] = q.date_created
+        #search job, description and business for search terms   
         for term in terms:
             queryset = job_list.filter(
                 Q(project_name__contains=term) | 

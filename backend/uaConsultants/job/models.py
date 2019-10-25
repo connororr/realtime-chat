@@ -8,6 +8,8 @@ class job(models.Model):
     project_name = models.CharField(max_length=50,default='My Project')
     date_created = models.DateTimeField(default=datetime.datetime.now)
     description = models.TextField(max_length=500, blank=True)
+    category = models.TextField(max_length=500, blank=True)
+    jobType = models.TextField(max_length=50, blank=True)
     business = models.ForeignKey(CustomUser,on_delete=models.PROTECT,related_name='jobs')
     location = models.TextField(max_length=500, blank=True)
     current_bid = models.TextField(max_length=500, blank=True)

@@ -45,14 +45,16 @@ def jobRegister(request):
     try:
         req_dict = request.data
         token = Token.objects.get(key=req_dict['session_token'])
-        user = CustomUser.objects.get(id=token.user_id)  
-        test = models.job.objects.create(project_name=req_dict['project_title'], date_created=date.today(),description=req_dict['project_description'], category=req_dict['project_category'], jobType=req_dict['project_type'],business=user,location=req_dict['project_location'],current_bid="0",bid_amount="0")
-        for photo in req_dict['project_photos']:
-            models.project_photos.objects.create(project=test,image=photo['image'],title=photo['title'])
-        return JsonResponse({"status":"success"}, status=200)
+        user = CustomUser.objects.get(id=token.user_id) 
+        if(req_dict['project_title']!=""): 
+            test = models.job.objects.create(project_name=req_dict['project_title'], date_created=date.today(),description=req_dict['project_description'], 
+            category=req_dict['project_category'], jobType=req_dict['project_type'],premium=req_dict['project_premium'],business=user,location=req_dict['project_location'],current_bid="0",bid_amount="0")
+            for photo in req_dict['project_photos']:
+                models.project_photos.objects.create(project=test,image=photo['image'],title=photo['title'])
+            return JsonResponse({"status":"success"}, status=200)
     except:
         return JsonResponse({'error':'failed to register','status':'failure'}, status=400)    
-    return JsonResponse({'error':'failed to authenticate','status':'failure'}, status=400, safe=False)
+    return JsonResponse({'error':'failed to register','status':'failure'}, status=400, safe=False)
 
 
 #POST: /job/bid 

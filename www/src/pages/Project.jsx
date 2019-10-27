@@ -1,11 +1,13 @@
 import React from 'react';
-import { FaMapMarkerAlt, FaBriefcase, FaComments } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaBriefcase, FaComments, FaBuilding, FaStar } from 'react-icons/fa';
 import Map from 'pigeon-maps';
 import Marker from 'pigeon-marker';
 import styled from 'styled-components';
 import axios from 'axios';
 import Bid from '../components/Bid';
 import { navigate } from '@reach/router';
+import * as headerBg from '../images/construction.jpg';
+
 
 const Wrapper = styled.div`
   display: block;
@@ -13,7 +15,99 @@ const Wrapper = styled.div`
   margin: auto;
 `;
 
-const Title = styled.h1``;
+const Title = styled.h3`
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 23px;
+  text-transform: capitalize;
+  font-weight: 500;
+`;
+
+const SubHeading = styled.h5`
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 17px;
+  font-weight: 500;
+`;
+
+const BusinessDetails = styled.div`
+  color: #666666;
+  cursor: pointer;
+
+  &:hover {
+    color: #473fdf;
+  }
+`;
+
+ const BusinessName = styled.div`
+  display: inline-block;
+  padding-left: 5px;
+ `;
+
+const BusinessHeader = styled.div`
+  margin-top: 72px;
+  height: 250px;
+  width: 100vw;
+  margin-left: -5vw;
+`;
+
+const HeaderBgWrapper = styled.div`
+  width: inherit;
+  height: inherit;
+  background: url(${headerBg});
+  background-position: left;
+  background-size: cover;
+`;
+
+const HeaderBg = styled.div`
+  background: rgba(247,247,247, 0.3);
+  background: linear-gradient(90deg, rgba(247,247,247,1) 0%, rgba(247,247,247,1) 50%, rgba(247,247,247,0.4) 100%);
+  width: inherit;
+  height: inherit;
+`;
+
+const HeaderContentHolder = styled.div`
+  display: flex;
+  width: 90%;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 72px;
+  height: 250px;
+  position: absolute;
+  top: 0;
+  left: 5%;
+`;
+
+const BusinessWrapper = styled.div`
+  width: max-content;
+  display: flex;
+`;
+
+const BusinessIcon = styled.div`
+  width: 120px;
+  height: 120px;
+  background: #ffffff;
+  background-position: center;
+  background-size: cover;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0px 2px 12px -6px #00000047;
+`;
+
+const HeaderDetails = styled.div`
+  width: 420px;
+  margin-left: 30px;
+`;
+
+const BidWrapper = styled.div`
+  width: 200px;
+  height: 120px;
+  background: #ffffff;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0px 2px 12px -6px #00000047;
+`;
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -41,6 +135,29 @@ const InfoWrapper = styled.div`
   max-width: 600px;
   width: 100%;
   margin: 0 20px;
+`;
+
+const RatingWrapper = styled.div`
+  display: inline-block;
+`;
+
+const RatingValue = styled.div`
+  background: #febe42;
+  color: #fff;
+  display: inline-block;
+  padding: 0 7px;
+  line-height: 18px;
+  padding-bottom: 5px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+`;
+
+const RatingStars = styled.div`
+  color: #febe42;
+  &>*{
+    margin:3px;
+  }
 `;
 
 const Description = styled.p`
@@ -124,6 +241,31 @@ class Project extends React.Component {
       <>
         {projectData ? (
           <Wrapper>
+            <HeaderContentHolder>
+              <BusinessWrapper>
+                <BusinessIcon style={{background: `url('https://cdn.dribbble.com/users/2078668/screenshots/4543867/maple_contruction.png')`, backgroundSize: 'cover'}}/>
+                <HeaderDetails>
+                  <Title>{projectData['project_name']}</Title>
+                  <SubHeading>About the Supplier</SubHeading>
+                  <div>
+                    <BusinessDetails>
+                      <FaBuilding/>
+                      <BusinessName>{projectData['business_name']}</BusinessName>
+                    </BusinessDetails>
+                    <RatingWrapper>
+                      <RatingValue>4.9</RatingValue>
+                      <RatingStars>{Math.round(4.9)}</RatingStars>
+                    </RatingWrapper>
+                  </div>
+                </HeaderDetails>
+              </BusinessWrapper>
+              <BidWrapper/>
+            </HeaderContentHolder>
+            <BusinessHeader>
+              <HeaderBgWrapper>
+                <HeaderBg/>
+              </HeaderBgWrapper>
+            </BusinessHeader>
             <ContentWrapper>
               <Image
                 src={projectData['project_photos'][0].image}

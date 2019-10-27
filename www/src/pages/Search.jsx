@@ -9,7 +9,7 @@ import { FiGrid, FiList } from 'react-icons/fi';
 import JobListItem from '../components/JobListItem';
 
 const ContentWrapper = styled.div`
-	height: calc(100vh - 72px);
+	height: 100vh;
 	width: 100vw;
 `;
 

@@ -34,6 +34,7 @@ const SubHeading = styled.h5`
 const BusinessDetails = styled.div`
   color: #666666;
   cursor: pointer;
+  margin-right: 15px;
 
   &:hover {
     color: #473fdf;
@@ -101,7 +102,6 @@ const HeaderDetails = styled.div`
 `;
 
 const BidWrapper = styled.div`
-  width: 200px;
   height: 120px;
   background: #ffffff;
   border-radius: 6px;
@@ -136,9 +136,17 @@ const InfoWrapper = styled.div`
   width: 100%;
   margin: 0 20px;
 `;
+const BusinessRow = styled.div`
+  display: flex;
+  align-items: center;
+`
+
 
 const RatingWrapper = styled.div`
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  margin: 4px 0;
+  width: max-content;
 `;
 
 const RatingValue = styled.div`
@@ -158,6 +166,33 @@ const RatingStars = styled.div`
   &>*{
     margin:3px;
   }
+`;
+
+const VerifiedWrapper = styled.div`
+  background: #38b653;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  padding: 3px 7px;
+  line-height: 18px;
+  border-radius: 4px;
+`
+
+const BidHeading = styled.h4`
+  color: #666;
+  margin: 0; 
+  font-weight: 500;
+  padding: 0 24px;
+  margin-top: 27px;
+`
+
+const BidValue = styled.h5`
+  color: #333;
+  margin: 0; 
+  font-weight: 400;
+  font-size: 29px;
+  padding: 0 24px;
+  margin-top: 4px;
 `;
 
 const Description = styled.p`
@@ -237,6 +272,11 @@ class Project extends React.Component {
 
   render() {
     const { projectData } = this.state;
+    const stars = [];
+    for(let i = 0; i < 4.9; i++){
+      stars.push(<FaStar/>);
+    }
+
     return (
       <>
         {projectData ? (
@@ -247,19 +287,25 @@ class Project extends React.Component {
                 <HeaderDetails>
                   <Title>{projectData['project_name']}</Title>
                   <SubHeading>About the Supplier</SubHeading>
-                  <div>
+                  <BusinessRow>
                     <BusinessDetails>
                       <FaBuilding/>
                       <BusinessName>{projectData['business_name']}</BusinessName>
                     </BusinessDetails>
                     <RatingWrapper>
                       <RatingValue>4.9</RatingValue>
-                      <RatingStars>{Math.round(4.9)}</RatingStars>
+                      <RatingStars>{stars}</RatingStars>
                     </RatingWrapper>
-                  </div>
+                  </BusinessRow>
+                  <BusinessRow>
+                    <VerifiedWrapper>Verified</VerifiedWrapper>
+                  </BusinessRow>
                 </HeaderDetails>
               </BusinessWrapper>
-              <BidWrapper/>
+              <BidWrapper>
+                <BidHeading>Current Bid</BidHeading>
+                <BidValue>$4,000</BidValue>
+              </BidWrapper>
             </HeaderContentHolder>
             <BusinessHeader>
               <HeaderBgWrapper>

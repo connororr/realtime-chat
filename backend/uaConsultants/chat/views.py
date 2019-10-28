@@ -20,12 +20,16 @@ def chatGetall(request):
     if request.method == 'GET':
         
         return_data = []
+
+        req_dict = json.loads(request.body)
+        token = Token.objects.get(key=req_dict['session_token'])
+        user = CustomUser.objects.get(id=token.user_id)
         
         # seperate try statements are used to catch the DoesNotExist exception
         # since a user might be only a sender or only a receiver
         try: # user as receiver
 
-            conversations = models.Conversation.objects.filter(receiver_id=request.user.id)
+            conversations = models.Conversation.objects.filter(receiver_id=user.id)
 
             for conversation in conversations:
                 serialized_convo = serializers.ConversationSerialize(conversation)
@@ -50,7 +54,7 @@ def chatGetall(request):
         
         try: # user as sender
 
-            conversations = models.Conversation.objects.filter(sender_id=request.user.id)
+            conversations = models.Conversation.objects.filter(sender_id=user.id)
 
             for conversation in conversations:
                 serialized_convo = serializers.ConversationSerialize(conversation)

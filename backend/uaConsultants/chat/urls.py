@@ -6,5 +6,5 @@ urlpatterns = [
     
     path('getall', views.chatGetall),
     path('conversation', views.chatConversation),
-    path('sendmessage', views.chatSendmessage),
+    path('sendmessage', views.chatSendMessage),
 ] 

@@ -519,6 +519,8 @@ definitions:
         type: "string"
       category_2:
         type: "string"
+      premium:
+        type: "string"
       order_by:
         type: "string"
       loacation:
@@ -556,6 +558,12 @@ definitions:
       project_title:
         type: "string"
       project_description:
+        type: "string"
+      project_category:
+        type: "string"
+      project_type:
+        type: "string"
+      project_premium:
         type: "string"
       project_location:
         type: "string"
@@ -654,7 +662,7 @@ definitions:
   ViewJob:
     type: "object"
     properties:
-      user_id:
+      job_id:
         type: "string"
       session_token:
         type: "string"

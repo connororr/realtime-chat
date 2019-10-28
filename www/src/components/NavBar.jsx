@@ -14,6 +14,7 @@ const Wrapper = styled.div`
 	height: 72px;
 	display: flex;
 	justify-content: space-between;
+	z-index: 99;
 `;
 
 const Content = styled.div`
@@ -47,7 +48,7 @@ const buttonStyles = `
   display: inline-block;
   text-decoration: none;
   text-align: center;
-  color: #ffffff;
+  color: #1f2430;
   font-family: 'Raleway', sans-serif;
 
   &:hover {

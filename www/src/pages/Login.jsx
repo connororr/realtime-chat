@@ -31,6 +31,8 @@ const H1 = styled.h1`
   font-weight: 100;
   text-align: center;
   text-transform: capitalize;
+  margin-top: 61px;
+  font-weight: 500;
 `;
 
 const Label = styled.label`

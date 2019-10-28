@@ -1,21 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { jobFilter, locationFilter } from '../helper/filters';
+import {
+  jobFilter,
+  jobTypes,
+  locationFilter,
+  locations,
+} from '../helper/filters';
 
 const Wrapper = styled.div`
   width: 204px;
-  height: calc(100vh - 72px);
-  background: #f6f9ff;
-  float: left;
-`;
-
-const Title = styled.h3`
-  color: #333;
-  width: 100%;
-  text-align: left;
-  margin: 21px 20px;
-  font-size: 1.3rem;
-  font-weight: 500;
 `;
 
 const selectStyles = `
@@ -77,22 +70,41 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
+const FilterSelection = styled.div`
+  margin-bottom: 17px;
+
+  & > h6 {
+    display: block;
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+  
+  & > label {
+    display: block;
+    font-size: 13px;
+    line-height: 22px;
+  }
+  
+  & > label > input {
+    margin-right: 10px;
+  }
+`;
+
+const JobFilterSelect = styled(jobFilter)`
+  
+`;
+
 const Filters = () => {
-  const [searchTerms, setSearchTerms] = useState('');
+  // const [searchTerms, setSearchTerms] = useState('');
 
   return (
     <Wrapper>
-      <Title>Filters</Title>
-      <SearchInput
-        placeholder="Search.."
-        value={searchTerms}
-        onChange={e => {
-          setSearchTerms(e.target.value);
-        }}
-      />
-      <SelectJob />
-      <SelectLocation />
-      <Button>Apply</Button>
+      <FilterSelection>
+        <h6>Job Types</h6>
+        <JobFilterSelect/>
+      </FilterSelection>
     </Wrapper>
   );
 };

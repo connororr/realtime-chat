@@ -68,7 +68,20 @@ const Icon = styled.div`
 `;
 
 const getResults = (setResults) => {
-	axios.get('http://localhost:3800/job/search').then((response) => {
+	axios.post('http://localhost:3800/job/search', {
+		"search_terms": "aa",
+		"category_1": "",
+		"category_2": "repair",
+		"order_by": "relevance",
+		"location": "",
+		"min_price": 0,
+		"max_price": 2000,
+		"distance": "",
+		"page_amount": 20,
+		"page_number": 0
+	})
+	.then((response) => {
+		console.log();
 		setResults(response.data.results);
 	});
 };
@@ -80,7 +93,7 @@ const Search = () => {
 
 	useEffect(() => {
 		getResults(setResults);
-	});
+	}, [arrangement]);
 
 	return (
 		<ContentWrapper>
@@ -124,7 +137,15 @@ const Search = () => {
 									alt={result['project_photo'].title}
 								/>
 							) : (
-								<JobListItem />
+								<JobListItem 
+								project={result['project_name']}
+								desc={result.description}
+								key={result['business_id']}
+								b_id={result['business_id']}
+								bid={result['current_bid']}
+								b_name={result['business_name']}
+								location={result['location']}
+								image={result.project_photos[0].image}/>
 							)}
 						</Link>
 					))}

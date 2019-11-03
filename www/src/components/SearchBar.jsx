@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { FiSearch, FiMapPin, FiChevronDown } from 'react-icons/fi';
+import { FiSearch, FiMapPin, FiChevronDown, FiSliders } from 'react-icons/fi';
 import { locationFilter } from '../helper/filters';
 import { navigate } from '@reach/router';
+import {style} from "typestyle";
 
 const FormHolder = styled.div`
   max-width: 700px;
@@ -12,17 +13,18 @@ const FormHolder = styled.div`
   overflow: hidden;
   border-radius: 4px;
   margin-top: 81px;
-  margin-bottom: 140px;
   background: #ffffff;
   box-shadow: 0px 6px 55px -31px #000;
   justify-content: space-between;
   align-items: center;
 
+
   & > div {
     position: relative;
-    width: 170px;
+    width: 200px;
     height: 100%;
     padding-left: 40px;
+    
   }
 
   & svg {
@@ -31,9 +33,40 @@ const FormHolder = styled.div`
     left: 14px;
     z-index: 9;
     top: 27px;
+    background: #ffffff;
+
     pointer-events: none;
   }
 `;
+
+const searchContainer  = {
+  'max-width': '700px',
+};
+const advSearchBox  = {
+  'margin-top': '5px',
+  'max-width': '700px',
+  'border-radius':'4px',
+  'background-color':'#ffffff',
+  height:'50px',
+  'box-shadow': '0px 6px 55px -30px #000'
+};
+
+const advSearchButton  = style({
+  'background-color':'transparent',
+  border:'none',
+  'margin-top':'5px',
+  'margin-left':'5px',
+  'font-size': '20px',
+  $nest: {
+    '&:hover': {
+      'cursor':'pointer'
+    },
+    '&:focus': {
+      'outline':'none'
+    }
+  }
+});
+
 
 const SearchBox = styled.input`
   font-size: 13px;
@@ -52,6 +85,7 @@ const selectStyles = `
   background-repeat: no-repeat;
   width: 100%;
   height: 100%;
+  background: #ffffff;
   font-size: 13px;
   border-radius: 0;
   border: 0;
@@ -78,15 +112,17 @@ const FindBtn = styled.button`
 
 const search = (category, location) => {
   if (category !== '' && location !== '') {
-    navigate(`/search?type=${category}&state=${location}`);
+    navigate(`/search`);
   }
 };
 
 const SearchBar = (props) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [location, setLocation] = useState('');
+  const [showAdv, setShowAdv] = useState(false);
 
   return (
+    <div style={searchContainer}>
     <FormHolder {...props}>
       <div>
         <FiSearch />
@@ -101,6 +137,7 @@ const SearchBar = (props) => {
       </div>
       <div>
         <FiMapPin />
+        
         <SelectLocation
           onChange={e => {
             setLocation(e.target.value);
@@ -117,6 +154,13 @@ const SearchBar = (props) => {
         Search
       </FindBtn>
     </FormHolder>
+    {showAdv && <div style={advSearchBox}>
+      
+      </div>}
+    <button className={advSearchButton} onClick={() => setShowAdv(!showAdv)}><FiSliders /></button>
+
+    </div>
+    
   );
 };
 

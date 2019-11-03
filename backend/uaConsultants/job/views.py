@@ -105,15 +105,15 @@ class resultPage(object):
 
 sorted_hash = []
 #GET: /job/search
-@api_view(["GET"])
+@api_view(["POST"])
 def jobSearch(request):
     req_dict = request.data
     try:
         terms = req_dict['search_terms'].split()
-        order = req_dict['order_by']
-        searchLocal = req_dict['location']
         category = req_dict['category_1']
         jobType = req_dict['category_2']
+        order = req_dict['order_by']
+        searchLocal = req_dict['location']
         minPrice = int(req_dict['min_price'])
         maxPrice =int(req_dict['max_price'])
         pageAmount = int(req_dict['page_amount'])

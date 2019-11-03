@@ -24,6 +24,7 @@ from django.contrib.sessions.models import Session
 from rest_framework.authtoken.models import Token
 from rest_framework.renderers import StaticHTMLRenderer
 from rest_auth.registration.views import VerifyEmailView, RegisterView
+from django.core.exceptions import ObjectDoesNotExist
 
 class allUserView(generics.ListAPIView):
     permission_classes = [IsAdminUser]
@@ -109,3 +110,55 @@ class RegisterViewCustom(RegisterView):
 
 class VerifyEmailViewCustom(VerifyEmailView):
     authentication_classes = (TokenAuthentication,)
+
+
+##### POST: /user/rate ###
+@api_view(["POST"])
+def userSendRating(request):
+
+    req_dict = json.loads(request.body)
+
+    try:
+        token = Token.objects.get(key=req_dict['session_token'])
+        user = CustomUser.objects.get(id=token.user_id)
+        being_rated = CustomUser.objects.get(id=req_dict['user_being_rated'])
+
+        # update existing rating objcet
+        rating = Rating.objects.get(rater=user, being_rated=being_rated)
+        serialized_qs = serializers.RatingSerializer(rating, data={'rating': req_dict['rating']})
+
+        if serialized_qs.is_valid():
+            serialized_qs.save()
+
+        return JsonResponse({'status': 'success'}, status=200)
+    except ObjectDoesNotExist: # if rating doesn't exist
+
+        rating = Rating.objects.create(rating=req_dict['rating'], rater=user, being_rated=being_rated)
+        return JsonResponse({'status': 'success'}, status=200)
+
+    except:
+        return JsonResponse({'error':'failed posting rating','status':'failure'}, status=400)
+
+@api_view(["GET"])
+def userGetRating(request):
+
+    req_dict = json.loads(request.body)
+    total_rating = 0
+
+    try:
+        token = Token.objects.get(key=req_dict['session_token'])
+        user = CustomUser.objects.get(id=token.user_id)
+        ratings = Rating.objects.filter(being_rated=user)
+
+        for rating in ratings:
+            
+            serialized_rating = serializers.RatingSerializer(rating)
+            total_rating += int(serialized_rating.data['rating'])
+
+        if total_rating > 0:
+            total_rating = total_rating/len(ratings)
+
+        return JsonResponse({'rating': total_rating, 'status': 'success'}, status=200)
+
+    except:
+       return JsonResponse({'error':'failed getting rating','status':'failure'}, status=400)

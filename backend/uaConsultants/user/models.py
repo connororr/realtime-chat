@@ -14,7 +14,9 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return "{}".format(self.email)
-    
 
+class Rating(models.Model):
 
-
+    rating = models.CharField(max_length=1, blank=False)
+    being_rated = models.ForeignKey(CustomUser,on_delete=models.PROTECT, related_name='being_rated')
+    rater = models.ForeignKey(CustomUser, on_delete=models.PROTECT, related_name='rater')

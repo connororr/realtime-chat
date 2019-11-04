@@ -122,7 +122,7 @@ def userSendRating(request):
     try:
         token = Token.objects.get(key=req_dict['session_token'])
         user = CustomUser.objects.get(id=token.user_id)
-        being_rated = CustomUser.objects.get(id=req_dict['user_being_rated'])
+        being_rated = CustomUser.objects.get(id=req_dict['user_being_rated_id'])
         rating_val = req_dict['rating']
 
         if int(rating_val) < 0 or int(rating_val) > 5: # ensure rating is between 1 and 5 
@@ -130,8 +130,8 @@ def userSendRating(request):
 
         # update existing rating object
         rating = Rating.objects.get(rater=user, being_rated=being_rated)
-        serialized_qs = serializers.RatingSerializer(rating, data={'rating': req_dict['rating']})
-
+        
+        serialized_qs = serializers.RatingSerializer(rating, data={'rating': req_dict['rating']}, partial=True)
         if serialized_qs.is_valid():
             serialized_qs.save()
 

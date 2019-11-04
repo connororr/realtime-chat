@@ -120,6 +120,58 @@ paths:
           description: "Could not find user"
           schema:
             $ref: "#/definitions/ResponseFail"
+  /user/sendrating:
+    post:
+      tags:
+        - "user"
+      summary: "give a user a rating"
+      description: ""
+      operationId: "rate"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/SendRating"
+      responses:
+        200:
+          description: "Successfully sent rating"
+          schema:
+            $ref: "#/definitions/ResponseSuccess"
+        400:
+          description: "Rating was not between 0 and 5"
+          schema:
+            $ref: "#/definitions/SendRatingFail"
+  /user/getrating:
+    post:
+      tags:
+        - "user"
+      summary: "get the user's current rating"
+      description: ""
+      operationId: "getRating"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/GetRating"
+      responses:
+        200:
+          description: "Successfully recieved profile"
+          schema:
+            $ref: "#/definitions/GetRatingSuccess"
+        400:
+          description: "Could not find user"
+          schema:
+            $ref: "#/definitions/ResponseFail"
 
   /job/search:
     get:
@@ -673,3 +725,36 @@ definitions:
         type: "string"
       session_token:
         type: "string"
+  SendRating:
+    type: "object"
+    properties:
+      session_token:
+        type: "string"
+      user_being_rated_id:
+        type: "string"
+      rating:
+        type: "string"
+  GetRating:
+    type: "object"
+    properties:
+      session_token:
+        type: "string"
+  GetRatingSuccess:
+    type: "object"
+    properties:
+      rating:
+        type: "number"
+        example: 2.5
+      status:
+        type: "string"
+        example: "success"
+  SendRatingFail:
+    type: "object"
+    properties:
+      error:
+        type: "string"
+        example: "failure"
+      status:
+        type: "string"
+        example: "please give a rating between 0 and 5"
+  

@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import FsLightbox from 'fslightbox-react';
 import { FaMapMarkerAlt, FaBriefcase, FaComments, FaBuilding, FaStar, FaClock } from 'react-icons/fa';
-import { Link } from '@reach/router';
 import Map from 'pigeon-maps';
 import Marker from 'pigeon-marker';
 import styled from 'styled-components';
@@ -41,25 +40,11 @@ const BusinessDetails = styled.div`
   &:hover {
     color: #473fdf;
   }
-
-  & > a:hover {
-    color: #473fdf;
-  }
 `;
 
  const BusinessName = styled.div`
   display: inline-block;
   padding-left: 5px;
-
-  &>a:visited, {
-    color: #666666;
-    text-decoration: none;
-  }
-
-  &>a:visited, {
-    color: #666666;
-    text-decoration: none;
-  }
  `;
 
 const BusinessHeader = styled.div`
@@ -99,6 +84,7 @@ const HeaderContentHolder = styled.div`
 const BusinessWrapper = styled.div`
   width: max-content;
   display: flex;
+  justify-content: left;
 `;
 
 const BusinessIcon = styled.div`
@@ -325,6 +311,8 @@ const Heading = styled.h3`
 const ProjectDetails = styled.div`
   background: #f7f7f7;
   padding-bottom: 10px;
+  width: 59vw;
+  margin-bottom: 20px;
 `;
 
 const ProjectHeading = styled.h3`
@@ -337,22 +325,28 @@ const ProjectHeading = styled.h3`
   padding: 0 25px;
 `
 
-const getPageData = (setProjectData) => {
+const Brief = styled(FaBriefcase)`
+  color: #473fdf !important;
+  padding-right: 10px;
+`;
+
+
+const getPageData = (setBusinessData) => {
   const self = this;
   //this.props.bid
-  axios.get('http://localhost:3800/job/view').then(response => {
-    const projectData = response.data;
-    setProjectData(projectData)
+  axios.get('http://localhost:3800/user/profile/').then(response => {
+    const businessData = response.data;
+    setBusinessData(businessData)
   });
 };
 
-const Project = () => {
-  const [projectData, setProjectData] = useState(null);
+const Business = () => {
+  const [businessData, setBusinessData] = useState(null);
   const [toggler, setToggler] = useState(false);
   const [productIndex, setProductIndex] = useState(0); 
 
   useEffect(() => {
-    getPageData(setProjectData);
+    getPageData(setBusinessData);
   }) 
 
   const stars = [];
@@ -361,33 +355,23 @@ const Project = () => {
   }
     return (
       <>
-        {projectData ? (
+        {businessData ? (
           <Wrapper>
             <HeaderContentHolder>
               <BusinessWrapper>
-                <BusinessIcon style={{background: `url('https://cdn.dribbble.com/users/2078668/screenshots/4543867/maple_contruction.png')`, backgroundSize: 'cover'}}/>
+                <BusinessIcon style={{background: `url('${businessData['profile_picture']}')`, backgroundSize: 'cover'}}/>
                 <HeaderDetails>
-                  <Title>{projectData['project_name']}</Title>
-                  <SubHeading>About the Supplier</SubHeading>
+                  <Title>{businessData['business_name']}</Title>
+                  <SubHeading>Skirting board installation</SubHeading>
                   <BusinessRow>
-                    <BusinessDetails>
-                      <FaBuilding/>
-                      <BusinessName><Link to={`/profile`} className=''>{projectData['business_name']}</Link></BusinessName>
-                    </BusinessDetails>
                     <RatingWrapper>
                       <RatingValue>4.9</RatingValue>
                       <RatingStars>{stars}</RatingStars>
                     </RatingWrapper>
-                  </BusinessRow>
-                  <BusinessRow>
                     <VerifiedWrapper>Verified</VerifiedWrapper>
                   </BusinessRow>
                 </HeaderDetails>
               </BusinessWrapper>
-              <BidWrapper>
-                <BidHeading>Current Bid</BidHeading>
-                <BidValue>$4,000</BidValue>
-              </BidWrapper>
             </HeaderContentHolder>
             <BusinessHeader>
               <HeaderBgWrapper>
@@ -396,68 +380,43 @@ const Project = () => {
             </BusinessHeader>
             <ContentWrapper>
               <LeftWrapper>
-                <Heading>Description</Heading>
+                <Heading>About</Heading>
                 <Description>
-                  This is a really long description that describes the job that will 
-                  be done by the Supplier, it indicates what they will do in their 
-                  service and compelling reasons as to why someonw would want to bid on 
-                  their project. This is a really long description that describes the job that will 
-                  be done by the Supplier, it indicates what they will do in their 
-                  service and compelling reasons as to why someonw would want to bid on 
-                  their project.<br/><br/>
-                  This is a really long description that describes the job that will 
-                  be done by the Supplier, it indicates what they will do in their 
-                  service and compelling reasons as to why someonw would want to bid on 
-                  their project. This is a really long description that describes the job that will 
-                  be done by the Supplier, it indicates what they will do in their 
-                  service and compelling reasons as to why someonw would want to bid on 
-                  their project.
+                  {businessData['description']}
                 </Description>
+                <ProjectDetails>
+                  <ProjectHeading>
+                    <Brief/>Open Projects
+                  </ProjectHeading>
+                  
+                </ProjectDetails>
                 <Heading>Media</Heading>
                 <MediaWrapper>
-                  {projectData['project_photos'].map((image, i) => <Image 
+                  {businessData['user_projects'].map((project, i) => <Image 
                     onClick={() => {setProductIndex(i); setToggler(!toggler);}}
-                    src={image.image}
-                    alt="project photo"
+                    src={project['project_photos'][0].image}
+                    alt="business photo"
                   />)}
                 
                 </MediaWrapper>
                 <FsLightbox
                   toggler={ toggler }
-                  sources={ [projectData['project_photos'][productIndex].image] }
+                  sources={ [businessData['user_projects'][productIndex]['project_photos'][0].image] }
                 /> 
-                <Heading>Location</Heading>
-                <MapWrapper>
+                
+              </LeftWrapper>
+              <RightWrapper>
+              <Heading>Location</Heading>
+                <MapWrapper style={{width: 266, height: 336}}>
                     <Map
                       center={[-33.8875665, 151.1886607]}
                       zoom={15}
-                      width={800}
-                      height={375}
+                      width={266}
+                      height={336}
                     >
                       <Marker anchor={[-33.8875665, 151.1886607]} />
                     </Map>
                   </MapWrapper>
-              </LeftWrapper>
-              <RightWrapper>
-                <BidButton>Bid Now</BidButton>
-                <ProjectDetails>
-                  <ProjectHeading>Summary</ProjectHeading>
-                  <Icon>
-                    <FaMapMarkerAlt />
-                    <Text>Location</Text>
-                  </Icon>
-                  <Text2>{projectData.location}</Text2>
-                  <Icon>
-                    <FaBriefcase/>
-                    <Text>Job Type</Text>
-                  </Icon>
-                  <Text2>Skirting board intsallation</Text2>
-                  <Icon>
-                    <FaClock/>
-                    <Text>Date Posted</Text>
-                  </Icon>
-                  <Text2>3 days ago</Text2>
-                </ProjectDetails>
               </RightWrapper>
             </ContentWrapper>
           </Wrapper>
@@ -467,4 +426,4 @@ const Project = () => {
       </>
     );
 }
-export default Project;
+export default Business;

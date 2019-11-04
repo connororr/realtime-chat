@@ -1,9 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
-// import * as heroBg from "../images/hero.jpg";
-
-import frame from '../images/construction.svg';
+import * as heroBg from '../images/building.jpg';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -13,26 +10,42 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   height: calc(100vh - 72px);
+
+  & > div {
+    position: absolute;
+    width: 80vw;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    left: 0;
+    pointer-events: all;
+  }
 `;
 
 const Image = styled.img`
+  width: 339px;
+  height: 476px;
   position: absolute;
-  bottom: 10vh;
-  height: 60vh;
-  z-index: 0;
-  right: 0;
+  top: 119px;
+  right: 10vw;
+  object-fit: cover;
+  border-radius: 25px;
+  border-top-left-radius: 0;
 `;
 
 const Background = styled.div`
-  background-color: #317ee3;
-  width: inherit;
+  width: 80%;
   min-height: calc(100vh - 72px);
+  background: #e7f6fc;
+  border-bottom-right-radius: 42px;
+  pointer-events: none;
 `;
 
 const Hero = ({ children }) => (
   <Background>
-    <Wrapper><div>{children}</div></Wrapper>
-    <Image src={frame} alt={''} />
+    <Wrapper>
+      <div>{children}</div>
+    </Wrapper>
+    <Image src={heroBg} />
   </Background>
 );
 export default Hero;

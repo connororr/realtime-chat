@@ -112,6 +112,7 @@ class VerifyEmailViewCustom(VerifyEmailView):
     authentication_classes = (TokenAuthentication,)
 
 
+
 ##### POST: /user/rate ###
 @api_view(["POST"])
 def userSendRating(request):
@@ -122,8 +123,12 @@ def userSendRating(request):
         token = Token.objects.get(key=req_dict['session_token'])
         user = CustomUser.objects.get(id=token.user_id)
         being_rated = CustomUser.objects.get(id=req_dict['user_being_rated'])
+        rating_val = req_dict['rating']
 
-        # update existing rating objcet
+        if int(rating_val) < 0 or int(rating_val) > 5: # ensure rating is between 1 and 5 
+            return JsonResponse({'error': 'please give a rating between 1 and 5', 'status': 'failure'}, status=400)
+
+        # update existing rating object
         rating = Rating.objects.get(rater=user, being_rated=being_rated)
         serialized_qs = serializers.RatingSerializer(rating, data={'rating': req_dict['rating']})
 

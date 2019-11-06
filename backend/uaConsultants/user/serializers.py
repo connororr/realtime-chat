@@ -59,5 +59,9 @@ class CustomRegisterSerializer(RegisterSerializer):
             }
 
 
+class RatingSerializer(serializers.ModelSerializer):
 
+    class Meta:
+        model = models.Rating
+        fields = ('rating', 'being_rated', 'rater')
 

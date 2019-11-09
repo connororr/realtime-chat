@@ -82,19 +82,18 @@ const getResults = (setResults,params) => {
 		"page_number": params[9]
 	})
 	.then((response) => {
-		console.log();
 		setResults(response.data.results);
 	});
 };
 
-const Search = () => {
+const Search = (props) => {
 	const [results, setResults] = useState([]);
-	const [params, setParams] = useState(["","","","","relevance","",0,999999,"",20,0]);
+	const [params, setParams] = useState([]);
 	const [arrangement, setArrangement] = useState(1);
-
 	useEffect(() => {
+		setParams(props.location.state.passParams);
 		getResults(setResults,params);
-	}, [arrangement,params]);
+	}, [arrangement,params,props.location.state.passParams]);
 
 	return (
 		<ContentWrapper>

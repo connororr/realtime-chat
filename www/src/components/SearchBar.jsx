@@ -43,12 +43,15 @@ const searchContainer  = {
   'max-width': '700px',
 };
 const advSearchBox  = {
+  display: 'flex',
   'margin-top': '5px',
   'max-width': '700px',
   'border-radius':'4px',
   'background-color':'#ffffff',
-  height:'50px',
-  'box-shadow': '0px 6px 55px -30px #000'
+   height:'50px',
+  'box-shadow': '0px 6px 55px -30px #000',
+  'justify-content': 'space-between',
+  'align-items': 'center',
 };
 
 const advSearchButton  = style({
@@ -92,7 +95,6 @@ const selectStyles = `
   cursor: pointer;
 `;
 const advStyles = `
-
   line-height: normal;
   position: relative;
   background-position: right 10px top 50%;
@@ -151,9 +153,9 @@ const FindBtn = styled.button`
   margin-right: 12px;
 `;
 
-const search = (category, location) => {
+const search = (category, location, params) => {
   if (category !== '' && location !== '') {
-    navigate(`/search`);
+    navigate(`/search`,{state:{passParams:params}});
   }
 };
 
@@ -197,8 +199,7 @@ const SearchBar = (props) => {
       </div>
       <FindBtn
         onClick={() => {
-            props.passParams([searchTerm,category,type,order,location,minPrice,maxPrice,"",pageAmount,pageNumber]);
-            search(searchTerm, location);
+            search(searchTerm, location,[searchTerm,category,type,order,location,minPrice,maxPrice,"",pageAmount,pageNumber]);
         }}
       >
         Search

@@ -180,3 +180,47 @@ export const locationFilter = ({ className, onChange, style, id }) => (
     ))}
   </select>
 );
+
+
+export const types = ['Repair','Project'];
+
+export const typeFilter = ({ className, onChange, style, id }) => (
+  <select className={className} onChange={onChange} style={style} id={id}>
+    <option value="" disabled selected>
+      Type
+    </option>
+    {types.map(types => (
+      <option value={types}>{types}</option>
+    ))}
+  </select>
+);
+
+export const Order = ['Relevance','Newest','Oldest','Alphabetical','Highest Bid', 'Lowest Bid'];
+
+export const OrderFilter = ({ className, onChange, style, id }) => (
+  <select className={className} onChange={onChange} style={style} id={id}>
+    <option value="" disabled selected>
+      Order
+    </option>
+    {Order.map(Order => (
+      <option value={Order}>{Order}</option>
+    ))}
+  </select>
+);
+
+export const status = ['Premium','Standard'];
+
+export const statusFilter = ({ className, onChange, style, id }) => (
+  <select className={className} onChange={onChange} style={style} id={id}>
+    <option value="" disabled selected>
+      Job Status
+    </option>
+    {status.map(status => (
+      <option value={status}>{status}</option>
+    ))}
+  </select>
+);
+
+
+
+

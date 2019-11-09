@@ -67,18 +67,18 @@ const Icon = styled.div`
 	cursor: pointer;
 `;
 
-const getResults = (setResults) => {
+const getResults = (setResults,params) => {
 	axios.post('http://localhost:3800/job/search', {
-		"search_terms": "aa",
-		"category_1": "",
-		"category_2": "repair",
-		"order_by": "relevance",
-		"location": "",
-		"min_price": 0,
-		"max_price": 2000,
-		"distance": "",
-		"page_amount": 20,
-		"page_number": 0
+		"search_terms": params[0],
+		"category_1": params[1],
+		"category_2": params[2],
+		"order_by": params[3],
+		"location": params[4],
+		"min_price": params[5],
+		"max_price": params[6],
+		"distance": params[7],
+		"page_amount": params[8],
+		"page_number": params[9]
 	})
 	.then((response) => {
 		console.log();
@@ -88,17 +88,17 @@ const getResults = (setResults) => {
 
 const Search = () => {
 	const [results, setResults] = useState([]);
-	const [sortOption, setSortOption] = useState(0);
+	const [params, setParams] = useState(["","","","relevance","",0,999999,"",20,0]);
 	const [arrangement, setArrangement] = useState(1);
 
 	useEffect(() => {
-		getResults(setResults);
-	}, [arrangement]);
+		getResults(setResults,params);
+	}, [arrangement,params]);
 
 	return (
 		<ContentWrapper>
 			<SearchWrapper>
-				<StyledSearch />
+				<StyledSearch updateParams = {setParams}/>
 			</SearchWrapper>
 			<RefineBar>
 				<Buttons>

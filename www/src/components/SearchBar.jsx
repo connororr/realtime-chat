@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FiSearch, FiMapPin, FiChevronDown, FiSliders } from 'react-icons/fi';
-import { locationFilter } from '../helper/filters';
+import { jobFilter, locationFilter, orderFilter, typeFilter, statusFilter } from '../helper/filters';
 import { navigate } from '@reach/router';
 import {style} from "typestyle";
 
@@ -91,9 +91,49 @@ const selectStyles = `
   border: 0;
   cursor: pointer;
 `;
+const advStyles = `
+  line-height: normal;
+  position: relative;
+  background-position: right 10px top 50%;
+  background-repeat: no-repeat;
+  background-repeat: no-repeat;
+  width: 30%;
+  height: 100%;
+  background: #ffffff;
+  font-size: 13px;
+  border-radius: 0;
+  border: 0;
+  cursor: pointer;
+`;
+const advStylesSmall = `
+  line-height: normal;
+  position: relative;
+  background-position: right 10px top 50%;
+  background-repeat: no-repeat;
+  background-repeat: no-repeat;
+  width: 18%;
+  height: 100%;
+  background: #ffffff;
+  font-size: 13px;
+  border-radius: 0;
+  border: 0;
+  cursor: pointer;
+`;
 
 const SelectLocation = styled(locationFilter)`
   ${selectStyles}
+`;
+const SelectCategory = styled(jobFilter)`
+  ${advStyles}
+`;
+const SelectType = styled(typeFilter)`
+  ${advStylesSmall}
+`;
+const SelectStatus = styled(statusFilter)`
+  ${advStylesSmall}
+`;
+const SelectOrder = styled(orderFilter)`
+  ${advStylesSmall}
 `;
 
 const FindBtn = styled.button`
@@ -118,7 +158,15 @@ const search = (category, location) => {
 
 const SearchBar = (props) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [category, setCategory] = useState('');
+  const [type, setType] = useState('');
+  const [status, setStatus] = useState('Standard');
+  const [order, setOrder] = useState('relevance');
   const [location, setLocation] = useState('');
+  const [minPrice, setMinPrice] = useState(0);
+  const [MaxPrice, setMaxPrice] = useState(999999);
+  const [pageAmount, setPageAmount] = useState(20);
+  const [pageNumber, setPageNumber] = useState(0);
   const [showAdv, setShowAdv] = useState(false);
 
   return (
@@ -148,6 +196,8 @@ const SearchBar = (props) => {
       </div>
       <FindBtn
         onClick={() => {
+          props.updateParams(searchTerm,category,type,status,order,location,
+            minPrice,MaxPrice,pageAmount,pageNumber);
           search(searchTerm, location);
         }}
       >
@@ -155,7 +205,30 @@ const SearchBar = (props) => {
       </FindBtn>
     </FormHolder>
     {showAdv && <div style={advSearchBox}>
-      
+      <SelectCategory
+          onChange={e => {
+            setCategory(e.target.value);
+          }}
+          id="select2"
+      />
+      <SelectType
+          onChange={e => {
+            setType(e.target.value);
+          }}
+          id="select2"
+      />
+      <SelectStatus
+          onChange={e => {
+            setStatus(e.target.value);
+          }}
+          id="select2"
+      />         
+      <SelectOrder
+          onChange={e => {
+            setOrder(e.target.value);
+          }}
+          id="select2"
+      />           
       </div>}
     <button className={advSearchButton} onClick={() => setShowAdv(!showAdv)}><FiSliders /></button>
 

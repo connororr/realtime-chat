@@ -334,7 +334,7 @@ const Brief = styled(FaBriefcase)`
 const getPageData = (setBusinessData) => {
   const self = this;
   //this.props.bid
-  axios.get('http://13.238.42.177:3800/user/profile/').then(response => {
+  axios.get('http://13.238.42.177:3800/user/profile').then(response => {
     const businessData = response.data;
     setBusinessData(businessData)
   });

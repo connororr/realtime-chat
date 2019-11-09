@@ -340,7 +340,7 @@ const ProjectHeading = styled.h3`
 const getPageData = (setProjectData) => {
   const self = this;
   //this.props.bid
-  axios.get('http://localhost:3800/job/view').then(response => {
+  axios.get('http://13.238.42.177:3800/job/view').then(response => {
     const projectData = response.data;
     setProjectData(projectData)
   });

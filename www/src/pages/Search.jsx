@@ -68,7 +68,7 @@ const Icon = styled.div`
 `;
 
 const getResults = (setResults) => {
-	axios.get('http://localhost:3800/job/search').then((response) => {
+	axios.get('http://13.238.42.177:3800/job/search').then((response) => {
 		setResults(response.data.results);
 	});
 };

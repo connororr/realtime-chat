@@ -20,7 +20,7 @@ const Conversations = () => {
   const [selectedConversation, setSelectedConversation] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:3800/chat/getall').then(response => {
+    axios.get('http://13.238.42.177:3800/chat/getall').then(response => {
       setConversations(response.data);
       setSelectedConversation(0);
     });

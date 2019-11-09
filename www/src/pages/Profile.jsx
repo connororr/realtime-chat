@@ -159,7 +159,7 @@ const Profile = () => {
   const [admin] = useState(true);
 
   useEffect(() => {
-    axios.get('http://localhost:3800/user/profile').then(response => {
+    axios.get('http://13.238.42.177:3800/user/profile').then(response => {
       setProfileInfo(response.data);
       setBusinessName(response.data['business_name']);
       setDescription(response.data.description);

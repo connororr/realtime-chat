@@ -72,6 +72,7 @@ const getResults = (setResults,params) => {
 		"search_terms": params[0],
 		"category_1": params[1],
 		"category_2": params[2],
+		//"job_status": params[3],
 		"order_by": params[3],
 		"location": params[4],
 		"min_price": params[5],
@@ -88,7 +89,7 @@ const getResults = (setResults,params) => {
 
 const Search = () => {
 	const [results, setResults] = useState([]);
-	const [params, setParams] = useState(["","","","relevance","",0,999999,"",20,0]);
+	const [params, setParams] = useState(["","","","","relevance","",0,999999,"",20,0]);
 	const [arrangement, setArrangement] = useState(1);
 
 	useEffect(() => {
@@ -98,7 +99,7 @@ const Search = () => {
 	return (
 		<ContentWrapper>
 			<SearchWrapper>
-				<StyledSearch updateParams = {setParams}/>
+				<StyledSearch passParams = {setParams}/>
 			</SearchWrapper>
 			<RefineBar>
 				<Buttons>

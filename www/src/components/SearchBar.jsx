@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FiSearch, FiMapPin, FiChevronDown, FiSliders } from 'react-icons/fi';
-import { jobFilter, locationFilter, orderFilter, typeFilter, statusFilter } from '../helper/filters';
+import { jobFilter, locationFilter, OrderFilter, typeFilter, statusFilter } from '../helper/filters';
 import { navigate } from '@reach/router';
 import {style} from "typestyle";
 
@@ -92,6 +92,7 @@ const selectStyles = `
   cursor: pointer;
 `;
 const advStyles = `
+
   line-height: normal;
   position: relative;
   background-position: right 10px top 50%;
@@ -132,7 +133,7 @@ const SelectType = styled(typeFilter)`
 const SelectStatus = styled(statusFilter)`
   ${advStylesSmall}
 `;
-const SelectOrder = styled(orderFilter)`
+const SelectOrder = styled(OrderFilter)`
   ${advStylesSmall}
 `;
 
@@ -164,7 +165,7 @@ const SearchBar = (props) => {
   const [order, setOrder] = useState('relevance');
   const [location, setLocation] = useState('');
   const [minPrice, setMinPrice] = useState(0);
-  const [MaxPrice, setMaxPrice] = useState(999999);
+  const [maxPrice, setMaxPrice] = useState(999999);
   const [pageAmount, setPageAmount] = useState(20);
   const [pageNumber, setPageNumber] = useState(0);
   const [showAdv, setShowAdv] = useState(false);
@@ -196,9 +197,8 @@ const SearchBar = (props) => {
       </div>
       <FindBtn
         onClick={() => {
-          props.updateParams(searchTerm,category,type,status,order,location,
-            minPrice,MaxPrice,pageAmount,pageNumber);
-          search(searchTerm, location);
+            props.passParams([searchTerm,category,type,order,location,minPrice,maxPrice,"",pageAmount,pageNumber]);
+            search(searchTerm, location);
         }}
       >
         Search

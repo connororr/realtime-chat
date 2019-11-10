@@ -195,7 +195,7 @@ export const typeFilter = ({ className, onChange, style, id }) => (
   </select>
 );
 
-export const Order = ['Relevance','Newest','Oldest','Alphabetical','Highest Bid', 'Lowest Bid'];
+export const Order = ['Relevance','Newest','Oldest','Alphabetic','Highest Bid', 'Lowest Bid'];
 
 export const OrderFilter = ({ className, onChange, style, id }) => (
   <select className={className} onChange={onChange} style={style} id={id}>

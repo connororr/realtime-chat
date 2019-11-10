@@ -92,8 +92,8 @@ const Search = (props) => {
 	const [arrangement, setArrangement] = useState(1);
 	useEffect(() => {
 		setParams(props.location.state.passParams);
-		getResults(setResults,params);
-	}, [arrangement,params,props.location.state.passParams]);
+		getResults(setResults,props.location.state.passParams);
+	}, [arrangement,props.location.state.passParams]);
 
 	return (
 		<ContentWrapper>

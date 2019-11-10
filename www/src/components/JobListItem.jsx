@@ -61,19 +61,19 @@ const ProjectDetailHolder = styled.div`
   padding: 0px 19px;
 `;
 
-const JobListItem = () => (
+const JobListItem = ({ project, desc, b_id, b_name, image, alt, bid, location })=> (
   <Wrapper>
-    <Icon src="https://cdn.dribbble.com/users/2078668/screenshots/4543867/maple_contruction.png" />
+    <Icon src={image} />
     <ProjectDetailHolder>
       <Title>
-        Marketing &amp; Communications Manager (Internship/Co-founder)
+        {project}
       </Title>
       <SubTitle>
-        MailBoys, <span>4 days ago</span>
+       {b_name}
       </SubTitle>
     </ProjectDetailHolder>
-    <p>Newtown, NSW</p>
-    <p>Apprentice</p>
+    {location}
+    {bid}
     <FiBookmark />
   </Wrapper>
 );

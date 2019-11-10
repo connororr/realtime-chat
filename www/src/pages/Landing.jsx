@@ -23,7 +23,7 @@ const Landing = () => {
   return (
     <Hero>
       <Heading>Get things done</Heading>
-      <SearchBar/>
+      <SearchBar />
     </Hero>
   );
 };

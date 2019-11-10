@@ -13,15 +13,15 @@ class job(models.Model):
     premium = models.CharField(max_length=1, default = 'F')
     business = models.ForeignKey(CustomUser,on_delete=models.PROTECT,related_name='jobs')
     location = models.TextField(max_length=500, blank=True)
-    current_bid = models.TextField(max_length=500, blank=True)
-    bid_amount = models.TextField(max_length=500, blank=True)
+    current_bid = models.IntegerField(blank=False, default=0)
+    bid_amount = models.IntegerField(blank=False, default=0)
 
     def __str__(self):
       return self.project_name
 
 class project_photos(models.Model):
-    project = models.ForeignKey(job, blank = True, on_delete=models.CASCADE, related_name='project_photos')
-    image = models.TextField(blank = True, max_length=100, default = "Title")
+    project = models.ForeignKey(job, blank = False, on_delete=models.CASCADE, related_name='project_photos')
+    image = models.TextField(blank = True, max_length=300, default = "Title")
     title = models.TextField(blank = True, max_length=100, default = "Title")
 
     def __unicode__(self):

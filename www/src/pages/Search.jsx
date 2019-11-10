@@ -67,25 +67,38 @@ const Icon = styled.div`
 	cursor: pointer;
 `;
 
-const getResults = (setResults) => {
-	axios.get('http://13.238.42.177:3800/job/search').then((response) => {
+const getResults = (setResults,params) => {
+	axios.post('http://13.238.42.177:3800/job/search', {
+		"search_terms": params[0],
+		"category_1": params[1],
+		"category_2": params[2],
+		//"job_status": params[3],
+		"order_by": params[3],
+		"location": params[4],
+		"min_price": params[5],
+		"max_price": params[6],
+		"distance": params[7],
+		"page_amount": params[8],
+		"page_number": params[9]
+	})
+	.then((response) => {
 		setResults(response.data.results);
 	});
 };
 
-const Search = () => {
+const Search = (props) => {
 	const [results, setResults] = useState([]);
-	const [sortOption, setSortOption] = useState(0);
+	const [params, setParams] = useState([]);
 	const [arrangement, setArrangement] = useState(1);
-
 	useEffect(() => {
-		getResults(setResults);
-	});
+		setParams(props.location.state.passParams);
+		getResults(setResults,params);
+	}, [arrangement,params,props.location.state.passParams]);
 
 	return (
 		<ContentWrapper>
 			<SearchWrapper>
-				<StyledSearch />
+				<StyledSearch passParams = {setParams}/>
 			</SearchWrapper>
 			<RefineBar>
 				<Buttons>
@@ -124,7 +137,15 @@ const Search = () => {
 									alt={result['project_photo'].title}
 								/>
 							) : (
-								<JobListItem />
+								<JobListItem 
+								project={result['project_name']}
+								desc={result.description}
+								key={result['business_id']}
+								b_id={result['business_id']}
+								bid={result['current_bid']}
+								b_name={result['business_name']}
+								location={result['location']}
+								image={result.project_photos[0].image}/>
 							)}
 						</Link>
 					))}

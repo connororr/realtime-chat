@@ -128,9 +128,9 @@ def jobSearch(request):
     if(len(terms)>0):
         for term in terms:
             queryset = job_list.filter(
-                Q(project_name__contains=term) | 
-                Q(description__contains=term) | 
-                Q(business__business_name__contains=term))
+                Q(project_name__icontains=term) | 
+                Q(description__icontains=term) | 
+                Q(business__business_name__icontains=term))
             for q in queryset:
                 currBid = int(q.current_bid)
                 if(minPrice<=currBid and maxPrice>=currBid):

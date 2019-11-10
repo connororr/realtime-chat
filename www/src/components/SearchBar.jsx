@@ -154,17 +154,15 @@ const FindBtn = styled.button`
 `;
 
 const search = (category, location, params) => {
-  if (category !== '' && location !== '') {
     navigate(`/search`,{state:{passParams:params}});
-  }
 };
 
 const SearchBar = (props) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [category, setCategory] = useState('');
   const [type, setType] = useState('');
-  const [status, setStatus] = useState('Standard');
-  const [order, setOrder] = useState('relevance');
+  const [status, setStatus] = useState('');
+  const [order, setOrder] = useState('Relevance');
   const [location, setLocation] = useState('');
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(999999);
@@ -199,7 +197,7 @@ const SearchBar = (props) => {
       </div>
       <FindBtn
         onClick={() => {
-            search(searchTerm, location,[searchTerm,category,type,order,location,minPrice,maxPrice,"",pageAmount,pageNumber]);
+            search(searchTerm, location,[searchTerm,category,type,status,order,location,minPrice,maxPrice,"",pageAmount,pageNumber]);
         }}
       >
         Search

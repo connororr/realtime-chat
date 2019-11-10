@@ -72,14 +72,14 @@ const getResults = (setResults,params) => {
 		"search_terms": params[0],
 		"category_1": params[1],
 		"category_2": params[2],
-		//"job_status": params[3],
-		"order_by": params[3],
-		"location": params[4],
-		"min_price": params[5],
-		"max_price": params[6],
-		"distance": params[7],
-		"page_amount": params[8],
-		"page_number": params[9]
+		"job_status": params[3],
+		"order_by": params[4],
+		"location": params[5],
+		"min_price": params[6],
+		"max_price": params[7],
+		"distance": params[8],
+		"page_amount": params[9],
+		"page_number": params[10]
 	})
 	.then((response) => {
 		setResults(response.data.results);

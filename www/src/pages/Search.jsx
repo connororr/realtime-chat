@@ -133,8 +133,8 @@ const Search = (props) => {
 									bid={result['current_bid']}
 									b_name={result['business_name']}
 									location={result['location']}
-									image={result['project_photo'].image}
-									alt={result['project_photo'].title}
+									image={result.project_photos[0].image}
+									alt={result.project_photos[0].title}
 								/>
 							) : (
 								<JobListItem 
@@ -145,7 +145,8 @@ const Search = (props) => {
 								bid={result['current_bid']}
 								b_name={result['business_name']}
 								location={result['location']}
-								image={result.project_photos[0].image}/>
+								image={result.project_photos[0].image}
+								alt={result.project_photos[0].title}/>
 							)}
 						</Link>
 					))}

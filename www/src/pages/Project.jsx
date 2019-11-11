@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import FsLightbox from 'fslightbox-react';
-import { FaMapMarkerAlt, FaBriefcase, FaComments, FaBuilding, FaStar, FaClock } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaBriefcase, FaComments, FaBuilding, FaStar, FaClock, FaClipboardList } from 'react-icons/fa';
 import { Link } from '@reach/router';
 import Map from 'pigeon-maps';
 import Marker from 'pigeon-marker';
@@ -9,6 +9,7 @@ import axios from 'axios';
 import Bid from '../components/Bid';
 import { navigate } from '@reach/router';
 import * as headerBg from '../images/construction.jpg';
+import Cookies from 'js-cookie'
 
 
 const Wrapper = styled.div`
@@ -337,24 +338,33 @@ const ProjectHeading = styled.h3`
   padding: 0 25px;
 `
 
-const getPageData = (setProjectData) => {
+const getPageData = (setProjectData, id) => {
   const self = this;
+
   //this.props.bid
-  axios.get('http://13.238.42.177:3800/job/view').then(response => {
+  axios("http://13.238.42.177:3800/job/view",{
+    method: 'post',
+    data: {
+      job_id: id,
+      session_token:localStorage.getItem('session')
+    },
+    headers: {"X-CSRFToken": Cookies.get('csrftoken')},
+    withCredentials: true
+  })
+  .then(response => {
     const projectData = response.data;
     setProjectData(projectData)
   });
 };
 
-const Project = () => {
+const Project = (props) => {
   const [projectData, setProjectData] = useState(null);
   const [toggler, setToggler] = useState(false);
   const [productIndex, setProductIndex] = useState(0); 
-
+  console.log(projectData)
   useEffect(() => {
-    getPageData(setProjectData);
-  }) 
-
+    getPageData(setProjectData, props.bid);
+  },[]) 
   const stars = [];
   for(let i = 0; i < 4.9; i++){
     stars.push(<FaStar/>);
@@ -368,7 +378,6 @@ const Project = () => {
                 <BusinessIcon style={{background: `url('https://cdn.dribbble.com/users/2078668/screenshots/4543867/maple_contruction.png')`, backgroundSize: 'cover'}}/>
                 <HeaderDetails>
                   <Title>{projectData['project_name']}</Title>
-                  <SubHeading>About the Supplier</SubHeading>
                   <BusinessRow>
                     <BusinessDetails>
                       <FaBuilding/>
@@ -380,13 +389,13 @@ const Project = () => {
                     </RatingWrapper>
                   </BusinessRow>
                   <BusinessRow>
-                    <VerifiedWrapper>Verified</VerifiedWrapper>
+                    <VerifiedWrapper>{projectData['premium']=='T' ? ("Premium"):("Standard")}</VerifiedWrapper>
                   </BusinessRow>
                 </HeaderDetails>
               </BusinessWrapper>
               <BidWrapper>
                 <BidHeading>Current Bid</BidHeading>
-                <BidValue>$4,000</BidValue>
+                <BidValue>${projectData['current_bid']}</BidValue>
               </BidWrapper>
             </HeaderContentHolder>
             <BusinessHeader>
@@ -398,20 +407,7 @@ const Project = () => {
               <LeftWrapper>
                 <Heading>Description</Heading>
                 <Description>
-                  This is a really long description that describes the job that will 
-                  be done by the Supplier, it indicates what they will do in their 
-                  service and compelling reasons as to why someonw would want to bid on 
-                  their project. This is a really long description that describes the job that will 
-                  be done by the Supplier, it indicates what they will do in their 
-                  service and compelling reasons as to why someonw would want to bid on 
-                  their project.<br/><br/>
-                  This is a really long description that describes the job that will 
-                  be done by the Supplier, it indicates what they will do in their 
-                  service and compelling reasons as to why someonw would want to bid on 
-                  their project. This is a really long description that describes the job that will 
-                  be done by the Supplier, it indicates what they will do in their 
-                  service and compelling reasons as to why someonw would want to bid on 
-                  their project.
+                  {projectData['description']}
                 </Description>
                 <Heading>Media</Heading>
                 <MediaWrapper>
@@ -449,14 +445,19 @@ const Project = () => {
                   <Text2>{projectData.location}</Text2>
                   <Icon>
                     <FaBriefcase/>
+                    <Text>Job Category</Text>
+                  </Icon>
+                  <Text2>{projectData.category}</Text2>
+                  <Icon>
+                    <FaClipboardList/>
                     <Text>Job Type</Text>
                   </Icon>
-                  <Text2>Skirting board intsallation</Text2>
+                  <Text2>{projectData.jobType}</Text2>
                   <Icon>
                     <FaClock/>
                     <Text>Date Posted</Text>
                   </Icon>
-                  <Text2>3 days ago</Text2>
+                  <Text2>{projectData.date_created}</Text2>
                 </ProjectDetails>
               </RightWrapper>
             </ContentWrapper>

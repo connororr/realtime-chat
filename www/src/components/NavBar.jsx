@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, navigate } from '@reach/router';
 import styled from 'styled-components';
 import Avatar from 'react-avatar';
@@ -89,7 +89,7 @@ const LeftButton = styled.div`
 	position: absolute;
 `;
 
-const isLoggedIn = () => localStorage.getItem('session') !== null;
+// const isLoggedIn = () => localStorage.getItem('session') !== null;
 
 const pages = [{ name: 'Find projects', location: '/search' }, { name: 'Browse businesses', location: '/search' }];
 
@@ -99,7 +99,15 @@ const pagesLocked = [
 	{ name: 'Bids', location: '/profile/bids' },
 ];
 
-const NavBar = ({ active, style }) => (
+
+const NavBar = ({ active, style }) => {
+	const [loggedIn, setLoggedIn] = useState(localStorage.getItem('session')!=="null");
+	useEffect(() => {
+		setLoggedIn(localStorage.getItem('session')!=="null")
+	}, [loggedIn]);
+	console.log(localStorage.getItem('session'))
+
+	return (
 	<Wrapper style={style}>
 		<Content>
 			<Link to='/'>
@@ -108,9 +116,9 @@ const NavBar = ({ active, style }) => (
 			<Buttons>
 				<LeftButton>
 					{pages.map((page) => <Button to={page.location}>{page.name}</Button>)}
-					{isLoggedIn() && pagesLocked.map((page) => <Button to={page.location}>{page.name}</Button>)}
+					{loggedIn && pagesLocked.map((page) => <Button to={page.location}>{page.name}</Button>)}
 				</LeftButton>
-				{!isLoggedIn() && (
+				{!loggedIn && (
 					<RightButton>
 						<SpecialButton to='/login'>For supplier</SpecialButton>{' '}
 						<SpecialButton to='/login' style={{ borderLeft: '1px solid #1f24303b' }}>
@@ -119,24 +127,34 @@ const NavBar = ({ active, style }) => (
 					</RightButton>
 				)}
 
-				{isLoggedIn() && (
-					<ButtonBasic
-						style={{
-							width: 'max-content',
-							padding: '0 4px',
-							marginTop: -2,
-							whiteSpace: 'nowrap',
-							maxWidth: 150,
-							pointerEvents: 'none',
-						}}
-					>
-						<Avatar name={localStorage.getItem('u_name')} size={40} round />
-						<span style={{ marginLeft: 10 }}>{localStorage.getItem('b_name')}</span>
-					</ButtonBasic>
+				{loggedIn && (
+					<RightButton>
+						<ButtonBasic
+							style={{
+								width: 'max-content',
+								padding: '0 4px',
+								marginTop: -2,
+								whiteSpace: 'nowrap',
+								maxWidth: 150,
+								pointerEvents: 'none',
+							}}
+						>
+							<Avatar name={localStorage.getItem('u_name')} size={40} round />
+							<span style={{ marginLeft: 10 }}>{localStorage.getItem('b_name')}</span>
+						</ButtonBasic>
+						<SpecialButton to='/' style={{ borderLeft: '1px solid #1f24303b' }}
+						onClick={() => {
+							localStorage.setItem('session',"null")
+							setLoggedIn(false)
+
+						}}>
+							Sign Out
+						</SpecialButton>						
+					</RightButton>					
 				)}
 			</Buttons>
 		</Content>
 	</Wrapper>
-);
+)};
 
 export default NavBar;

@@ -28,6 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+REST_FRAMEWORK = {
+
+    'DATETIME_FORMAT': "%m/%d/%Y",
+}
 
 # Application definition
 
@@ -100,10 +104,36 @@ MIDDLEWARE = [
 #     ),
 # }
 
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ORIGIN = True
+
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
+    'HTTP://localhost:3800',
+    'http://13.238.42.177:3000',
+    'http://13.238.42.177:3800'
 )
-
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'Access-Control-Allow-Origin',
+    'Access-Control-Allow-Credentials'
+]
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
 
 ROOT_URLCONF = 'uaConsultants.urls'
 

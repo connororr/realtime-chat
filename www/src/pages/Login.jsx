@@ -137,7 +137,7 @@ const login = (email, password) => {
       password,
     })
     .then(function(response) {
-      localStorage.setItem('session', response.data['session_token']);
+      localStorage.setItem('session', response.data['key']);
       window.location.href = '/';
     });
 };
@@ -153,7 +153,7 @@ const register = (name, business, email, password) => {
       password,
     })
     .then(function(response) {
-      localStorage.setItem('session', response.data['session_token']);
+      localStorage.setItem('session', response.data['key']);
       window.location.href = '/';
     });
 };

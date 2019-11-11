@@ -123,12 +123,12 @@ const Search = (props) => {
 			<Wrapper>
 				<ResultsHolder>
 					{results.map((result) => (
-						<Link to={`/project/${result['business_id']}`} style={{ textDecoration: 'none' }}>
+						<Link to={`/project/${result['id']}`} passParams ={result['id']} style={{ textDecoration: 'none' }}>
 							{arrangement === 0 ? (
 								<JobCard
 									project={result['project_name']}
 									desc={result.description}
-									key={result['business_id']}
+									key={result['id']}
 									b_id={result['business_id']}
 									bid={result['current_bid']}
 									b_name={result['business_name']}
@@ -140,7 +140,7 @@ const Search = (props) => {
 								<JobListItem 
 								project={result['project_name']}
 								desc={result.description}
-								key={result['business_id']}
+								key={result['id']}
 								b_id={result['business_id']}
 								bid={result['current_bid']}
 								b_name={result['business_name']}

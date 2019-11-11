@@ -109,8 +109,8 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ORIGIN = True
 
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost,
-    'http://13.238.42.177,
+    'http://localhost',
+    'http://13.238.42.177',
 )
 CORS_ALLOW_HEADERS = [
     'accept',

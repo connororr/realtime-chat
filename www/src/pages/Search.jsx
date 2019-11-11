@@ -88,11 +88,11 @@ const getResults = (setResults,params) => {
 
 const Search = (props) => {
 	const [results, setResults] = useState([]);
-	const [params, setParams] = useState([]);
+	const [params, setParams] = useState(["","","","","Relevance","",0,999999,"",20,0]);
 	const [arrangement, setArrangement] = useState(1);
 	useEffect(() => {
 		setParams(props.location.state.passParams);
-		getResults(setResults,props.location.state.passParams);
+		getResults(setResults,props.location.state.passParams || params);
 	}, [arrangement,props.location.state.passParams]);
 
 	return (

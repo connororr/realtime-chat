@@ -131,10 +131,14 @@ const RegisterPrompt = styled.p`
 `;
 
 const login = (email, password) => {
-  axios
-    .post('http://13.238.42.177:3800/user/login', {
-      email,
-      password,
+
+    axios("http://13.238.42.177:3800/user/login",{
+      method: 'post',
+      data: {
+        email,
+        password,
+      },
+      withCredentials: true
     })
     .then(function(response) {
       localStorage.setItem('session', response.data['key']);
@@ -145,12 +149,17 @@ const login = (email, password) => {
 const register = (name, business, email, password) => {
   localStorage.setItem('u_name', name);
   localStorage.setItem('b_name', business);
-  axios
-    .post('http://13.238.42.177:3800/user/register', {
-      name,
-      business_name: business,
-      email,
-      password,
+
+    axios("http://13.238.42.177:3800/user/register",{
+      method: 'post',
+      data: {
+        name:name,
+        business_name: business,
+        email,
+        password1:password,
+        password2:password
+      },
+      withCredentials: true
     })
     .then(function(response) {
       localStorage.setItem('session', response.data['key']);

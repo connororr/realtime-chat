@@ -26,7 +26,8 @@ SECRET_KEY = '&u$%g$7+p7%!dn=+$)@@g!_#wu_zv!fcvg&0#q7w5n92a4h*co'  ## Change or 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['13.238.42.177',
+                'localhost']
 
 REST_FRAMEWORK = {
 
@@ -108,10 +109,8 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ORIGIN = True
 
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
-    'HTTP://localhost:3800',
-    'http://13.238.42.177:3000',
-    'http://13.238.42.177:3800'
+    'http://localhost,
+    'http://13.238.42.177,
 )
 CORS_ALLOW_HEADERS = [
     'accept',

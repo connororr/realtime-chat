@@ -5,6 +5,7 @@
   "dependencies": {
     "@reach/router": "^1.2.1",
     "axios": "^0.19.0",
+    "js-cookie": "^2.2.1",
     "pigeon-maps": "^0.14.0",
     "pigeon-marker": "^0.3.4",
     "react": "^16.11.0",

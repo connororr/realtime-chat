@@ -31,6 +31,44 @@ class allUserView(generics.ListAPIView):
     queryset = models.CustomUser.objects.all()
     serializer_class = serializers.allUserSerializer
 
+@api_view(['GET'])
+def LoggedInUserGetProfile(request):
+    try:
+
+        body_unicode = request.body.decode('utf-8')
+        body_data = json.loads(body_unicode)
+        session_key = request.session.session_key
+        session = Session.objects.get(session_key=session_key)
+        session_data = session.get_decoded()
+        uid = session_data.get('_auth_user_id')
+        
+        user_profile_data = CustomUser.objects.get(id=uid)
+        serializer = serializers.CustomUserDetailsSerializer(user_profile_data)
+        return Response(serializer.data)
+
+    except:
+        return JsonResponse({'error':'failed retrieving user info','status':'failure'}, status=400)
+
+
+@api_view(['GET'])
+def OtherUsersGetProfile(request):
+
+    try:
+        body_unicode = request.body.decode('utf-8')
+        body_data = json.loads(body_unicode)
+        uid_req = body_data['user_id']
+        
+        # check for session key
+        session_key = request.session.session_key
+        session = Session.objects.get(session_key=session_key)
+        session_data = session.get_decoded()
+
+        user_profile_data = CustomUser.objects.get(id=uid_req)
+        serializer = serializers.CustomUserDetailsSerializerAnon(user_profile_data)
+        return Response(serializer.data)     
+    except:
+        return JsonResponse({'error':'failed retrieving user info','status':'failure'}, status=400)
+
 @api_view(['GET', 'POST'])
 def user_page_view(request):
     """

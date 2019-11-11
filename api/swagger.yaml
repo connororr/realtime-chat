@@ -94,13 +94,39 @@ paths:
           description: "Issue blocking user"
           schema:
             $ref: "#/definitions/ResponseFail"
-  /user/profile:
+  /user/ownprofile:
     get:
       tags:
         - "user"
-      summary: "Get user by user name"
+      summary: "Get your own profile"
       description: ""
-      operationId: "getUserByName"
+      operationId: "getOwnProfile"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/ViewOwnProfile"
+      responses:
+        200:
+          description: "Successfully recieved profile"
+          schema:
+            $ref: "#/definitions/ProfileResponseSuccess"
+        400:
+          description: "Could not find user"
+          schema:
+            $ref: "#/definitions/ResponseFail"
+  /user/othersprofile:
+    get:
+      tags:
+        - "user"
+      summary: "Get other users profiles"
+      description: ""
+      operationId: "getOtherUserProfile"
       consumes:
         - "application/json"
       produces:
@@ -711,6 +737,11 @@ definitions:
         type: "string"
       user_id:
         type: "string"
+  ViewOwnProfile:
+    type: "object"
+    properties:
+      session_token:
+          type: "string"
   ViewJob:
     type: "object"
     properties:

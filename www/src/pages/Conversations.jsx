@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import ConversationCard from '../components/ConversationCard';
 import axios from 'axios';
 import Messages from '../components/Messages';
+import Cookies from 'js-cookie';
 
 const Wrapper = styled.div`
   height: calc(100vh - 72px);
@@ -20,9 +21,17 @@ const Conversations = () => {
   const [selectedConversation, setSelectedConversation] = useState(null);
 
   useEffect(() => {
-    axios.get('http://13.238.42.177:3800/chat/getall').then(response => {
+  
+    axios("http://localhost:8000/chat/getall",{
+      method: 'post',
+      data: {
+        session_token: localStorage.getItem('session')
+      }, 
+      headers: {"X-CSRFToken": Cookies.get('csrftoken')},
+      withCredentials: true
+    }).then(response => {
       setConversations(response.data);
-      setSelectedConversation(0);
+      setSelectedConversation(2);
     });
   }, []);
 

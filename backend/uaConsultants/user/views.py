@@ -12,8 +12,9 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
 from rest_framework import mixins
 from rest_framework import generics
 # from .serializers import UserSerializer
-from . import models,permissions
+from . import models , permissions
 from . import serializers
+from job.models import job
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import APIException
 from rest_framework.views import APIView
@@ -31,41 +32,58 @@ class allUserView(generics.ListAPIView):
     queryset = models.CustomUser.objects.all()
     serializer_class = serializers.allUserSerializer
 
-@api_view(['GET'])
+@api_view(['POST'])
 def LoggedInUserGetProfile(request):
-    try:
 
-        body_unicode = request.body.decode('utf-8')
-        body_data = json.loads(body_unicode)
-        session_key = request.session.session_key
-        session = Session.objects.get(session_key=session_key)
-        session_data = session.get_decoded()
-        uid = session_data.get('_auth_user_id')
+    try:
+        req_dict = request.data
+        token = Token.objects.get(key=req_dict['session_token'])
         
-        user_profile_data = CustomUser.objects.get(id=uid)
-        serializer = serializers.CustomUserDetailsSerializer(user_profile_data)
-        return Response(serializer.data)
+        # get user
+        user_profile_data = CustomUser.objects.get(id=token.user_id)
+        user_serializer = serializers.CustomUserDetailsSerializer(user_profile_data)
+
+        return_object = {
+            "business_name": user_serializer.data['business_name'],
+            "profile_picture": user_serializer.data['profile_picture'],
+            "description": user_serializer.data['description'],
+            "user_projects": user_serializer.data['jobs'] if len(user_serializer.data['jobs']) > 0 else [],
+            "open_bids": []
+        }
+
+        open_bids = job.objects.filter(current_bid=token.user_id)
+
+        for open_bid in open_bids:
+            serialized_bid = serializers.jobSerialize(open_bid)
+            return_object['open_bids'].append(serialized_bid.data)
+
+        return JsonResponse(return_object, safe=False, status=200)
 
     except:
         return JsonResponse({'error':'failed retrieving user info','status':'failure'}, status=400)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def OtherUsersGetProfile(request):
 
-    try:
-        body_unicode = request.body.decode('utf-8')
-        body_data = json.loads(body_unicode)
-        uid_req = body_data['user_id']
-        
-        # check for session key
-        session_key = request.session.session_key
-        session = Session.objects.get(session_key=session_key)
-        session_data = session.get_decoded()
+    response_object = {}
 
-        user_profile_data = CustomUser.objects.get(id=uid_req)
-        serializer = serializers.CustomUserDetailsSerializerAnon(user_profile_data)
-        return Response(serializer.data)     
+    try:
+        req_dict = request.data
+        token = Token.objects.get(key=req_dict['session_token'])
+
+        # get user
+        user_profile_data = CustomUser.objects.get(id=req_dict['user_id'])
+        user_serializer = serializers.CustomUserDetailsSerializer(user_profile_data)
+
+        return_object = {
+            "business_name": user_serializer.data['business_name'],
+            "profile_picture": user_serializer.data['profile_picture'],
+            "description": user_serializer.data['description'],
+            "user_projects": user_serializer.data['jobs'] if len(user_serializer.data['jobs']) > 0 else []
+        }
+
+        return JsonResponse(return_object, safe=False, status=200)     
     except:
         return JsonResponse({'error':'failed retrieving user info','status':'failure'}, status=400)
 

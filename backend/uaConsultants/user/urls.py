@@ -19,7 +19,7 @@ urlpatterns = [
     path('password/reset', PasswordResetView.as_view(), name='rest_password_reset'),
     path('password/reset/confirm', PasswordResetConfirmView.as_view(), name='rest_password_reset_confirm'),
     path('ownprofile', views.LoggedInUserGetProfile),
-    path('otheruserprofile', views.OtherUsersGetProfile),
+    path('othersprofile', views.OtherUsersGetProfile),
     #path('profile',views.user_page_view),
     path('profile/all', views.allUserView.as_view()),
     path('register', views.RegisterViewCustom.as_view()),

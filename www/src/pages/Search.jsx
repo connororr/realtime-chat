@@ -68,22 +68,42 @@ const Icon = styled.div`
 `;
 
 const getResults = (setResults,params) => {
-	axios.post('http://13.238.42.177:3800/job/search', {
-		"search_terms": params[0],
-		"category_1": params[1],
-		"category_2": params[2],
-		"job_status": params[3],
-		"order_by": params[4],
-		"location": params[5],
-		"min_price": params[6],
-		"max_price": params[7],
-		"distance": params[8],
-		"page_amount": params[9],
-		"page_number": params[10]
-	})
-	.then((response) => {
-		setResults(response.data.results);
-	});
+	if(params!=null){
+		axios.post('http://13.238.42.177:3800/job/search', {
+			"search_terms": params[0],
+			"category_1": params[1],
+			"category_2": params[2],
+			"job_status": params[3],
+			"order_by": params[4],
+			"location": params[5],
+			"min_price": params[6],
+			"max_price": params[7],
+			"distance": params[8],
+			"page_amount": params[9],
+			"page_number": params[10]
+		})	
+		.then((response) => {
+			setResults(response.data.results);
+		});
+	} else {
+		axios.post('http://13.238.42.177:3800/job/search', {
+			"search_terms": "",
+			"category_1": "",
+			"category_2": "",
+			"job_status": "",
+			"order_by": "Relevance",
+			"location": "",
+			"min_price": 0,
+			"max_price": 999999,
+			"distance": "",
+			"page_amount": 20,
+			"page_number": 0
+		})
+		.then((response) => {
+			setResults(response.data.results);
+		});
+	}
+
 };
 
 const Search = (props) => {
@@ -91,9 +111,13 @@ const Search = (props) => {
 	const [params, setParams] = useState(["","","","","Relevance","",0,999999,"",20,0]);
 	const [arrangement, setArrangement] = useState(1);
 	useEffect(() => {
-		setParams(props.location.state.passParams);
-		getResults(setResults,props.location.state.passParams || params);
-	}, [arrangement,props.location.state.passParams]);
+		if(props.location.state!=null){
+			setParams(props.location.state.passParams);
+			getResults(setResults,props.location.state.passParams);
+		}else{
+			getResults(setResults,params);
+		}
+	}, [arrangement,props]);
 
 	return (
 		<ContentWrapper>

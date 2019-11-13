@@ -332,7 +332,7 @@ const Brief = styled(FaBriefcase)`
 `;
 
 
-const getPageData = (setBusinessData,business_id) => {
+const getPageData = (setBusinessData,business_id,stars) => {
   const self = this;
   //this.props.bid
   if(business_id=="user"){
@@ -341,6 +341,9 @@ const getPageData = (setBusinessData,business_id) => {
     })
     .then(response => {
       const businessData = response.data;
+      for(let i = 0; i < parseInt(businessData['rating']); i++){
+        stars.push(<FaStar/>);
+      }
       setBusinessData(businessData)
     });
   }else{
@@ -350,6 +353,9 @@ const getPageData = (setBusinessData,business_id) => {
     })
     .then(response => {
       const businessData = response.data;
+      for(let i = 0; i < parseInt(businessData['rating']); i++){
+        stars.push(<FaStar/>);
+      }
       setBusinessData(businessData)
       console.log(businessData);
     });
@@ -357,18 +363,16 @@ const getPageData = (setBusinessData,business_id) => {
 };
 
 const Business = (props) => {
+  const [stars,setStars] = useState([]);
   const [businessData, setBusinessData] = useState(null);
   const [toggler, setToggler] = useState(false);
   const [productIndex, setProductIndex] = useState(0); 
 
   useEffect(() => {
-    getPageData(setBusinessData,props.id);
+    getPageData(setBusinessData,props.id,stars);
   },[]) 
 
-  const stars = [];
-  for(let i = 0; i < 4.9; i++){
-    stars.push(<FaStar/>);
-  }
+
     return (
       <>
         {businessData ? (
@@ -381,7 +385,7 @@ const Business = (props) => {
                   {/* <SubHeading>{businessData['business_name']}</SubHeading> */}
                   <BusinessRow>
                     <RatingWrapper>
-                      <RatingValue>4.9</RatingValue>
+                      <RatingValue>{businessData['rating']}</RatingValue>
                       <RatingStars>{stars}</RatingStars>
                     </RatingWrapper>
                     <VerifiedWrapper>{businessData['premium']=='T' ? ("Premium"):("Standard")}</VerifiedWrapper>

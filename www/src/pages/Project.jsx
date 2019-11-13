@@ -338,11 +338,11 @@ const ProjectHeading = styled.h3`
   padding: 0 25px;
 `
 
-const getPageData = (setProjectData, id) => {
+const getPageData = (setProjectData, id, stars) => {
   const self = this;
 
   //this.props.bid
-  axios("http://13.238.42.177:3800/job/view",{
+  axios("http://localhost:3800/job/view",{
     method: 'post',
     data: {
       job_id: id,
@@ -353,22 +353,25 @@ const getPageData = (setProjectData, id) => {
   })
   .then(response => {
     const projectData = response.data;
+    for(let i = 0; i < parseInt(projectData['rating']); i++){
+      stars.push(<FaStar/>);
+    }
     setProjectData(projectData)
   });
 };
 
 const Project = (props) => {
+  const [stars,setStars] = useState([]);
   const [projectData, setProjectData] = useState(null);
   const [toggler, setToggler] = useState(false);
   const [productIndex, setProductIndex] = useState(0); 
   console.log(projectData)
   useEffect(() => {
-    getPageData(setProjectData, props.bid);
+    getPageData(setProjectData, props.bid, stars);
+
   },[]) 
-  const stars = [];
-  for(let i = 0; i < 4.9; i++){
-    stars.push(<FaStar/>);
-  }
+ 
+
     return (
       <>
         {projectData ? (
@@ -384,7 +387,7 @@ const Project = (props) => {
                       <BusinessName><Link to={`/profile/${projectData['business_id']}`} className=''>{projectData['business_name']}</Link></BusinessName>
                     </BusinessDetails>
                     <RatingWrapper>
-                      <RatingValue>4.9</RatingValue>
+                      <RatingValue>{projectData['rating']}</RatingValue>
                       <RatingStars>{stars}</RatingStars>
                     </RatingWrapper>
                   </BusinessRow>

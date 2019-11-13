@@ -10,7 +10,7 @@ import Bid from '../components/Bid';
 import { navigate } from '@reach/router';
 import * as headerBg from '../images/construction.jpg';
 import Cookies from 'js-cookie'
-
+import NewBid from '../components/newBid';
 
 const Wrapper = styled.div`
   display: block;
@@ -300,18 +300,7 @@ const RightWrapper = styled.div`
 `;
 
 const BidButton = styled.div`
-  width: 245px;
-  height: 44px;
-  margin-bottom: 28px;
-  background: #473fdf;
-  color: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-  font-size: 15px;
-  font-weight: 500;
-  box-shadow: 0px 2px 12px -6px #473fdf;
+
 `;
 
 const Heading = styled.h3`
@@ -365,7 +354,6 @@ const Project = (props) => {
   const [projectData, setProjectData] = useState(null);
   const [toggler, setToggler] = useState(false);
   const [productIndex, setProductIndex] = useState(0); 
-  console.log(projectData)
   useEffect(() => {
     getPageData(setProjectData, props.bid, stars);
 
@@ -438,7 +426,7 @@ const Project = (props) => {
                   </MapWrapper>
               </LeftWrapper>
               <RightWrapper>
-                <BidButton>Bid Now</BidButton>
+                <BidButton><NewBid projData={projectData}/></BidButton>
                 <ProjectDetails>
                   <ProjectHeading>Summary</ProjectHeading>
                   <Icon>

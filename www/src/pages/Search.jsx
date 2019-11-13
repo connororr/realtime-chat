@@ -69,7 +69,7 @@ const Icon = styled.div`
 
 const getResults = (setResults,params) => {
 	if(params!=null){
-		axios.post('http://localhost:3800/job/search', {
+		axios.post('http://13.238.42.177:3800/job/search', {
 			"search_terms": params[0],
 			"category_1": params[1],
 			"category_2": params[2],
@@ -86,7 +86,7 @@ const getResults = (setResults,params) => {
 			setResults(response.data.results);
 		});
 	} else {
-		axios.post('http://localhost:3800/job/search', {
+		axios.post('http://13.238.42.177:3800/job/search', {
 			"search_terms": "",
 			"category_1": "",
 			"category_2": "",

@@ -110,7 +110,11 @@ CORS_ALLOW_ORIGIN = True
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost',
+    'http://localhost:3000',
+    'http://localhost:3800',
     'http://13.238.42.177',
+    'http://13.238.42.177:3000',
+    'http://13.238.42.177:4000',
 )
 CORS_ALLOW_HEADERS = [
     'accept',

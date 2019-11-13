@@ -6,8 +6,9 @@ import Marker from 'pigeon-marker';
 import styled from 'styled-components';
 import axios from 'axios';
 import Bid from '../components/Bid';
-import { navigate } from '@reach/router';
+import { Link } from '@reach/router';
 import * as headerBg from '../images/construction.jpg';
+import JobListItem from '../components/JobListItem';
 
 
 const Wrapper = styled.div`
@@ -331,23 +332,38 @@ const Brief = styled(FaBriefcase)`
 `;
 
 
-const getPageData = (setBusinessData) => {
+const getPageData = (setBusinessData,business_id) => {
   const self = this;
   //this.props.bid
-  axios.get('http://13.238.42.177:3800/user/profile').then(response => {
-    const businessData = response.data;
-    setBusinessData(businessData)
-  });
+  if(business_id=="user"){
+    axios.post('http://13.238.42.177:3800/user/ownprofile', {
+      "session_token": localStorage.getItem('session'),
+    })
+    .then(response => {
+      const businessData = response.data;
+      setBusinessData(businessData)
+    });
+  }else{
+    axios.post('http://13.238.42.177:3800/user/othersprofile', {
+      "session_token": localStorage.getItem('session'),
+      "user_id": business_id,
+    })
+    .then(response => {
+      const businessData = response.data;
+      setBusinessData(businessData)
+      console.log(businessData);
+    });
+  }
 };
 
-const Business = () => {
+const Business = (props) => {
   const [businessData, setBusinessData] = useState(null);
   const [toggler, setToggler] = useState(false);
   const [productIndex, setProductIndex] = useState(0); 
 
   useEffect(() => {
-    getPageData(setBusinessData);
-  }) 
+    getPageData(setBusinessData,props.id);
+  },[]) 
 
   const stars = [];
   for(let i = 0; i < 4.9; i++){
@@ -362,13 +378,13 @@ const Business = () => {
                 <BusinessIcon style={{background: `url('${businessData['profile_picture']}')`, backgroundSize: 'cover'}}/>
                 <HeaderDetails>
                   <Title>{businessData['business_name']}</Title>
-                  <SubHeading>Skirting board installation</SubHeading>
+                  {/* <SubHeading>{businessData['business_name']}</SubHeading> */}
                   <BusinessRow>
                     <RatingWrapper>
                       <RatingValue>4.9</RatingValue>
                       <RatingStars>{stars}</RatingStars>
                     </RatingWrapper>
-                    <VerifiedWrapper>Verified</VerifiedWrapper>
+                    <VerifiedWrapper>{businessData['premium']=='T' ? ("Premium"):("Standard")}</VerifiedWrapper>
                   </BusinessRow>
                 </HeaderDetails>
               </BusinessWrapper>
@@ -388,7 +404,21 @@ const Business = () => {
                   <ProjectHeading>
                     <Brief/>Open Projects
                   </ProjectHeading>
-                  
+                  {businessData.user_projects.map((user_projects) => (
+                  <Link to={`/project/${user_projects['id']}`} passParams ={user_projects['id']} style={{ textDecoration: 'none' }}>
+                      <JobListItem
+                        project={user_projects['project_name']}
+                        status={user_projects.premium=='T' ? ("Premium"):("Standard")}
+                        key={user_projects['id']}
+                        b_id={user_projects['business_id']}
+                        bid={user_projects['current_bid']}
+                        b_name={user_projects['business_name']}
+                        location={user_projects['location']}
+                        image={user_projects.project_photos[0].image}
+                        alt={user_projects.project_photos[0].title}
+                      />
+                  </Link>
+                ))}
                 </ProjectDetails>
                 <Heading>Media</Heading>
                 <MediaWrapper>

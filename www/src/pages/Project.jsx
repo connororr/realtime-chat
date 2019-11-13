@@ -381,7 +381,7 @@ const Project = (props) => {
                   <BusinessRow>
                     <BusinessDetails>
                       <FaBuilding/>
-                      <BusinessName><Link to={`/profile`} className=''>{projectData['business_name']}</Link></BusinessName>
+                      <BusinessName><Link to={`/profile/${projectData['business_id']}`} className=''>{projectData['business_name']}</Link></BusinessName>
                     </BusinessDetails>
                     <RatingWrapper>
                       <RatingValue>4.9</RatingValue>

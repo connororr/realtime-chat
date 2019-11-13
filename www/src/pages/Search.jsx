@@ -163,7 +163,7 @@ const Search = (props) => {
 							) : (
 								<JobListItem 
 								project={result['project_name']}
-								desc={result.description}
+								status={result.premium=='T' ? ("Premium"):("Standard")}
 								key={result['id']}
 								b_id={result['business_id']}
 								bid={result['current_bid']}

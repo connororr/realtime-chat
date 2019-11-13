@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FiBookmark } from 'react-icons/fi';
+import { FiMapPin, FiBookmark } from 'react-icons/fi';
 
 const Wrapper = styled.div`
   height: 100px;
@@ -30,8 +30,8 @@ const Wrapper = styled.div`
 `;
 
 const Icon = styled.img`
-  width: 45px;
-  height: 45px;
+  width: 80px;
+  height: 80px;
   object-fit: cover;
   border-radius: 17px;
   box-shadow: 0px 2px 12px -6px #000;
@@ -59,9 +59,26 @@ const SubTitle = styled.h4`
 
 const ProjectDetailHolder = styled.div`
   padding: 0px 19px;
-`;
+  min-width:100px;
 
-const JobListItem = ({ project, desc, b_id, b_name, image, alt, bid, location })=> (
+`;
+const ProjectSpecHolder = styled.div`
+  padding: 0px 19px;
+  justify-content: space-between;
+  width:100%;
+`;
+const Spec = styled.h2`
+  font-weight: 600;
+  font-size: 16px;
+  width:30%;
+  float: left;
+  text-align:center;
+  overflow:contain;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
+const JobListItem = ({ project, status, b_id, b_name, image, alt, bid, location })=> (
   <Wrapper>
     <Icon src={image} />
     <ProjectDetailHolder>
@@ -72,8 +89,17 @@ const JobListItem = ({ project, desc, b_id, b_name, image, alt, bid, location })
        {b_name}
       </SubTitle>
     </ProjectDetailHolder>
-    {location}
-    {bid}
+    <ProjectSpecHolder>
+      <Spec>
+        <FiMapPin style={{ margin: '0 5px 0 0' }} />{location}
+      </Spec>
+      <Spec>
+        {status}
+      </Spec>
+      <Spec>
+        ${bid}
+      </Spec>
+    </ProjectSpecHolder>
     <FiBookmark />
   </Wrapper>
 );

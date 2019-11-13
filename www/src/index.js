@@ -21,7 +21,7 @@ ReactDOM.render(
 			<Search path='/search' />
 			<Project path='/project/:bid' />
 			<Conversations path='/conversations' />
-			<Business path='/profile' />
+			<Business path='/profile/:id' />
 		</Router>
 	</Layout>,
 	document.getElementById('root')

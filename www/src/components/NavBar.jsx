@@ -95,7 +95,7 @@ const pages = [{ name: 'Find projects', location: '/search' }, { name: 'Browse b
 
 const pagesLocked = [
 	{ name: 'Messages', location: '/conversations' },
-	{ name: 'Profile', location: '/profile' },
+	{ name: 'Profile', location: '/profile/user' },
 	{ name: 'Bids', location: '/profile/bids' },
 ];
 

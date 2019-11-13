@@ -35,6 +35,8 @@ class allUserView(generics.ListAPIView):
 @api_view(['POST'])
 def LoggedInUserGetProfile(request):
 
+    total_rating = 0
+
     try:
         req_dict = request.data
         token = Token.objects.get(key=req_dict['session_token'])
@@ -42,11 +44,23 @@ def LoggedInUserGetProfile(request):
         # get user
         user_profile_data = CustomUser.objects.get(id=token.user_id)
         user_serializer = serializers.CustomUserDetailsSerializer(user_profile_data)
+        
+        # get rating
+        ratings = Rating.objects.filter(being_rated=token.user_id)
 
+        for rating in ratings:
+            serialized_rating = serializers.RatingSerializer(rating)
+            total_rating += int(serialized_rating.data['rating'])
+
+        if total_rating > 0:
+            total_rating = total_rating/len(ratings)
+        
+        # add all necessary fields to return object
         return_object = {
             "business_name": user_serializer.data['business_name'],
             "profile_picture": user_serializer.data['profile_picture'],
             "description": user_serializer.data['description'],
+            "rating": total_rating,
             "user_projects": user_serializer.data['jobs'] if len(user_serializer.data['jobs']) > 0 else [],
             "open_bids": []
         }
@@ -66,8 +80,7 @@ def LoggedInUserGetProfile(request):
 @api_view(['POST'])
 def OtherUsersGetProfile(request):
 
-    response_object = {}
-
+    total_rating = 0
     try:
         req_dict = request.data
         token = Token.objects.get(key=req_dict['session_token'])
@@ -76,10 +89,22 @@ def OtherUsersGetProfile(request):
         user_profile_data = CustomUser.objects.get(id=req_dict['user_id'])
         user_serializer = serializers.CustomUserDetailsSerializer(user_profile_data)
 
+        # get rating
+        ratings = Rating.objects.filter(being_rated=req_dict['user_id'])
+
+        for rating in ratings:
+            serialized_rating = serializers.RatingSerializer(rating)
+            total_rating += int(serialized_rating.data['rating'])
+
+        if total_rating > 0:
+            total_rating = total_rating/len(ratings)
+
+        # add all necessary fields to the return object
         return_object = {
             "business_name": user_serializer.data['business_name'],
             "profile_picture": user_serializer.data['profile_picture'],
             "description": user_serializer.data['description'],
+            "rating": total_rating,
             "user_projects": user_serializer.data['jobs'] if len(user_serializer.data['jobs']) > 0 else []
         }
 

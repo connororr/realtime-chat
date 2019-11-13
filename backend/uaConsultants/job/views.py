@@ -23,19 +23,54 @@ from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from user.models import Rating
+from user.serializers import RatingSerializer
 
 #GET: /job/view
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def jobView(request):
+
     req_dict =  request.data  
-    try:
-        token = Token.objects.get(key=req_dict['session_token'])
-        job_id = req_dict['job_id'] 
-        serialized_qs = serializers.jobSerialize(models.job.objects.get(id=job_id))
-        return HttpResponse(JSONRenderer().render(serialized_qs.data), content_type='application/json')
-    except:
-        return JsonResponse({'error':'lookup failed','status':'failure'}, status=400)
+    total_rating = 0
+    return_data = {}
+    #try:
+    token = Token.objects.get(key=req_dict['session_token'])
+    job_id = req_dict['job_id'] 
+    serialized_qs = serializers.jobSerialize(models.job.objects.get(id=job_id))
+    
+    
+    # add rating to the return object
+    ratings = Rating.objects.filter(being_rated=token.user_id)
+
+    for rating in ratings:
+        
+        serialized_rating = RatingSerializer(rating)
+        total_rating += int(serialized_rating.data['rating'])
+
+    if total_rating > 0:
+        total_rating = total_rating/len(ratings)
+
+    return_data = {
+        "id": serialized_qs.data['id'],
+        "project_name": serialized_qs.data['project_name'],
+        "date_created": serialized_qs.data['date_created'],
+        "description": serialized_qs.data['description'],
+        "category": serialized_qs.data['category'],
+        "jobType": serialized_qs.data['jobType'],
+        "premium": serialized_qs.data['premium'],
+        "business_id": serialized_qs.data['business_id'],
+        "business_name": serialized_qs.data['business_name'],
+        "location": serialized_qs.data['location'],
+        "current_bid": serialized_qs.data['current_bid'],
+        "bid_amount": serialized_qs.data['bid_amount'],
+        "project_photos": serialized_qs.data['project_photos'],
+        "rating": total_rating
+    }
+    
+    return JsonResponse(return_data, safe=False, status=200)
+    #except:
+        #return JsonResponse({'error':'lookup failed','status':'failure'}, status=400)
 
 
 #POST: /job/register 

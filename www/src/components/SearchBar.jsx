@@ -4,6 +4,8 @@ import { FiSearch, FiMapPin, FiChevronDown, FiSliders } from 'react-icons/fi';
 import { jobFilter, locationFilter, OrderFilter, typeFilter, statusFilter } from '../helper/filters';
 import { navigate } from '@reach/router';
 import {style} from "typestyle";
+import DatePicker from 'react-date-picker';
+
 
 const FormHolder = styled.div`
   max-width: 700px;
@@ -80,6 +82,7 @@ const SearchBox = styled.input`
 `;
 
 const selectStyles = `
+  font-family:'Raleway',sans-serif;
   appearance: none;
   line-height: normal;
   position: relative;
@@ -95,12 +98,13 @@ const selectStyles = `
   cursor: pointer;
 `;
 const advStyles = `
+  font-family:'Raleway',sans-serif;
   line-height: normal;
   position: relative;
   background-position: right 10px top 50%;
   background-repeat: no-repeat;
   background-repeat: no-repeat;
-  width: 30%;
+  width: 24%;
   height: 100%;
   background: #ffffff;
   font-size: 13px;
@@ -109,18 +113,31 @@ const advStyles = `
   cursor: pointer;
 `;
 const advStylesSmall = `
+font-family:'Raleway',sans-serif;
   line-height: normal;
   position: relative;
   background-position: right 10px top 50%;
   background-repeat: no-repeat;
   background-repeat: no-repeat;
-  width: 18%;
+  width: 13%;
   height: 100%;
   background: #ffffff;
   font-size: 13px;
   border-radius: 0;
   border: 0;
   cursor: pointer;
+`;
+const DateWrap = styled.div`
+  height: 20px;
+  background: #ffffff;
+  font-size: 14px;
+  vertical-align: middle;
+  float:left;
+  margin-right:5px;
+
+`;
+const DateCont = styled.div`
+
 `;
 
 const SelectLocation = styled(locationFilter)`
@@ -164,12 +181,14 @@ const SearchBar = (props) => {
   const [status, setStatus] = useState('');
   const [order, setOrder] = useState('Relevance');
   const [location, setLocation] = useState('');
+  const [dateStart, setdateStart] = useState('');
+  const [dateEnd, setdateEnd] = useState('');
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(999999);
   const [pageAmount, setPageAmount] = useState(20);
   const [pageNumber, setPageNumber] = useState(0);
   const [showAdv, setShowAdv] = useState(false);
-
+  const [startDate, setStartDate] = useState(new Date());
   return (
     <div style={searchContainer}>
     <FormHolder {...props}>
@@ -197,7 +216,18 @@ const SearchBar = (props) => {
       </div>
       <FindBtn
         onClick={() => {
-            search(searchTerm, location,[searchTerm,category,type,status,order,location,minPrice,maxPrice,"",pageAmount,pageNumber]);
+          if(dateStart!=""){
+            var temp = dateStart.toISOString().split("T");
+          }else{
+                temp=[""];
+          }
+          if(dateEnd!=""){
+            var temp2 = dateEnd.toISOString().split("T");
+          }else{
+                temp2=[""];
+          }
+           
+          search(searchTerm, location,[searchTerm,category,type,status,order,location,temp[0],temp2[0],minPrice,maxPrice,pageAmount,pageNumber]);
         }}
       >
         Search
@@ -221,13 +251,18 @@ const SearchBar = (props) => {
             setStatus(e.target.value);
           }}
           id="select2"
-      />         
-      <SelectOrder
+      />
+        <SelectOrder
           onChange={e => {
             setOrder(e.target.value);
           }}
           id="select2"
-      />           
+      />   
+      <DateCont>
+      <DateWrap>Start <DatePicker onChange={setdateStart}value={dateStart}calendarIcon={null} format={"y-M-dd"} clearIcon={null}/></DateWrap>  
+      <DateWrap>End <DatePicker onChange={setdateEnd}value={dateEnd}calendarIcon={null} format={"y-M-dd"}clearIcon={null}/></DateWrap>  
+      </DateCont>
+        
       </div>}
     <button className={advSearchButton} onClick={() => setShowAdv(!showAdv)}><FiSliders /></button>
 

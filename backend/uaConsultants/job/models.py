@@ -6,15 +6,17 @@ import datetime
 
 class job(models.Model):
     project_name = models.CharField(max_length=50,default='My Project')
-    date_created = models.DateTimeField(default=datetime.datetime.now)
+    date_created = models.DateField(auto_now_add=True)
+    date_start = models.DateField(null=True, blank=True)
+    date_end = models.DateField(null=True, blank=True)
     description = models.TextField(max_length=500, blank=True)
     category = models.TextField(max_length=500, blank=True)
     jobType = models.TextField(max_length=50, blank=True)
-    premium = models.CharField(max_length=1, default = 'F')
+    premium = models.BooleanField(default=True)
     business = models.ForeignKey(CustomUser,on_delete=models.PROTECT,related_name='jobs')
     location = models.TextField(max_length=500, blank=True)
     current_bid = models.IntegerField(blank=False, default=0)
-    bid_amount = models.IntegerField(blank=False, default=0)
+    bidder = models.ForeignKey(CustomUser,on_delete=models.PROTECT, null=True)
 
     def __str__(self):
       return self.project_name

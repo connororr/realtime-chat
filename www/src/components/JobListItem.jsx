@@ -64,21 +64,36 @@ const ProjectDetailHolder = styled.div`
 `;
 const ProjectSpecHolder = styled.div`
   padding: 0px 19px;
-  justify-content: space-between;
   width:100%;
+  justify-content: space-between;
+  display: flex;
+
+
 `;
-const Spec = styled.h2`
-  font-weight: 600;
+const Spec = styled.div`
+display:flex;
+  float:left;
+  font-weight: 500;
   font-size: 16px;
-  width:30%;
-  float: left;
   text-align:center;
-  overflow:contain;
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
 `;
-const JobListItem = ({ project, status, b_id, b_name, image, alt, bid, location })=> (
+const Loc = styled.div`
+display:flex;
+
+  float:left;
+  font-weight: 500;
+  font-size: 16px;
+  text-align:center;
+`;
+
+const format = (tempdate, tempdate2)=>{
+  var temp = tempdate.split("-")
+  temp = temp[2]+"/"+temp[1]+"/"+temp[0].substring(2)
+  var temp2 = tempdate2.split("-")
+  temp2 = temp2[2]+"/"+temp2[1]+"/"+temp2[0].substring(2)
+  return(temp+"-"+temp2)
+}
+const JobListItem = ({ project, status, start,end, b_name, image, alt, bid, location })=> (
   <Wrapper>
     <Icon src={image} />
     <ProjectDetailHolder>
@@ -90,11 +105,14 @@ const JobListItem = ({ project, status, b_id, b_name, image, alt, bid, location 
       </SubTitle>
     </ProjectDetailHolder>
     <ProjectSpecHolder>
-      <Spec>
+      <Loc>
         <FiMapPin style={{ margin: '0 5px 0 0' }} />{location}
-      </Spec>
+      </Loc>
       <Spec>
         {status}
+      </Spec>
+      <Spec>
+        {format(start,end)}
       </Spec>
       <Spec>
         ${bid}

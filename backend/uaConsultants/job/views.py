@@ -25,6 +25,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from user.models import Rating
 from user.serializers import RatingSerializer
+from django.utils.dateparse import parse_date
+
 
 #GET: /job/view
 @api_view(["POST"])
@@ -55,6 +57,8 @@ def jobView(request):
         "id": serialized_qs.data['id'],
         "project_name": serialized_qs.data['project_name'],
         "date_created": serialized_qs.data['date_created'],
+        "date_start": serialized_qs.data['date_start'],
+        "date_end": serialized_qs.data['date_end'],        
         "description": serialized_qs.data['description'],
         "category": serialized_qs.data['category'],
         "jobType": serialized_qs.data['jobType'],
@@ -63,7 +67,7 @@ def jobView(request):
         "business_name": serialized_qs.data['business_name'],
         "location": serialized_qs.data['location'],
         "current_bid": serialized_qs.data['current_bid'],
-        "bid_amount": serialized_qs.data['bid_amount'],
+        "bidder": serialized_qs.data['bidder'],
         "project_photos": serialized_qs.data['project_photos'],
         "rating": total_rating
     }
@@ -82,8 +86,16 @@ def jobRegister(request):
         token = Token.objects.get(key=req_dict['session_token'])
         user = CustomUser.objects.get(id=token.user_id) 
         if(req_dict['project_title']!=""): 
-            test = models.job.objects.create(project_name=req_dict['project_title'], date_created=date.today(),description=req_dict['project_description'], 
-            category=req_dict['project_category'], jobType=req_dict['project_type'],premium=req_dict['project_premium'],business=user,location=req_dict['project_location'],current_bid="0",bid_amount="0")
+            test = models.job.objects.create(project_name=req_dict['project_title'], 
+            date_start=req_dict['date_start'],
+            date_end=req_dict['date_end'], 
+            description=req_dict['project_description'], 
+            category=req_dict['project_category'], 
+            jobType=req_dict['project_type'],
+            premium=(True if req_dict['project_premium']=="T" else False),
+            business=user,
+            location=req_dict['project_location'],
+            current_bid=0)
             for photo in req_dict['project_photos']:
                 models.project_photos.objects.create(project=test,image=photo['image'],title=photo['title'])
             return JsonResponse({"status":"success"}, status=200)
@@ -96,22 +108,22 @@ def jobRegister(request):
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def jobBid(request):
-    try:
+    # try:
         req_dict = request.data
         token = Token.objects.get(key=req_dict['session_token'])
-        user = CustomUser.objects.get(id=token.user_id)  
+        user = CustomUser.objects.get(id=token.user_id)
         model = models.job.objects.get(id=req_dict['job_id'])
         #check bid amount is bigger than current top bid amount
-        currBid = int(req_['current_bid'])
-        if model.bid_amount != '':
-            if int(req_dict['bid_value']) < int(model.bid_amount):
+        currBid = int(req_dict['current_bid'])
+        if model.current_bid != '':
+            if currBid < int(model.current_bid):
                 return JsonResponse({'error': 'current bid is less than top bidder', 'status': 'failure'}, status=400)
-            serialized_qs = serializers.jobSerialize(model, data={'bid_amount': req_dict['bid_value'], 'current_bid': req_dict['current_bid']}, partial=True)
+            serialized_qs = serializers.jobSerialize(model, data={'bidder': user.id, 'current_bid': req_dict['current_bid']}, partial=True)
             if serialized_qs.is_valid():
                 serialized_qs.save()
             return JsonResponse({"status": "success"}, status=200)
-    except:
-        return JsonResponse({'error':'failed job bidding','status':'failure'}, status=400)
+    # except:
+    #     return JsonResponse({'error':'failed job bidding','status':'failure'}, status=400)
 
 
 #POST: /Job/Photo/upload 
@@ -150,6 +162,10 @@ def jobSearch(request):
     status = req_dict['job_status']
     order = req_dict['order_by']
     searchLocal = req_dict['location']
+    date_start = req_dict['date_start']
+    date_start_p = parse_date(date_start)
+    date_end = req_dict['date_end']
+    date_end_p = parse_date(date_end)
     minPrice = int(req_dict['min_price'])
     maxPrice =int(req_dict['max_price'])
     pageAmount = int(req_dict['page_amount'])
@@ -169,23 +185,23 @@ def jobSearch(request):
             for q in queryset:
                 currBid = int(q.current_bid)
                 if(minPrice<=currBid and maxPrice>=currBid):
-                    #order by relevance
-                    if(order == "Relevance"):
-                        if q in result_hash.keys():
-                            result_hash[q] = result_hash[q]+1
-                        else:
-                            result_hash[q] = 1
-                        #order by bid
-                    if(order == "Lowest Bid" or order == "Highest Bid"):
-                        if q not in result_hash.keys():
-                                result_hash[q] = currBid
-                        #order by date
-                    if(order == "Oldest" or order == "Newest"):
-                        if q not in result_hash.keys():
-                                result_hash[q] = q.date_created
-                    if(order == "Alphabetic"):
-                        if q not in result_hash.keys():
-                                result_hash[q] = q.project_name[0]            
+                        #order by relevance
+                        if(order == "Relevance"):
+                            if q in result_hash.keys():
+                                result_hash[q] = result_hash[q]+1
+                            else:
+                                result_hash[q] = 1
+                            #order by bid
+                        if(order == "Lowest Bid" or order == "Highest Bid"):
+                            if q not in result_hash.keys():
+                                    result_hash[q] = currBid
+                            #order by date
+                        if(order == "Oldest" or order == "Newest"):
+                            if q not in result_hash.keys():
+                                    result_hash[q] = q.date_created
+                        if(order == "Alphabetic"):
+                            if q not in result_hash.keys():
+                                    result_hash[q] = q.project_name[0]            
     else:
         for q in job_list:
                 currBid = int(q.current_bid)

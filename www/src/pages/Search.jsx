@@ -76,14 +76,17 @@ const getResults = (setResults,params) => {
 			"job_status": params[3],
 			"order_by": params[4],
 			"location": params[5],
-			"min_price": params[6],
-			"max_price": params[7],
-			"distance": params[8],
-			"page_amount": params[9],
-			"page_number": params[10]
+			"date_start" : params[6],
+			"date_end" : params[7],
+			"min_price": params[8],
+			"max_price": params[9],
+			"page_amount": params[10],
+			"page_number": params[11]
 		})	
 		.then((response) => {
 			setResults(response.data.results);
+			console.log(response)
+
 		});
 	} else {
 		axios.post('http://13.238.42.177:3800/job/search', {
@@ -93,14 +96,16 @@ const getResults = (setResults,params) => {
 			"job_status": "",
 			"order_by": "Relevance",
 			"location": "",
+			"date_start":"",
+			"date_end":"",
 			"min_price": 0,
 			"max_price": 999999,
-			"distance": "",
 			"page_amount": 20,
 			"page_number": 0
 		})
 		.then((response) => {
 			setResults(response.data.results);
+			console.log(response)
 		});
 	}
 
@@ -108,7 +113,7 @@ const getResults = (setResults,params) => {
 
 const Search = (props) => {
 	const [results, setResults] = useState([]);
-	const [params, setParams] = useState(["","","","","Relevance","",0,999999,"",20,0]);
+	const [params, setParams] = useState(["","","","","Relevance","","","",0,999999,20,0]);
 	const [arrangement, setArrangement] = useState(1);
 	useEffect(() => {
 		if(props.location.state!=null){
@@ -165,7 +170,8 @@ const Search = (props) => {
 								project={result['project_name']}
 								status={result.premium=='T' ? ("Premium"):("Standard")}
 								key={result['id']}
-								b_id={result['business_id']}
+								start={result['date_start']}
+								end={result['date_end']}
 								bid={result['current_bid']}
 								b_name={result['business_name']}
 								location={result['location']}

@@ -15,7 +15,9 @@ class jobSerialize(serializers.ModelSerializer):
 
     class Meta:
         model = models.job
-        fields = ('id','project_name','date_created', 'description','category','jobType','premium','business_id','business_name','location','current_bid', 'bid_amount', 'project_photos')
+        fields = ('id','project_name','date_created', 'date_start', 'date_end',
+        'description','category','jobType','premium','business_id','business_name',
+        'location','current_bid', 'bidder', 'project_photos')
 
 class resultSerializer(serializers.Serializer):
     amount = serializers.IntegerField()

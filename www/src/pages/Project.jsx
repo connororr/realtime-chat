@@ -331,7 +331,7 @@ const getPageData = (setProjectData, id, stars) => {
   const self = this;
 
   //this.props.bid
-  axios("http://localhost:3800/job/view",{
+  axios("http://13.238.42.177:3800/job/view",{
     method: 'post',
     data: {
       job_id: id,
@@ -353,13 +353,16 @@ const Project = (props) => {
   const [stars,setStars] = useState([]);
   const [projectData, setProjectData] = useState(null);
   const [toggler, setToggler] = useState(false);
+  const [post, setPost] = useState(false);
   const [productIndex, setProductIndex] = useState(0); 
   useEffect(() => {
     getPageData(setProjectData, props.bid, stars);
 
-  },[]) 
- 
+  },[post]) 
 
+  const setPosted = () => {
+      setPost(!post);
+  }
     return (
       <>
         {projectData ? (
@@ -426,7 +429,7 @@ const Project = (props) => {
                   </MapWrapper>
               </LeftWrapper>
               <RightWrapper>
-                <BidButton><NewBid projData={projectData}/></BidButton>
+                <BidButton><NewBid projData={projectData} parentPass={setPosted}/></BidButton>
                 <ProjectDetails>
                   <ProjectHeading>Summary</ProjectHeading>
                   <Icon>

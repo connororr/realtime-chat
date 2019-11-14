@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import ReCAPTCHA from "react-google-recaptcha";
 import axios from 'axios';
 import PaypalExpressBtn from 'react-paypal-express-checkout';
+import Cookies from 'js-cookie'
 
 const customStyles = {
     content : {
@@ -126,14 +127,16 @@ export class NewBid extends Component{
             catch :false,
         }
         this.projData = this.props.projData;
+        this.parentPass = this.props.parentPass;
         this.openModal = this.openModal.bind(this);
         this.afterOpenModal = this.afterOpenModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        console.log(props);
+
     }
-    
     openModal() {
-      console.log(this.projData);
       this.setState({modalIsOpen: true});
     }
 
@@ -154,24 +157,27 @@ export class NewBid extends Component{
     onChange(value) {
       this.setState({catch: true});
     }
-    handleSubmit(event) {    
-      axios({
-        method: 'post',
-        url:"http://localhost:3800/job/bid/",
-        withCredentials: true,
-        data: {
-          "session_token": localStorage.getItem('session'),
-          "bid_value": this.projData.business_id,
-          "current_bid": event.target.newBid.value,
-          "job_id": this.projData.id
-        },
-        config:{
-          headers:{'Content-Type':'application/json'}
-        }
-      })
-      .then(function(response){
+    handleSubmit(event) { 
+      event.preventDefault();
+      if(this.state.catch){
+        axios({
+          method: 'post',
+          url:"http://localhost:3800/job/bid",
+          data: {
+            "session_token": localStorage.getItem('session'),
+            "current_bid": event.target.newBid.value,
+            "job_id": this.projData.id
+          },
+          headers: {"X-CSRFToken": Cookies.get('csrftoken')},
+          withCredentials: true
+        })
+        .then(function(response){
+          
+        })
+        this.parentPass();
         this.closeModal();
-      })
+      } 
+
     }
     render(){
       const client = {

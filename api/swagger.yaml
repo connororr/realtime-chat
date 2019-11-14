@@ -95,7 +95,7 @@ paths:
           schema:
             $ref: "#/definitions/ResponseFail"
   /user/ownprofile:
-    get:
+    post:
       tags:
         - "user"
       summary: "Get your own profile"
@@ -121,7 +121,7 @@ paths:
           schema:
             $ref: "#/definitions/ResponseFail"
   /user/othersprofile:
-    get:
+    post:
       tags:
         - "user"
       summary: "Get other users profiles"
@@ -200,7 +200,7 @@ paths:
             $ref: "#/definitions/ResponseFail"
 
   /job/search:
-    get:
+    post:
       tags:
         - "job"
       summary: "Search for a job"
@@ -279,7 +279,7 @@ paths:
           schema:
             $ref: "#/definitions/ResponseFail"
   /job/view:
-    get:
+    post:
       tags:
         - "job"
       summary: "View a job by id"
@@ -603,6 +603,10 @@ definitions:
         type: "string"
       loacation:
         type: "string"
+      date_start:
+        type: "string"
+      date_end:
+        type: "string"  
       min_price:
         type: "string"
       max_price:
@@ -634,6 +638,10 @@ definitions:
       session_token:
         type: "string"
       project_title:
+        type: "string"
+      date_start:
+        type: "string"
+      date_end:
         type: "string"
       project_description:
         type: "string"
@@ -670,8 +678,6 @@ definitions:
     type: "object"
     properties:
       session_token:
-        type: "string"
-      bid_value:
         type: "string"
       current_bid:
         type: "string"

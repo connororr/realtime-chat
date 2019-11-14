@@ -1,6 +1,7 @@
 import React from 'react';
 
 export const jobTypes = [
+  '',
   'Air Conditioning',
   'Antenna Services',
   'Appliance Installation',
@@ -168,7 +169,7 @@ export const jobFilter = (props) => (
   </select>
 );
 
-export const locations = ['ACT', 'NSW', 'SA', 'VIC', 'WA'];
+export const locations = ['','ACT', 'NSW', 'SA', 'VIC', 'WA'];
 
 export const locationFilter = ({ className, onChange, style, id }) => (
   <select className={className} onChange={onChange} style={style} id={id}>
@@ -182,7 +183,7 @@ export const locationFilter = ({ className, onChange, style, id }) => (
 );
 
 
-export const types = ['Repair','Project'];
+export const types = ['','Repair','Project'];
 
 export const typeFilter = ({ className, onChange, style, id }) => (
   <select className={className} onChange={onChange} style={style} id={id}>
@@ -195,7 +196,7 @@ export const typeFilter = ({ className, onChange, style, id }) => (
   </select>
 );
 
-export const Order = ['Relevance','Newest','Oldest','Alphabetic','Highest Bid', 'Lowest Bid'];
+export const Order = ['','Relevance','Newest','Oldest','Alphabetic','Highest Bid', 'Lowest Bid'];
 
 export const OrderFilter = ({ className, onChange, style, id }) => (
   <select className={className} onChange={onChange} style={style} id={id}>
@@ -208,7 +209,7 @@ export const OrderFilter = ({ className, onChange, style, id }) => (
   </select>
 );
 
-export const status = ['Premium','Standard'];
+export const status = ['','Premium','Standard'];
 
 export const statusFilter = ({ className, onChange, style, id }) => (
   <select className={className} onChange={onChange} style={style} id={id}>

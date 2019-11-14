@@ -158,6 +158,7 @@ const RegisterJob = ({ cancelHandler }) => {
 			withCredentials: true
 		}).then(function(response) {
 			console.log(response.data);
+			cancelHandler();
 		})
 		.catch((err) => {
 			const errorResponse = err.response.data;

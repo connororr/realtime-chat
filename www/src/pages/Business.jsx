@@ -470,7 +470,7 @@ const Business = (props) => {
             </ContentWrapper>
           </Wrapper>
         ) : (
-          <h4>Loading...</h4>
+          <h4 style={{margin: 72}}>Loading...</h4>
         )}
       </>
     );

@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
+import axios from 'axios';
+import { BounceLoader } from 'react-spinners';
+import Cookies from 'js-cookie';
+import DatePicker from 'react-date-picker';
 
 const Input = styled.input`
 	background: #ffffff;
@@ -10,59 +14,6 @@ const Input = styled.input`
 	margin: 10px 0;
 	padding: 10px;
 `;
-
-const JobTitle = () => {
-	const [title, setTitle] = useState('');
-	return (
-		<Input
-			value={title}
-			placeholder='Job title'
-			onChange={(e) => {
-				setTitle(e.target.value);
-			}}
-		/>
-	);
-};
-
-const JobDescription = () => {
-	const [description, setDescription] = useState('');
-	return (
-		<Input
-			value={description}
-			placeholder='Job description'
-			onChange={(e) => {
-				setDescription(e.target.value);
-			}}
-		/>
-	);
-};
-
-const JobLocation = () => {
-	const [location, setLocation] = useState('');
-	return (
-		<Input
-			value={location}
-			placeholder='Job location'
-			onChange={(e) => {
-				setLocation(e.target.value);
-			}}
-		/>
-	);
-};
-
-const JobStartingBet = () => {
-	const [minBet, setMinBet] = useState(0);
-	return (
-		<Input
-			value={minBet}
-			type='number'
-			placeholder='Minimum bet'
-			onChange={(e) => {
-				setMinBet(e.target.value);
-			}}
-		/>
-	);
-};
 
 const Container = styled.div`
 	position: absolute;
@@ -119,29 +70,112 @@ const Cancel = styled.button`
 
 const Title = styled.h2``;
 
-const RegisterJob = ({ submitHandler, cancelHandler }) => (
-	<Container>
-		<Form
-			onSubmit={(e) => {
-				e.preventDefault();
-				submitHandler();
-			}}
-		>
-			<Title>Register Job</Title>
-			<JobTitle id='job' />
-			<JobDescription id='description' />
-			<JobLocation id='location' />
-			<JobStartingBet id='starting-bet' />
-			<ButtonHolder>
-				<Cancel
-					onClick={() => {
-						cancelHandler();
-					}}
-				/>
-				<CreatePost type='submit' />
-			</ButtonHolder>
-		</Form>
-	</Container>
-);
+const ErrorMessage = styled.h6`
+	color: red;
+	margin: 0;
+	margin-top: 0px;
+	margin-top: -12px;
+	font-size: 13px;
+	font-weight: 600;
+`;
+
+
+const RegisterJob = ({ cancelHandler }) => {
+	const [title, setTitle] = useState('');
+	const [description, setDescription] = useState('');
+	const [location, setLocation] = useState('');
+	const [start, setStart] = useState(null);
+	const [end, setEnd] = useState(null);
+
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState('');
+
+	const register = (e) => {
+		e.preventDefault();
+		setLoading(true);
+		setError('');
+
+		axios.post('http://13.238.42.177:3800/job/register', {
+			session_token: localStorage.getItem('session'),
+			project_title: title,
+			date_start: `${start.getFullYear()}-${start.getMonth() + 1}-${start.getDate()}`,
+			date_end: `${end.getFullYear()}-${end.getMonth() + 1}-${end.getDate()}`,
+			project_description: description,
+			
+		},
+		{
+			headers: {"X-CSRFToken": Cookies.get('csrftoken')},
+			withCredentials: true
+		}).then(function(response) {
+			console.log(response.data);
+		})
+		.catch((err) => {
+			const errorResponse = err.response.data;
+			setError(Array(errorResponse[Object.keys(errorResponse)[0]]).toString());
+		})
+		.finally(() => {setLoading(false)});
+	};
+
+	return (
+		<Container>
+			<Form onSubmit={register}>
+				<Title>Register Job</Title>
+				{loading ? (
+					<BounceLoader
+						css={`
+							display: block;
+							margin: 67px 38%;
+						`}
+						sizeUnit={'px'}
+						size={150}
+						color={'#123abc'}
+						loading={loading}
+					/>
+				) : (
+					<>
+						<Input
+							value={title}
+							placeholder='Job title'
+							onChange={(e) => {
+								setTitle(e.target.value);
+							}}
+						/>
+						<DatePicker
+							onChange={date => {setStart(date)}}
+							value={start}
+						/><span>&nbsp;&nbsp;→&nbsp;&nbsp;</span>
+						<DatePicker
+							onChange={date => {setEnd(date)}}
+							value={end}
+						/>
+						<Input
+							value={description}
+							placeholder='Job description'
+							onChange={(e) => {
+								setDescription(e.target.value);
+							}}
+						/>
+						<Input
+							value={location}
+							placeholder='Job location'
+							onChange={(e) => {
+								setLocation(e.target.value);
+							}}
+						/>
+						<ErrorMessage>{error}</ErrorMessage>
+						<ButtonHolder>
+							<Cancel
+								onClick={() => {
+									cancelHandler();
+								}}
+							/>
+							<CreatePost type='submit' />
+						</ButtonHolder>
+					</>
+				)}
+			</Form>
+		</Container>
+	);
+};
 
 export default RegisterJob;

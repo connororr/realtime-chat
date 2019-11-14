@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaRegPaperPlane } from 'react-icons/fa';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const OuterWrapper = styled.div`
   width: 100%;
+  
 `;
 
 const Wrapper = styled.div`
   width: calc(100vw - 300px);
   height: 55px;
-
   position: fixed;
   bottom: 0;
   right: 0;
-
   background: #fff;
+  z-index: 100;
 `;
 
 const InnerWrapper = styled.div`
@@ -55,7 +57,21 @@ const Button = styled.button`
   background: 0;
 `;
 
-const MessageBar = ({ setMessages }) => {
+const SendMessage = (message, job_link, other_user_id) => {
+  axios("http://13.238.42.177:3800/chat/sendmessage",{
+      method: 'post',
+      data: {
+        session_token: localStorage.getItem('session'),
+        message: message,
+        job_link: job_link,
+        other_user_id: other_user_id
+      }, 
+      headers: {"X-CSRFToken": Cookies.get('csrftoken')},
+      withCredentials: true
+    }).then(response => {})
+}
+
+const MessageBar = ({ setMessages, job_link, other_user_id }) => {
   const [message, setMessage] = useState('');
 
   return (
@@ -66,7 +82,7 @@ const MessageBar = ({ setMessages }) => {
             onSubmit={e => {
               e.preventDefault();
               if(message.split(' ').join('').length > 0) {
-                setMessages(message);
+                SendMessage(message, job_link, other_user_id)
                 setMessage('');
               }
             }}

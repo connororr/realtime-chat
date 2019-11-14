@@ -43,7 +43,7 @@ const Time = styled(TimeAgo)`
   line-height: 13px;
   font-weight: 400;
   color: #999;
-  margin-top: -9px;
+  margin-top: 10px;
   height: max-content;
 `
 
@@ -56,8 +56,15 @@ const Message = styled.p`
   margin-top: -6px;
 `;
 
-const ConversationCard = ({ img, key, name, business, message, date }) => (
-  <CardWrapper key={key}>
+const ConversationCard = ({setConversation, other_user_id, img, key, name, business, message, date, card_id }) => (
+  
+  <CardWrapper 
+    key={key}
+    onClick={() => {
+      setConversation(card_id)
+    }}
+  >
+      
     <Avatar src={img} alt="profile image" />
     <Info>
       <Name>

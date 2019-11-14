@@ -5,7 +5,7 @@ from user.serializers import CustomUserDetailsSerializer
 
 
 class MessageSerialize(serializers.ModelSerializer):
-    user_id = serializers.CharField(source='user_id.id', read_only=True)
+    user_id = serializers.IntegerField(source='user_id.id', read_only=True)
 
     class Meta:
         model = models.Message
@@ -17,10 +17,12 @@ class ConversationSerialize(serializers.ModelSerializer):
     sender_business_name = serializers.CharField(source='sender.business_name', read_only=True)
     sender_user_name = serializers.CharField(source='sender.name', read_only=True)
     sender_profile_picture = serializers.CharField(source='sender.profile_picture', read_only=True)
+    sender_id = serializers.IntegerField(source='sender.id', read_only=True)
     receiver_business_name = serializers.CharField(source='receiver.business_name', read_only=True)
     receiver_user_name = serializers.CharField(source='receiver.name', read_only=True)
+    receiver_id = serializers.IntegerField(source='receiver.id', read_only=True)
     receiver_profile_picture = serializers.CharField(source='receiver.profile_picture', read_only=True)
 
     class Meta:
         model = models.Conversation
-        fields = ('sender_user_name','sender_business_name', 'sender_profile_picture','receiver_user_name','receiver_business_name', 'receiver_profile_picture','job_link','id','messages')
+        fields = ('sender_user_name','sender_business_name', 'sender_profile_picture', 'sender_id','receiver_user_name','receiver_business_name', 'receiver_profile_picture', 'receiver_id', 'job_link','id','messages')

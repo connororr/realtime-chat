@@ -150,8 +150,8 @@ const RegisterJob = ({ cancelHandler }) => {
 			project_category: category,
 			project_type: type,
 			project_premium: status === 'Premium' ? 'T' : 'F',
-			project_location: location
-
+			project_location: location,
+			project_photos: photos
 		},
 		{
 			headers: {"X-CSRFToken": Cookies.get('csrftoken')},
@@ -182,8 +182,9 @@ const RegisterJob = ({ cancelHandler }) => {
 			})
 		).then(
 			(images) => {
-				//console.log(images);
-				setPhotos(images);
+				const imageTemp = [];
+				images.map((image, i) => {imageTemp.push({image, title: `${title}-${i}`})})
+				setPhotos(imageTemp);
 			},
 			(err) => {
 				console.error(err);

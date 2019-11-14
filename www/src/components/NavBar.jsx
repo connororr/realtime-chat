@@ -146,7 +146,7 @@ const NavBar = ({ active, style }) => {
 							<SpecialButton2
 								style={{ borderLeft: '1px solid #1f24303b' }}
 								onClick={() => {
-									localStorage.clear();
+									localStorage.setItem('session', null);
 									setLoggedIn(false);
 									navigate('/');
 								}}

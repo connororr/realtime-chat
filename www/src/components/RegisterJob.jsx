@@ -130,6 +130,8 @@ const RegisterJob = ({ cancelHandler }) => {
 	const [start, setStart] = useState(null);
 	const [end, setEnd] = useState(null);
 
+	const [photos, setPhotos] = useState([]);
+
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState('');
 
@@ -162,6 +164,31 @@ const RegisterJob = ({ cancelHandler }) => {
 			setError(Array(errorResponse[Object.keys(errorResponse)[0]]).toString());
 		})
 		.finally(() => {setLoading(false)});
+	};
+
+	const imageChange = e => {
+		Promise.all(
+			Array.from(e.target.files).map(file => {
+				return new Promise((resolve, reject) => {
+					const reader = new FileReader();
+					reader.addEventListener('load', ev => {
+						if (ev.target.result !== undefined) {
+							resolve(ev.target.result);
+						}
+					});
+					reader.addEventListener('error', reject);
+					reader.readAsDataURL(file);
+				});
+			})
+		).then(
+			(images) => {
+				//console.log(images);
+				setPhotos(images);
+			},
+			(err) => {
+				console.error(err);
+			}
+		);
 	};
 
 	return (
@@ -225,6 +252,15 @@ const RegisterJob = ({ cancelHandler }) => {
 								}
 							}/>
 						</SelectWrapper>
+						<div>
+								Add images<br/>
+								<input
+									type='file'
+									multiple
+									accept='image/gif,image/jpeg,image/jpg,image/png'
+									onChange={imageChange}
+								/>
+							</div>
 						<ErrorMessage>{error}</ErrorMessage>
 						<ButtonHolder>
 							<Cancel

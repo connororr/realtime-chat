@@ -3,28 +3,45 @@ import styled from 'styled-components';
 import MessageBar from './MessageBar';
 import Message from './Message';
 import MessageBanner from './MessageBanner';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const MessageHolder = styled.div`
   width: 100%;
   height: calc(100vh - 175px);
   overflow-y: scroll;
   padding: 0 23px;
-  margin-top: 51px;
+  margin-top: 50px;
 `;
 
 const Messages = props => {
-  const [messages, setMessages] = useState([
-    { message: 'testing', userId: '123412' },
-  ]);
+  const [messages, setMessages] = useState([]);
+  const [conversationInfo, setConversationInfo] = useState({})
 
-  const updateMessages = message => {
-    setMessages(messages.concat([{ message }]));
-  };
 
   useEffect(() => {
+
+    var get_convo_interval = setInterval(function() {axios("http://13.238.42.177:3800/chat/conversation",{
+      method: 'post',
+      data: {
+        session_token: localStorage.getItem('session'),
+        conversation_id: props.conversation_id
+      }, 
+      headers: {"X-CSRFToken": Cookies.get('csrftoken')},
+      withCredentials: true
+    }).then(response => {
+      setMessages(response.data['messages']);
+      setConversationInfo(response.data['conversation'])
+    })}, 1000)
+    
+    // position scrollbar
     const objDiv = document.getElementById('message-holder');
     objDiv.scrollTop = objDiv.scrollHeight;
-  });
+
+    return () => {
+      clearInterval(get_convo_interval)
+    };
+  }, [props.conversation_id, props.job_link]);
 
   return (
     <MessageHolder id="message-holder">
@@ -32,10 +49,13 @@ const Messages = props => {
       {messages.map(message => (
         <Message
           message={message.message}
-          yours={message.userId !== '123412'}
+          yours={message.user_id !== conversationInfo['own_user_id']}
         />
       ))}
-      <MessageBar setMessages={updateMessages} />
+      <MessageBar 
+        job_link={props.job_link}
+        other_user_id={props.other_user_id}
+      />
     </MessageHolder>
   );
 };

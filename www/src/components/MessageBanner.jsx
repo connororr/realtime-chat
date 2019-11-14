@@ -61,7 +61,7 @@ const MessageBanner = ({ image, business, name }) => (
           <FaInfoCircle />
         </Icon>
       </Link>
-      <Link to={`/profile`}>
+      <Link to={`/business`}>
         <Icon>
           <FaUserCircle />
         </Icon>

@@ -6,7 +6,7 @@ const Wrapper = styled.div`
     !props.yours
       ? `
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
   `
       : ''}
 `;

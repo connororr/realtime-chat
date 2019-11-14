@@ -93,8 +93,9 @@ const RegisterJob = ({ cancelHandler }) => {
 	const register = (e) => {
 		e.preventDefault();
 		setLoading(true);
-		setError('');
+		setError(!start || !end ? 'Please select start and end dates' : '');
 
+		!start || !end ? setLoading(false) :
 		axios.post('http://13.238.42.177:3800/job/register', {
 			session_token: localStorage.getItem('session'),
 			project_title: title,

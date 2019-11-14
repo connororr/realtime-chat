@@ -124,6 +124,9 @@ const RegisterJob = ({ cancelHandler }) => {
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [location, setLocation] = useState('');
+	const [category, setCategory] = useState('');
+	const [type, setType] = useState('');
+	const [status, setStatus] = useState('');
 	const [start, setStart] = useState(null);
 	const [end, setEnd] = useState(null);
 
@@ -142,7 +145,11 @@ const RegisterJob = ({ cancelHandler }) => {
 			date_start: `${start.getFullYear()}-${start.getMonth() + 1}-${start.getDate()}`,
 			date_end: `${end.getFullYear()}-${end.getMonth() + 1}-${end.getDate()}`,
 			project_description: description,
-			
+			project_category: category,
+			project_type: type,
+			project_premium: status === 'Premium' ? 'T' : 'F',
+			project_location: location
+
 		},
 		{
 			headers: {"X-CSRFToken": Cookies.get('csrftoken')},
@@ -197,10 +204,26 @@ const RegisterJob = ({ cancelHandler }) => {
 							}}
 						/>
 						<SelectWrapper>
-						<SelectCategory/>
-						<SelectLocation/>
-						<SelectType/>
-						<SelectStatus/>
+							<SelectCategory 
+								onChange={(e) => {
+									setCategory(e.target.value);
+								}
+							}/>
+							<SelectLocation 
+								onChange={(e) => {
+									setLocation(e.target.value);
+								}
+							}/>
+							<SelectType  
+								onChange={(e) => {
+									setType(e.target.value);
+								}
+							}/>
+							<SelectStatus  
+								onChange={(e) => {
+									setStatus(e.target.value);
+								}
+							}/>
 						</SelectWrapper>
 						<ErrorMessage>{error}</ErrorMessage>
 						<ButtonHolder>

@@ -9,6 +9,7 @@ import Bid from '../components/Bid';
 import { Link } from '@reach/router';
 import * as headerBg from '../images/construction.jpg';
 import JobListItem from '../components/JobListItem';
+import RegisterJob from '../components/RegisterJob';
 
 
 const Wrapper = styled.div`
@@ -276,6 +277,15 @@ const MessageIcon = styled(FaComments)`
   }
 `;
 
+const RegisterJobButton = styled.button`
+  padding: 10px 20px;
+  border: 0;
+  cursor: pointer;
+  background:#473fdf;
+  color:#fff;
+  margin-bottom: 20px;
+`;
+
 
 const LeftWrapper = styled.div`
 
@@ -368,6 +378,8 @@ const Business = (props) => {
   const [toggler, setToggler] = useState(false);
   const [productIndex, setProductIndex] = useState(0); 
 
+  const [openRegister, setOpenRegister] = useState(false);
+
   useEffect(() => {
     getPageData(setBusinessData,props.id,stars);
   },[]) 
@@ -377,6 +389,7 @@ const Business = (props) => {
       <>
         {businessData ? (
           <Wrapper>
+            {openRegister && <RegisterJob cancelHandler={() => {setOpenRegister(false)}}/>}
             <HeaderContentHolder>
               <BusinessWrapper>
                 <BusinessIcon style={{background: `url('${businessData['profile_picture']}')`, backgroundSize: 'cover'}}/>
@@ -412,7 +425,7 @@ const Business = (props) => {
                   <Link to={`/project/${user_projects['id']}`} passParams ={user_projects['id']} style={{ textDecoration: 'none' }}>
                       <JobListItem
                         project={user_projects['project_name']}
-                        status={user_projects.premium=='T' ? ("Premium"):("Standard")}
+                        status={user_projects.premium==='T' ? ("Premium"):("Standard")}
                         key={user_projects['id']}
                         b_id={user_projects['business_id']}
                         bid={user_projects['current_bid']}
@@ -422,8 +435,10 @@ const Business = (props) => {
                         alt={user_projects.project_photos[0].title}
                       />
                   </Link>
+                  
                 ))}
                 </ProjectDetails>
+                <RegisterJobButton onClick={() => {setOpenRegister(true)}}>Register Job</RegisterJobButton>
                 <Heading>Media</Heading>
                 <MediaWrapper>
                   {businessData['user_projects'].map((project, i) => <Image 
@@ -433,13 +448,13 @@ const Business = (props) => {
                   />)}
                 
                 </MediaWrapper>
-                <FsLightbox
+                {businessData['user_projects'].length > 0 && <FsLightbox
                   toggler={ toggler }
                   sources={ [businessData['user_projects'][productIndex]['project_photos'][0].image] }
-                /> 
+                />}
                 
               </LeftWrapper>
-              <RightWrapper>
+              {/*<RightWrapper>
               <Heading>Location</Heading>
                 <MapWrapper style={{width: 266, height: 336}}>
                     <Map
@@ -451,7 +466,7 @@ const Business = (props) => {
                       <Marker anchor={[-33.8875665, 151.1886607]} />
                     </Map>
                   </MapWrapper>
-              </RightWrapper>
+              </RightWrapper>*/}
             </ContentWrapper>
           </Wrapper>
         ) : (

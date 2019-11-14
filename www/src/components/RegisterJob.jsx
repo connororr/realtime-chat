@@ -4,6 +4,46 @@ import axios from 'axios';
 import { BounceLoader } from 'react-spinners';
 import Cookies from 'js-cookie';
 import DatePicker from 'react-date-picker';
+import { jobFilter, locationFilter, typeFilter, statusFilter } from '../helper/filters';
+
+const SelectWrapper = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	height: max-content;
+	width: 100%;
+`;
+
+const selectStyles = `
+  font-family:'Raleway',sans-serif;
+  line-height: normal;
+  position: relative;
+  background-position: right 10px top 50%;
+  background-repeat: no-repeat;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+	background: #ffffff;
+	border: 1px solid #000000;
+	border-radius: 4px;
+	overflow: hidden;
+  font-size: 13px;
+	cursor: pointer;
+	margin: 10px;
+	max-width:200px;
+`;
+
+const SelectLocation = styled(locationFilter)`
+  ${selectStyles}
+`;
+const SelectCategory = styled(jobFilter)`
+  ${selectStyles}
+`;
+const SelectType = styled(typeFilter)`
+  ${selectStyles}
+`;
+const SelectStatus = styled(statusFilter)`
+  ${selectStyles}
+`;
 
 const Input = styled.input`
 	background: #ffffff;
@@ -156,13 +196,12 @@ const RegisterJob = ({ cancelHandler }) => {
 								setDescription(e.target.value);
 							}}
 						/>
-						<Input
-							value={location}
-							placeholder='Job location'
-							onChange={(e) => {
-								setLocation(e.target.value);
-							}}
-						/>
+						<SelectWrapper>
+						<SelectCategory/>
+						<SelectLocation/>
+						<SelectType/>
+						<SelectStatus/>
+						</SelectWrapper>
 						<ErrorMessage>{error}</ErrorMessage>
 						<ButtonHolder>
 							<Cancel

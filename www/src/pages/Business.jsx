@@ -284,8 +284,24 @@ const RegisterJobButton = styled.button`
   background:#473fdf;
   color:#fff;
   margin-bottom: 20px;
+  text-decoration: underline;
 `;
 
+const ContactButton = styled.a`
+  padding: 10px 20px;
+  border: 0;
+  cursor: pointer;
+  background:#473fdf;
+  color:#fff;
+  margin-bottom: 20px;
+  font-size: 12px;
+  text-align: center;
+  margin-left: 10px;
+  text-decoration: none !important;
+  &:link {
+    text-decoration: none !important;
+  }
+`;
 
 const LeftWrapper = styled.div`
 
@@ -438,20 +454,21 @@ const Business = (props) => {
                 ))}
                 </ProjectDetails>
                 <RegisterJobButton onClick={() => {setOpenRegister(true)}}>Register Job</RegisterJobButton>
-                <Link 
-                  onClick={() => {
-                    localStorage.setItem('business_name', businessData.business_name);
-                    localStorage.setItem('profile_picture', businessData.profile_picture);
-                    localStorage.setItem('other_user_id', props.id);
-                    localStorage.setItem('user_name', businessData.user_name);
-                    localStorage.setItem('profile_link', `13.238.42.177/project/${businessData.business_id}`);
-
-                  }}
-                  to={`/conversations/`}
-                  className=''
-                >
-                 Contact
+                
+                <Link to={`/conversations/`}> 
+                  <ContactButton
+                    onClick={() => {
+                      localStorage.setItem('business_name', businessData.business_name);
+                      localStorage.setItem('profile_picture', businessData.profile_picture);
+                      localStorage.setItem('other_user_id', props.id);
+                      localStorage.setItem('user_name', businessData.user_name);
+                      localStorage.setItem('profile_link', `13.238.42.177/project/${businessData.business_id}`);
+                    }}
+                  >Contact
+                  </ContactButton>
                 </Link>
+                  
+                
                 <Heading>Media</Heading>
                 <MediaWrapper>
                   {businessData['user_projects'].map((project, i) => <Image 

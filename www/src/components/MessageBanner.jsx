@@ -46,7 +46,7 @@ const Icon = styled.div`
   cursor: pointer;
 `;
 
-const MessageBanner = ({ image, business, name }) => (
+const MessageBanner = ({ image, business, name, other_user_id }) => (
   <Wrapper>
     <InfoWrapper>
       <Avatar src={image} alt="profile image" />
@@ -61,7 +61,7 @@ const MessageBanner = ({ image, business, name }) => (
           <FaInfoCircle />
         </Icon>
       </Link>
-      <Link to={`/business`}>
+      <Link to={`/profile/${other_user_id}`}>
         <Icon>
           <FaUserCircle />
         </Icon>

@@ -95,7 +95,7 @@ paths:
           schema:
             $ref: "#/definitions/ResponseFail"
   /user/ownprofile:
-    post:
+    get:
       tags:
         - "user"
       summary: "Get your own profile"
@@ -115,13 +115,13 @@ paths:
         200:
           description: "Successfully recieved profile"
           schema:
-            $ref: "#/definitions/ProfileResponseSuccess"
+            $ref: "#/definitions/OwnProfileResponseSuccess"
         400:
           description: "Could not find user"
           schema:
             $ref: "#/definitions/ResponseFail"
   /user/othersprofile:
-    post:
+    get:
       tags:
         - "user"
       summary: "Get other users profiles"
@@ -141,7 +141,7 @@ paths:
         200:
           description: "Successfully recieved profile"
           schema:
-            $ref: "#/definitions/ProfileResponseSuccess"
+            $ref: "#/definitions/OthersProfileResponseSuccess"
         400:
           description: "Could not find user"
           schema:
@@ -172,35 +172,8 @@ paths:
           description: "Rating was not between 0 and 5"
           schema:
             $ref: "#/definitions/SendRatingFail"
-  /user/getrating:
-    post:
-      tags:
-        - "user"
-      summary: "get the user's current rating"
-      description: ""
-      operationId: "getRating"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          required: true
-          schema:
-            $ref: "#/definitions/GetRating"
-      responses:
-        200:
-          description: "Successfully recieved profile"
-          schema:
-            $ref: "#/definitions/GetRatingSuccess"
-        400:
-          description: "Could not find user"
-          schema:
-            $ref: "#/definitions/ResponseFail"
-
   /job/search:
-    post:
+    get:
       tags:
         - "job"
       summary: "Search for a job"
@@ -279,7 +252,7 @@ paths:
           schema:
             $ref: "#/definitions/ResponseFail"
   /job/view:
-    post:
+    get:
       tags:
         - "job"
       summary: "View a job by id"
@@ -506,26 +479,51 @@ definitions:
       status:
         type: "string"
         example: "failure"
-  ProfileResponseSuccess:
+  OwnProfileResponseSuccess:
     type: "object"
     properties:
       business_name:
         type: "string"
         example: "Bob's Timber"
-      date_created:
-        type: "integer"
-        example: 1568267256799
       profile_picture:
         type: "string"
         example: "https://via.placeholder.com/150C/O"
       description:
         type: "string"
         example: "Genuine timber work at genuine prices"
+      rating:
+        type: "number"
+        example: 4.0
       user_projects:
         type: "array"
         items:
           $ref: '#/definitions/Projects'
       open_bids:
+        type: "array"
+        items:
+          $ref: '#/definitions/Projects'
+  OthersProfileResponseSuccess:
+    type: "object"
+    properties:
+      business_name:
+        type: "string"
+        example: "Bob's Timber"
+      profile_picture:
+        type: "string"
+        example: "https://via.placeholder.com/150C/O"
+      description:
+        type: "string"
+        example: "Genuine timber work at genuine prices"
+      rating:
+        type: "number"
+        example: 4.0
+      business_id:
+        type: "integer"
+        example: 2
+      user_name:
+        type: "string"
+        example: "John Doe"
+      user_projects:
         type: "array"
         items:
           $ref: '#/definitions/Projects'
@@ -603,10 +601,6 @@ definitions:
         type: "string"
       loacation:
         type: "string"
-      date_start:
-        type: "string"
-      date_end:
-        type: "string"  
       min_price:
         type: "string"
       max_price:
@@ -638,10 +632,6 @@ definitions:
       session_token:
         type: "string"
       project_title:
-        type: "string"
-      date_start:
-        type: "string"
-      date_end:
         type: "string"
       project_description:
         type: "string"
@@ -678,6 +668,8 @@ definitions:
     type: "object"
     properties:
       session_token:
+        type: "string"
+      bid_value:
         type: "string"
       current_bid:
         type: "string"

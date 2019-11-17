@@ -28,7 +28,27 @@ const Conversations = () => {
   }
 
   useEffect(() => {
-    var get_convo_interval = setInterval(function() {axios("http://13.238.42.177:3800/chat/getall",{
+
+    // check for temp convo
+    if (localStorage.getItem('business_name') != null) {
+      var temp_conversation = {
+        "business_name": localStorage.getItem('business_name'),
+        "profile_picture": localStorage.getItem('profile_picture'),
+        "conversation_id": null,
+        "last_message": {
+          "user_id": null,
+          "message": '',
+          "time_sent": null
+        },
+        "other_user_id": localStorage.getItem('other_user_id'),
+        "job_link": localStorage.getItem('business_link'),
+        "user_name": localStorage.getItem('user_name')
+      }
+    }
+    
+    // interval requests
+    var get_convo_interval = setInterval(function() {
+      axios("http://13.238.42.177:3800/chat/getall",{
       method: 'post',
       data: {
         session_token: localStorage.getItem('session')
@@ -36,11 +56,23 @@ const Conversations = () => {
       headers: {"X-CSRFToken": Cookies.get('csrftoken')},
       withCredentials: true
     }).then(response => {
-      setConversations(response.data);
+      // checks if there is temp data
+      if (localStorage.getItem('business_name') != null) {
+        setConversations(response.data.concat(temp_conversation));
+      } else {
+        setConversations(response.data);
+      }
     })}, 1000)
     
     return () => {
       clearInterval(get_convo_interval)
+
+      // clear temp info
+      localStorage.removeItem('business_name')
+      localStorage.removeItem('profile_picture')
+      localStorage.removeItem('other_user_id')
+      localStorage.removeItem('user_name')
+      localStorage.removeItem('job_link')
     };
   }, []);
 
@@ -62,6 +94,7 @@ const Conversations = () => {
         ))}
       </ConversationHolder>
       <Messages
+        setSelectedConversation={setSelectedConversation}
         image={
           selectedConversation !== null
             ? conversations[selectedConversation]['profile_picture']

@@ -68,10 +68,14 @@ const SendMessage = (message, job_link, other_user_id) => {
       }, 
       headers: {"X-CSRFToken": Cookies.get('csrftoken')},
       withCredentials: true
-    }).then(response => {})
+    }).then(response => {
+      // this ensures that any temp conversation gets removed when
+      // a message gets sent inside of it
+      localStorage.removeItem('business_name');
+    })
 }
 
-const MessageBar = ({ setMessages, job_link, other_user_id }) => {
+const MessageBar = ({ setMessages, job_link, other_user_id, setSelectedConversation }) => {
   const [message, setMessage] = useState('');
 
   return (
@@ -84,6 +88,7 @@ const MessageBar = ({ setMessages, job_link, other_user_id }) => {
               if(message.split(' ').join('').length > 0) {
                 SendMessage(message, job_link, other_user_id)
                 setMessage('');
+                setSelectedConversation(1)
               }
             }}
           >

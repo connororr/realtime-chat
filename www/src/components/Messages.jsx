@@ -20,19 +20,20 @@ const Messages = props => {
 
 
   useEffect(() => {
-
-    var get_convo_interval = setInterval(function() {axios("http://13.238.42.177:3800/chat/conversation",{
-      method: 'post',
-      data: {
-        session_token: localStorage.getItem('session'),
-        conversation_id: props.conversation_id
-      }, 
-      headers: {"X-CSRFToken": Cookies.get('csrftoken')},
-      withCredentials: true
-    }).then(response => {
-      setMessages(response.data['messages']);
-      setConversationInfo(response.data['conversation'])
-    })}, 1000)
+    if (props.conversation_id != null) { // don't send requests when on a temporary conversation
+      var get_convo_interval = setInterval(function() {axios("http://13.238.42.177:3800/chat/conversation",{
+        method: 'post',
+        data: {
+          session_token: localStorage.getItem('session'),
+          conversation_id: props.conversation_id
+        }, 
+        headers: {"X-CSRFToken": Cookies.get('csrftoken')},
+        withCredentials: true
+      }).then(response => {
+        setMessages(response.data['messages']);
+        setConversationInfo(response.data['conversation'])
+      })}, 1000)
+    }
     
     // position scrollbar
     const objDiv = document.getElementById('message-holder');
@@ -55,6 +56,7 @@ const Messages = props => {
       <MessageBar 
         job_link={props.job_link}
         other_user_id={props.other_user_id}
+        setSelectedConversation={props.setSelectedConversation}
       />
     </MessageHolder>
   );

@@ -15,31 +15,9 @@ class CustomUserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CustomUser
         # fields = '__all__'
-        fields = ('business_name', 'profile_picture', 'description', 'jobs')
+        fields = ('id', 'name', 'business_name', 'profile_picture', 'description', 'jobs')
         read_only_fields = ('email','username' )
-
-class CustomUserDetailsSerializerAnon(serializers.ModelSerializer):
-    """
-    User details based on pk with minimal info
-    """
-    class Meta:
-        model = models.CustomUser
-    
-        fields = ('email', 'name', 'business_name', 'profile_picture','description')
-        read_only_fields = ('email','username' )
-
-
-class allUserSerializer(serializers.ModelSerializer):
-    jobs = jobSerialize(many=True, read_only=True)
-    class Meta:
-        model = models.CustomUser
         
-        fields = '__all__'
-        # fields = [ 'business_name','description', 'profile_picture','name','job']
-        # exclude = ['']
-        
-
-
 class CustomRegisterSerializer(RegisterSerializer):
         
         email = serializers.EmailField(required=True)
@@ -57,7 +35,6 @@ class CustomRegisterSerializer(RegisterSerializer):
                 'name': self.validated_data.get('name', ''),
                 
             }
-
 
 class RatingSerializer(serializers.ModelSerializer):
 

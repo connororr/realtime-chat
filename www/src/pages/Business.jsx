@@ -367,7 +367,6 @@ const getPageData = (setBusinessData,business_id,stars) => {
         stars.push(<FaStar/>);
       }
       setBusinessData(businessData)
-      console.log(businessData);
     });
   }
 };
@@ -439,6 +438,20 @@ const Business = (props) => {
                 ))}
                 </ProjectDetails>
                 <RegisterJobButton onClick={() => {setOpenRegister(true)}}>Register Job</RegisterJobButton>
+                <Link 
+                  onClick={() => {
+                    localStorage.setItem('business_name', businessData.business_name);
+                    localStorage.setItem('profile_picture', businessData.profile_picture);
+                    localStorage.setItem('other_user_id', props.id);
+                    localStorage.setItem('user_name', businessData.user_name);
+                    localStorage.setItem('profile_link', `13.238.42.177/project/${businessData.business_id}`);
+
+                  }}
+                  to={`/conversations/`}
+                  className=''
+                >
+                 Contact
+                </Link>
                 <Heading>Media</Heading>
                 <MediaWrapper>
                   {businessData['user_projects'].map((project, i) => <Image 

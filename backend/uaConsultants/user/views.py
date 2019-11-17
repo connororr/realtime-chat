@@ -27,11 +27,6 @@ from rest_framework.renderers import StaticHTMLRenderer
 from rest_auth.registration.views import VerifyEmailView, RegisterView
 from django.core.exceptions import ObjectDoesNotExist
 
-class allUserView(generics.ListAPIView):
-    permission_classes = [IsAdminUser]
-    queryset = models.CustomUser.objects.all()
-    serializer_class = serializers.allUserSerializer
-
 @api_view(['POST'])
 def LoggedInUserGetProfile(request):
 
@@ -105,6 +100,8 @@ def OtherUsersGetProfile(request):
             "profile_picture": user_serializer.data['profile_picture'],
             "description": user_serializer.data['description'],
             "rating": total_rating,
+            "user_name": user_serializer.data['name'],
+            "business_id": user_serializer.data['id'],
             "user_projects": user_serializer.data['jobs'] if len(user_serializer.data['jobs']) > 0 else []
         }
 
@@ -112,79 +109,13 @@ def OtherUsersGetProfile(request):
     except:
         return JsonResponse({'error':'failed retrieving user info','status':'failure'}, status=400)
 
-@api_view(['GET', 'POST'])
-def user_page_view(request):
-    """
-    View or Update user details.
-    """
-    # authentication_classes = (SessionAuthentication,)
-    try:
-        body_unicode = request.body.decode('utf-8')
-        body_data = json.loads(body_unicode)
-        uid_req = body_data['user_id']
-        session_key = request.session.session_key
-        session = Session.objects.get(session_key=session_key)
-        session_data = session.get_decoded()
-        uid = session_data.get('_auth_user_id')
-        
-        if uid == uid_req and request.method == 'GET':
-            user_profile_data = CustomUser.objects.get(id=uid_req)
-            serializer = serializers.CustomUserDetailsSerializer(user_profile_data)
-            return Response(serializer.data)
-        else:
-            user_profile_data = CustomUser.objects.get(id=uid_req)
-            serializer = serializers.CustomUserDetailsSerializerAnon(user_profile_data)
-            return Response(serializer.data)     
-    except:
-        raise APIException('No profile linked with this user')
-
-    # if request.method == 'GET':
-        
-    #     serializer = serializers.CustomUserDetailsSerializer(user_profile_data)
-    #     return Response(serializer.data)
-
-    # elif request.method == 'POST':
-    #     serializer = serializers.UserSerializer_(user_profile_data, data=request.data)
-    #     # data['name']=
-    #     # print(request.data.)
-    #     if serializer.is_valid():
-            
-    #         serializer.save()
-    #         return Response(serializer.data)
-        
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
-class CustomUserDetailsView(RetrieveUpdateAPIView):
-    # authentication_classes = (TokenAuthentication,)
-    serializer_class = serializers.CustomUserDetailsSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
-    
-    def get_object(self):
-        return self.request.user
-
-    def get_queryset(self):
-        
-        return get_user_model().objects.none()
-
 from rest_auth.views import LoginView, LogoutView
-
 class LogoutViewCustom(LogoutView):
     authentication_classes = (TokenAuthentication,)
-    
     
 
 class LoginViewCustom(LoginView):
     authentication_classes = (TokenAuthentication,)
-
-
-
-
-    
-    
-
-
-
 
 class RegisterViewCustom(RegisterView):
     authentication_classes = (TokenAuthentication,)
@@ -224,27 +155,3 @@ def userSendRating(request):
 
     except:
         return JsonResponse({'error':'failed posting rating','status':'failure'}, status=400)
-
-@api_view(["GET"])
-def userGetRating(request):
-
-    req_dict = json.loads(request.body)
-    total_rating = 0
-
-    try:
-        token = Token.objects.get(key=req_dict['session_token'])
-        user = CustomUser.objects.get(id=token.user_id)
-        ratings = Rating.objects.filter(being_rated=user)
-
-        for rating in ratings:
-            
-            serialized_rating = serializers.RatingSerializer(rating)
-            total_rating += int(serialized_rating.data['rating'])
-
-        if total_rating > 0:
-            total_rating = total_rating/len(ratings)
-
-        return JsonResponse({'rating': total_rating, 'status': 'success'}, status=200)
-
-    except:
-       return JsonResponse({'error':'failed getting rating','status':'failure'}, status=400)

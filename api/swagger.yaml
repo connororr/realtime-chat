@@ -95,7 +95,7 @@ paths:
           schema:
             $ref: "#/definitions/ResponseFail"
   /user/ownprofile:
-    get:
+    post:
       tags:
         - "user"
       summary: "Get your own profile"
@@ -121,7 +121,7 @@ paths:
           schema:
             $ref: "#/definitions/ResponseFail"
   /user/othersprofile:
-    get:
+    post:
       tags:
         - "user"
       summary: "Get other users profiles"
@@ -173,7 +173,7 @@ paths:
           schema:
             $ref: "#/definitions/SendRatingFail"
   /job/search:
-    get:
+    post:
       tags:
         - "job"
       summary: "Search for a job"
@@ -252,7 +252,7 @@ paths:
           schema:
             $ref: "#/definitions/ResponseFail"
   /job/view:
-    get:
+    post:
       tags:
         - "job"
       summary: "View a job by id"
@@ -305,7 +305,7 @@ paths:
           schema:
             $ref: "#/definitions/ResponseFail"
   /chat/getall:
-    get:
+    post:
       tags:
         - "chat"
       summary: "Gets all conversation data"
@@ -331,7 +331,7 @@ paths:
           schema:
             $ref: "#/definitions/ResponseFail"
   /chat/conversation:
-    get:
+    post:
       tags:
         - "chat"
       summary: "Get messages with user by id"
@@ -599,7 +599,11 @@ definitions:
         type: "string"
       order_by:
         type: "string"
-      loacation:
+      location:
+        type: "string"
+      date_start:
+        type: "string"
+      date_end:
         type: "string"
       min_price:
         type: "string"
@@ -632,6 +636,10 @@ definitions:
       session_token:
         type: "string"
       project_title:
+        type: "string"
+      date_start:
+        type: "string"
+      date_end:
         type: "string"
       project_description:
         type: "string"

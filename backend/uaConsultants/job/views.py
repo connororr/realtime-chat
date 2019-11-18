@@ -43,7 +43,7 @@ def jobView(request):
     
     
     # add rating to the return object
-    ratings = Rating.objects.filter(being_rated=token.user_id)
+    ratings = Rating.objects.filter(being_rated=serialized_qs.data['business_id'])
 
     for rating in ratings:
         

@@ -10,6 +10,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
+from django.db.models import Q
 # Create your views here.
 
 
@@ -141,7 +142,9 @@ def chatSendMessage(request):
         receiving_user = CustomUser.objects.get(id=req_dict['other_user_id'])
 
         # if conversation does not exist, create it in the exception
-        conversation = Conversation.objects.get(sender=user, receiver=receiving_user)
+        conversation = Conversation.objects.get(
+            Q(sender=user) & Q(receiver=receiving_user) | Q(sender=receiving_user) & Q(receiver=user)
+        )
         new_message = Message.objects.create(conversation=conversation, user_id=user, message=req_dict['message'])
         return JsonResponse({'status': 'success'}, status=200)
 

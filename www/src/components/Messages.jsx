@@ -21,7 +21,7 @@ const Messages = props => {
 
   useEffect(() => {
     if (props.conversation_id != null) { // don't send requests when on a temporary conversation
-      var get_convo_interval = setInterval(function() {axios("http://l13.238.42.177:3800/chat/conversation",{
+      var get_convo_interval = setInterval(function() {axios("http://13.238.42.177:3800/chat/conversation",{
         method: 'post',
         data: {
           session_token: localStorage.getItem('session'),

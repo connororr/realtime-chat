@@ -134,13 +134,14 @@ const getBizResults = (setBizResults,params) => {
 };
 
 const Search = (props) => {
+	console.log(props)
 	const [results, setResults] = useState([]);
 	const [bizResults, setBizResults] = useState([]);
 	const [searchType, setSearchType] = useState("Job");
 	const [params, setParams] = useState(["","","","","Relevance","","","",0,999999,20,0]);
 	const [arrangement, setArrangement] = useState(1);
 	useEffect(() => {
-		if(props.location.state!=null){
+		if(props.location.state.passParams!=null){
 			if(props.location.state.passParams.length==12){
 				setSearchType("Job")
 				setParams(props.location.state.passParams);

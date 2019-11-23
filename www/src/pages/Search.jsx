@@ -221,7 +221,8 @@ const Search = (props) => {
 								<BizListItem 
 								business_name={result['business_name']}
 								location={result['location']}
-								profile_picture={"http://13.238.42.177:3800/media/profile_pictures/images.jpg"}
+								//placeholder image, for gravitar integration
+								profile_picture={"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTX4zFhDw-HfFvz_BhOhzbaGgepUcdqrn8VF88c5wWWZT3ALqvt"}
 								description={result['description']}/>
 						</Link>
 					))}

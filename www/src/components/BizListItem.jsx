@@ -84,7 +84,7 @@ const Loc = styled.div`
 `;
 
 
-const JobListItem = ({business_name,  location, profile_picture, description }) => (
+const BizListItem = ({business_name,  location, profile_picture, description }) => (
 	<Wrapper>
 		<Icon src={profile_picture} />
 		<ProjectDetailHolder>
@@ -101,4 +101,4 @@ const JobListItem = ({business_name,  location, profile_picture, description }) 
 	</Wrapper>
 );
 
-export default JobListItem;
+export default BizListItem;

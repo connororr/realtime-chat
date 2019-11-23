@@ -7,7 +7,6 @@ import datetime
 class Conversation(models.Model):
     sender = models.ForeignKey(CustomUser,on_delete=models.PROTECT, related_name='sender')
     receiver = models.ForeignKey(CustomUser, on_delete=models.PROTECT, related_name='receiver')
-    job_link = models.TextField(max_length=500, blank=True)
 
 class Message(models.Model):
     conversation = models.ForeignKey(Conversation,on_delete=models.PROTECT, related_name='messages')

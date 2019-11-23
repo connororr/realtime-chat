@@ -56,11 +56,6 @@ const MessageBanner = ({ image, business, name, other_user_id }) => (
       </Info>
     </InfoWrapper>
     <InfoWrapper>
-      <Link to={`/project/string`}>
-        <Icon>
-          <FaInfoCircle />
-        </Icon>
-      </Link>
       <Link to={`/profile/${other_user_id}`}>
         <Icon>
           <FaUserCircle />

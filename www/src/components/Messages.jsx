@@ -21,7 +21,7 @@ const Messages = props => {
 
   useEffect(() => {
     if (props.conversation_id != null) { // don't send requests when on a temporary conversation
-      var get_convo_interval = setInterval(function() {axios("http://13.238.42.177:3800/chat/conversation",{
+      var get_convo_interval = setInterval(function() {axios("http://l13.238.42.177:3800/chat/conversation",{
         method: 'post',
         data: {
           session_token: localStorage.getItem('session'),
@@ -33,6 +33,8 @@ const Messages = props => {
         setMessages(response.data['messages']);
         setConversationInfo(response.data['conversation'])
       })}, 1000)
+    } else {
+      setMessages([])
     }
     
     // position scrollbar
@@ -42,7 +44,7 @@ const Messages = props => {
     return () => {
       clearInterval(get_convo_interval)
     };
-  }, [props.conversation_id, props.job_link]);
+  }, [props.conversation_id]);
 
   return (
     <MessageHolder id="message-holder">
@@ -53,10 +55,10 @@ const Messages = props => {
           yours={message.user_id !== conversationInfo['own_user_id']}
         />
       ))}
-      <MessageBar 
-        job_link={props.job_link}
+      <MessageBar
         other_user_id={props.other_user_id}
-        setSelectedConversation={props.setSelectedConversation}
+        setConversation={props.setConversation}
+        conversation_id={props.conversation_id}
       />
     </MessageHolder>
   );

@@ -10,6 +10,7 @@ import { Link } from '@reach/router';
 import * as headerBg from '../images/construction.jpg';
 import JobListItem from '../components/JobListItem';
 import RegisterJob from '../components/RegisterJob';
+import EditProfile from '../components/EditProfile';
 import { FiMapPin, FiPhone } from 'react-icons/fi';
 
 
@@ -303,6 +304,17 @@ const RegisterJobButton = styled.button`
   text-decoration: underline;
 `;
 
+const EditProfileButton = styled.button`
+  margin-left: 10px;
+  padding: 10px 20px;
+  border: 0;
+  cursor: pointer;
+  background:#473fdf;
+  color:#fff;
+  margin-bottom: 20px;
+  text-decoration: underline;
+`;
+
 const ContactButton = styled.a`
   padding: 10px 20px;
   border: 0;
@@ -411,7 +423,7 @@ const Business = (props) => {
   const [businessData, setBusinessData] = useState(null);
   const [toggler, setToggler] = useState(false);
   const [productIndex, setProductIndex] = useState(0); 
-
+  const [openEditor, setOpenEditor] = useState(false);
   const [openRegister, setOpenRegister] = useState(false);
 
   useEffect(() => {
@@ -424,6 +436,15 @@ const Business = (props) => {
         {businessData ? (
           <Wrapper>
             {openRegister && <RegisterJob cancelHandler={() => {setOpenRegister(false)}}/>}
+            {openEditor && 
+              <EditProfile 
+                cancelHandler={() => {setOpenEditor(false)}}
+                business_name={businessData['business_name']}
+                name={businessData['user_name']}
+                description={businessData['description']}
+                phone_number={businessData['phone']}
+                location={businessData['location']}
+              />}
             <HeaderContentHolder>
               <BusinessWrapper>
                 <BusinessIcon style={{background: `url('${businessData['profile_picture']}')`, backgroundSize: 'cover'}}/>
@@ -477,17 +498,19 @@ const Business = (props) => {
                 ))}
                 </ProjectDetails>
                 {props.id=="user" ? (
-
-                <RegisterJobButton onClick={() => {setOpenRegister(true)}}>Register Job</RegisterJobButton>
+                <>
+                  <RegisterJobButton onClick={() => {setOpenRegister(true)}}>Register Job</RegisterJobButton>
+                  <EditProfileButton onClick={() => {setOpenEditor(true)}}>Edit Profile</EditProfileButton>
+                </>
                 ):(
                 <Link to={`/conversations/`}> 
                   <ContactButton
                     onClick={() => {
+                      console.log("Test")
                       localStorage.setItem('business_name', businessData.business_name);
                       localStorage.setItem('profile_picture', businessData.profile_picture);
                       localStorage.setItem('other_user_id', props.id);
                       localStorage.setItem('user_name', businessData.user_name);
-                      localStorage.setItem('profile_link', `localhost/project/${businessData.business_id}`);
                     }}
 
                   >Chat

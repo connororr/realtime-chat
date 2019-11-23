@@ -63,7 +63,8 @@ const Conversations = () => {
         setConversations(response.data);
       }
     })}, 1000)
-    
+    //console.log("testing")
+    //setSelectedConversation(1)
     return () => {
       clearInterval(get_convo_interval)
 
@@ -72,7 +73,6 @@ const Conversations = () => {
       localStorage.removeItem('profile_picture')
       localStorage.removeItem('other_user_id')
       localStorage.removeItem('user_name')
-      localStorage.removeItem('job_link')
     };
   }, []);
 
@@ -94,7 +94,7 @@ const Conversations = () => {
         ))}
       </ConversationHolder>
       <Messages
-        setSelectedConversation={setSelectedConversation}
+        setConversation={SetConversation}
         image={
           selectedConversation !== null
             ? conversations[selectedConversation]['profile_picture']
@@ -113,11 +113,6 @@ const Conversations = () => {
         conversation_id={
           selectedConversation !== null
             ? conversations[selectedConversation]['conversation_id']
-            : null
-        }
-        job_link={
-          selectedConversation !== null
-            ? conversations[selectedConversation]['job_link']
             : null
         }
         other_user_id={

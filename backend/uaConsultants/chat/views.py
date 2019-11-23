@@ -49,7 +49,6 @@ def chatGetall(request):
                     "business_name": serialized_convo.data['sender_business_name'],
                     "profile_picture": serialized_convo.data['sender_profile_picture'],
                     "other_user_id": serialized_convo.data['sender_id'],
-                    "job_link": serialized_convo.data['job_link'],
                     "conversation_id": serialized_convo.data['id'],
                     "last_message": serialized_convo.data['messages'][-1]
                 }
@@ -71,7 +70,6 @@ def chatGetall(request):
                 "business_name": serialized_convo.data['receiver_business_name'],
                 "profile_picture": serialized_convo.data['receiver_profile_picture'],
                 "other_user_id": serialized_convo.data['receiver_id'],
-                "job_link": serialized_convo.data['job_link'],
                 "conversation_id": serialized_convo.data['id'],
                 "last_message": serialized_convo.data['messages'][-1] if len(serialized_convo.data['messages']) > 0 else {}
             }
@@ -92,6 +90,7 @@ def chatConversation(request):
 
     req_dict = request.data
     conversation_id = req_dict['conversation_id']
+    token = Token.objects.get(key=req_dict['session_token'])
     response_object = {}
 
     try:
@@ -104,8 +103,7 @@ def chatConversation(request):
                     "user_name": serialized_qs.data['receiver_user_name'],
                     "business_name": serialized_qs.data['receiver_business_name'],
                     "profile_picture": serialized_qs.data['receiver_profile_picture'],
-                    "own_user_id": serialized_qs.data['sender_id'],
-                    "job_link": serialized_qs.data['job_link'],
+                    "own_user_id": token.user_id,
                     "conversation_id": serialized_qs.data['id'],
                     "last_message": serialized_qs.data['messages'][-1] if len(serialized_qs.data['messages']) > 0 else {}
                 },
@@ -118,8 +116,7 @@ def chatConversation(request):
                     "user_name": serialized_qs.data['sender_user_name'],
                     "business_name": serialized_qs.data['sender_business_name'],
                     "profile_picture": serialized_qs.data['sender_profile_picture'],
-                    "own_user_id": serialized_qs.data['receiver_id'],
-                    "job_link": serialized_qs.data['job_link'],
+                    "own_user_id": token.user_id,
                     "conversation_id": serialized_qs.data['id'],
                     "last_message": serialized_qs.data['messages'][-1] if len(serialized_qs.data['messages']) > 0 else {}
                 },
@@ -150,7 +147,7 @@ def chatSendMessage(request):
 
     except ObjectDoesNotExist:
 
-        conversation = Conversation.objects.create(sender=user, receiver=receiving_user, job_link=req_dict['job_link'])
+        conversation = Conversation.objects.create(sender=user, receiver=receiving_user)
         new_message = Message.objects.create(conversation=conversation, user_id=user, message=req_dict['message'])
         return JsonResponse({'status': 'success'}, status=200)
         

@@ -25,4 +25,4 @@ class ConversationSerialize(serializers.ModelSerializer):
 
     class Meta:
         model = models.Conversation
-        fields = ('sender_user_name','sender_business_name', 'sender_profile_picture', 'sender_id','receiver_user_name','receiver_business_name', 'receiver_profile_picture', 'receiver_id', 'job_link','id','messages')
+        fields = ('sender_user_name','sender_business_name', 'sender_profile_picture', 'sender_id','receiver_user_name','receiver_business_name', 'receiver_profile_picture', 'receiver_id','id','messages')

@@ -57,13 +57,12 @@ const Button = styled.button`
   background: 0;
 `;
 
-const SendMessage = (message, job_link, other_user_id) => {
+const SendMessage = (message, other_user_id, conversation_id, setConversation) => {
   axios("http://13.238.42.177:3800/chat/sendmessage",{
       method: 'post',
       data: {
         session_token: localStorage.getItem('session'),
         message: message,
-        job_link: job_link,
         other_user_id: other_user_id
       }, 
       headers: {"X-CSRFToken": Cookies.get('csrftoken')},
@@ -71,11 +70,16 @@ const SendMessage = (message, job_link, other_user_id) => {
     }).then(response => {
       // this ensures that any temp conversation gets removed when
       // a message gets sent inside of it
-      localStorage.removeItem('business_name');
+      console.log("testing")
+      console.log(conversation_id)
+      if (conversation_id == null) {
+        localStorage.removeItem('business_name');
+        setConversation(1);
+      }
     })
 }
 
-const MessageBar = ({ setMessages, job_link, other_user_id, setSelectedConversation }) => {
+const MessageBar = ({ setMessages, other_user_id, conversation_id, setConversation }) => {
   const [message, setMessage] = useState('');
 
   return (
@@ -86,9 +90,8 @@ const MessageBar = ({ setMessages, job_link, other_user_id, setSelectedConversat
             onSubmit={e => {
               e.preventDefault();
               if(message.split(' ').join('').length > 0) {
-                SendMessage(message, job_link, other_user_id)
+                SendMessage(message, other_user_id, conversation_id, setConversation)
                 setMessage('');
-                setSelectedConversation(1)
               }
             }}
           >

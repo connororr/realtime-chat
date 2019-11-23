@@ -7,7 +7,7 @@ import Marker from 'pigeon-marker';
 import styled from 'styled-components';
 import axios from 'axios';
 import Bid from '../components/Bid';
-import { navigate } from '@reach/router';
+import { Redirect } from '@reach/router';
 import * as headerBg from '../images/construction.jpg';
 import Cookies from 'js-cookie'
 import NewBid from '../components/newBid';
@@ -327,7 +327,7 @@ const ProjectHeading = styled.h3`
   padding: 0 25px;
 `
 
-const getPageData = (setProjectData, id, stars) => {
+const getPageData = (setProjectData, id, stars,setRedirect) => {
   const self = this;
 
   //this.props.bid
@@ -346,23 +346,32 @@ const getPageData = (setProjectData, id, stars) => {
       stars.push(<FaStar/>);
     }
     setProjectData(projectData)
-  });
+  })
+  .catch(function (error) {
+    if(error.response.status==400){
+      setRedirect(true);
+    }
+    });
 };
 
 const Project = (props) => {
+  const [redirect,setRedirect] = useState(false);
   const [stars,setStars] = useState([]);
   const [projectData, setProjectData] = useState(null);
   const [toggler, setToggler] = useState(false);
   const [post, setPost] = useState(false);
   const [productIndex, setProductIndex] = useState(0); 
   useEffect(() => {
-    getPageData(setProjectData, props.bid, stars);
+    getPageData(setProjectData, props.bid, stars,setRedirect);
 
   },[post]) 
 
   const setPosted = () => {
       setPost(!post);
   }
+  if(redirect){
+    return <Redirect noThrow={true} to="/login" />
+  } else {
     return (
       <>
         {projectData ? (
@@ -461,5 +470,6 @@ const Project = (props) => {
         )}
       </>
     );
+  }
 }
 export default Project;

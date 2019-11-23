@@ -26,7 +26,8 @@ urlpatterns = [
     # path('account-confirm-email/(?P<key>[-:\w]+)/$', TemplateView.as_view(), name='account_confirm_email')
     url(r'^account-confirm-email/(?P<key>[-:\w]+)/$', TemplateView.as_view(),
         name='account_confirm_email'),
-    path('rate', views.userSendRating)
+    path('rate', views.userSendRating),
+    path('updateprofile', views.userUpdateProfile)
 
 ]
 

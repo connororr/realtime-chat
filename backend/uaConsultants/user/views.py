@@ -61,6 +61,7 @@ def LoggedInUserGetProfile(request):
             "description": user_serializer.data['description'],
             "location": user_serializer.data['location'],
             "phone": user_serializer.data['phone'],
+            "user_name": user_serializer.data['name'],
             "rating": total_rating,
             "user_projects": user_serializer.data['jobs'] if len(user_serializer.data['jobs']) > 0 else [],
             "open_bids": []
@@ -116,6 +117,27 @@ def OtherUsersGetProfile(request):
         return JsonResponse(return_object, safe=False, status=200)     
     except:
         return JsonResponse({'error':'failed retrieving user info','status':'failure'}, status=400)
+
+@api_view(['POST'])
+def userUpdateProfile(request):
+
+    try:
+        req_dict = request.data
+        token = Token.objects.get(key=req_dict['session_token'])
+
+        # get user
+        user_profile_data = CustomUser.objects.get(id=token.user_id)
+        print(user_profile_data.business_name)
+        serialized_qs = serializers.CustomUserDetailsSerializer(user_profile_data, data={'name': req_dict['name'], 'business_name': req_dict['business_name'], 'description': req_dict['description'], 'phone': req_dict['phone_number'], 'location':req_dict['location']}, partial=True)
+        
+        if serialized_qs.is_valid():
+            serialized_qs.save()
+
+        return JsonResponse({'status': 'success'}, status=200)
+
+    except:
+        return JsonResponse({'error':'Failed updating user info','status':'failure'}, status=400)
+
 
 from rest_auth.views import LoginView, LogoutView
 class LogoutViewCustom(LogoutView):

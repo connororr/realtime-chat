@@ -348,9 +348,7 @@ const getPageData = (setProjectData, id, stars,setRedirect) => {
     setProjectData(projectData)
   })
   .catch(function (error) {
-    if(error.response.status==400){
       setRedirect(true);
-    }
     });
 };
 

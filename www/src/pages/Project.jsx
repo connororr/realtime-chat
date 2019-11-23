@@ -379,6 +379,7 @@ const Project = (props) => {
                 <BusinessIcon style={{background: `url('https://cdn.dribbble.com/users/2078668/screenshots/4543867/maple_contruction.png')`, backgroundSize: 'cover'}}/>
                 <HeaderDetails>
                   <Title>{projectData['project_name']}</Title>
+                  <a>Project Dates: {projectData['date_start']} ~ {projectData['date_end']}</a>
                   <BusinessRow>
                     <BusinessDetails>
                       <FaBuilding/>

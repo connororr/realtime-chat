@@ -15,7 +15,7 @@ class CustomUserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CustomUser
         # fields = '__all__'
-        fields = ('id', 'name', 'business_name', 'profile_picture', 'description', 'jobs')
+        fields = ('id', 'name', 'business_name', 'profile_picture', 'description', 'jobs','location','phone')
         read_only_fields = ('email','username' )
         
 class CustomRegisterSerializer(RegisterSerializer):
@@ -24,6 +24,8 @@ class CustomRegisterSerializer(RegisterSerializer):
         password1 = serializers.CharField(write_only=True)
         business_name = serializers.CharField(required=True,max_length=50)
         name = serializers.CharField(required=True,max_length=40)
+        location = serializers.CharField(required=True, max_length=3)
+        phone = serializers.IntegerField(required=True)
 
         def get_cleaned_data(self):
             super(CustomRegisterSerializer, self).get_cleaned_data()
@@ -33,6 +35,8 @@ class CustomRegisterSerializer(RegisterSerializer):
                 'email': self.validated_data.get('email', ''),
                 'business_name': self.validated_data.get('business_name', ''),
                 'name': self.validated_data.get('name', ''),
+                'location' : self.validated_data.get('location', ''),
+                'phone' : self.validated_data.get('phone', ''),
                 
             }
 
@@ -42,3 +46,7 @@ class RatingSerializer(serializers.ModelSerializer):
         model = models.Rating
         fields = ('rating', 'being_rated', 'rater')
 
+class resultSerializer(serializers.Serializer):
+    amount = serializers.IntegerField()
+    total = serializers.IntegerField()
+    results = CustomUserDetailsSerializer(many=True, read_only=True)

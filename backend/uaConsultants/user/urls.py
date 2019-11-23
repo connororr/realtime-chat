@@ -20,6 +20,7 @@ urlpatterns = [
     path('password/reset/confirm', PasswordResetConfirmView.as_view(), name='rest_password_reset_confirm'),
     path('ownprofile', views.LoggedInUserGetProfile),
     path('othersprofile', views.OtherUsersGetProfile),
+    path('search', views.userSearch),
     path('register', views.RegisterViewCustom.as_view()),
     path('register/verify-email', views.VerifyEmailViewCustom.as_view()),
     # path('account-confirm-email/(?P<key>[-:\w]+)/$', TemplateView.as_view(), name='account_confirm_email')

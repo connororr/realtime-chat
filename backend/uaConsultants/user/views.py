@@ -23,9 +23,13 @@ from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from django.contrib.sessions.models import Session
 from rest_framework.authtoken.models import Token
+from django.db.models import Q
 from rest_framework.renderers import StaticHTMLRenderer
 from rest_auth.registration.views import VerifyEmailView, RegisterView
 from django.core.exceptions import ObjectDoesNotExist
+import operator
+from rest_framework.renderers import JSONRenderer
+
 
 @api_view(['POST'])
 def LoggedInUserGetProfile(request):
@@ -55,6 +59,8 @@ def LoggedInUserGetProfile(request):
             "business_name": user_serializer.data['business_name'],
             "profile_picture": user_serializer.data['profile_picture'],
             "description": user_serializer.data['description'],
+            "location": user_serializer.data['location'],
+            "phone": user_serializer.data['phone'],
             "rating": total_rating,
             "user_projects": user_serializer.data['jobs'] if len(user_serializer.data['jobs']) > 0 else [],
             "open_bids": []
@@ -99,6 +105,8 @@ def OtherUsersGetProfile(request):
             "business_name": user_serializer.data['business_name'],
             "profile_picture": user_serializer.data['profile_picture'],
             "description": user_serializer.data['description'],
+            "location": user_serializer.data['location'],
+            "phone": user_serializer.data['phone'],            
             "rating": total_rating,
             "user_name": user_serializer.data['name'],
             "business_id": user_serializer.data['id'],
@@ -155,3 +163,68 @@ def userSendRating(request):
 
     except:
         return JsonResponse({'error':'failed posting rating','status':'failure'}, status=400)
+
+
+class resultPage(object):
+    def __init__(self, amount, total, results):
+        self.amount = amount
+        self.total = total
+        self.results = results
+        
+sorted_hash = []
+#POST: /user/search
+@api_view(["POST"])
+def userSearch(request):
+    req_dict = request.data
+    # try:
+    terms = req_dict['search_terms'].split()
+    searchLocal = req_dict['location']
+    pageAmount = int(req_dict['page_amount'])
+    pageNumber =int(req_dict['page_number'])
+    result_hash = {}
+    user_list = models.CustomUser.objects.all()
+
+    
+
+    #search job, description and business for search terms, if none add all to results
+    if(len(terms)>0):
+        for term in terms:
+            queryset = user_list.filter(
+                Q(business_name__icontains=term) | 
+                Q(description__icontains=term) | 
+                Q(name__icontains=term))
+            for q in queryset:
+                if q in result_hash.keys():
+                    result_hash[q] = result_hash[q]+1
+                else:
+                    result_hash[q] = 1            
+    else:
+        for q in user_list:
+            result_hash[q] = 1
+
+    if (searchLocal!=""):
+        for q in list(result_hash.keys()):
+            if q.location!=searchLocal:
+                del result_hash[q]
+
+    sorted_hash = sorted(result_hash.items(), key=operator.itemgetter(1),reverse=True)
+
+        
+        # #Display Results according to page parameters
+    temp_list = []
+    if(len(sorted_hash)<=pageAmount):
+        if(pageNumber==0):
+            for i in sorted_hash:
+                temp_list.append(i[0])
+        else:
+            return HttpResponse("")
+    else:
+        temp_list = []
+        for i in range(pageAmount*pageNumber, (pageAmount*pageNumber)+pageAmount):
+            temp_list.append(sorted_hash[i][0])
+    pageResponse = resultPage(len(temp_list),len(sorted_hash),temp_list)
+    serialized_qs = serializers.resultSerializer(pageResponse)
+    return HttpResponse(JSONRenderer().render(serialized_qs.data), content_type='application/json')
+
+    # except:
+    #     return JsonResponse({'error':'search failed','status':'failure'}, status=400)

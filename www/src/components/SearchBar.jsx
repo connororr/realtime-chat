@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { FiSearch, FiMapPin, FiChevronDown, FiSliders } from 'react-icons/fi';
-import { jobFilter, locationFilter, OrderFilter, typeFilter, statusFilter } from '../helper/filters';
+import { FiSearch, FiMapPin, FiChevronDown, FiSliders, FiType, FiList } from 'react-icons/fi';
+import { SearchFilter,jobFilter, locationFilter, OrderFilter, typeFilter, statusFilter } from '../helper/filters';
 import { navigate } from '@reach/router';
 import { style } from 'typestyle';
 import DatePicker from 'react-date-picker';
@@ -87,7 +87,7 @@ const selectStyles = `
   background-position: right 10px top 50%;
   background-repeat: no-repeat;
   background-repeat: no-repeat;
-  width: 100%;
+  width: 50%;
   height: 100%;
   background: #ffffff;
   font-size: 13px;
@@ -138,6 +138,9 @@ const DateCont = styled.div``;
 const SelectLocation = styled(locationFilter)`
   ${selectStyles}
 `;
+const SelectSearch = styled(SearchFilter)`
+  ${selectStyles}
+`;
 const SelectCategory = styled(jobFilter)`
   ${advStyles}
 `;
@@ -165,12 +168,13 @@ const FindBtn = styled.button`
 	margin-right: 12px;
 `;
 
-const search = (category, location, params) => {
+const search = (params) => {
 	navigate(`/search`, { state: { passParams: params } });
 };
 
 const SearchBar = (props) => {
 	const [searchTerm, setSearchTerm] = useState('');
+	const [searchT, setSearchT] = useState('Job');
 	const [category, setCategory] = useState('');
 	const [type, setType] = useState('');
 	const [status, setStatus] = useState('');
@@ -208,6 +212,13 @@ const SearchBar = (props) => {
 						id='select2'
 					/>
 					<FiChevronDown style={{ left: 'unset', right: 14 }} />
+					<SelectSearch
+						onChange={(e) => {
+							setSearchT(e.target.value);
+						}}
+						id='select2'
+					/>
+					
 				</div>
 				<FindBtn
 					onClick={() => {
@@ -221,21 +232,30 @@ const SearchBar = (props) => {
 						} else {
 							temp2 = [''];
 						}
-
-						search(searchTerm, location, [
-							searchTerm,
-							category,
-							type,
-							status,
-							order,
-							location,
-							temp[0],
-							temp2[0],
-							minPrice,
-							maxPrice,
-							pageAmount,
-							pageNumber,
-						]);
+						if(searchT==="Job"){
+							search([
+								searchTerm,
+								category,
+								type,
+								status,
+								order,
+								location,
+								temp[0],
+								temp2[0],
+								minPrice,
+								maxPrice,
+								pageAmount,
+								pageNumber,
+							]);
+						}else{
+							search([
+								searchTerm,
+								location,
+								pageAmount,
+								pageNumber,
+							]);
+						}
+						
 					}}
 				>
 					Search

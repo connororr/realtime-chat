@@ -7,6 +7,8 @@ import JobCard from '../components/JobCard';
 import SearchBar from '../components/SearchBar';
 import { FiGrid, FiList } from 'react-icons/fi';
 import JobListItem from '../components/JobListItem';
+import BizListItem from '../components/BizListItem';
+
 
 const ContentWrapper = styled.div`
 	height: 100vh;
@@ -85,8 +87,6 @@ const getResults = (setResults,params) => {
 		})	
 		.then((response) => {
 			setResults(response.data.results);
-			console.log(response)
-
 		});
 	} else {
 		axios.post('http://13.238.42.177:3800/job/search', {
@@ -105,20 +105,52 @@ const getResults = (setResults,params) => {
 		})
 		.then((response) => {
 			setResults(response.data.results);
-			console.log(response)
 		});
 	}
+};
 
+const getBizResults = (setBizResults,params) => {
+	if(params!=null){
+		axios.post('http://13.238.42.177:3800/user/search', {
+			"search_terms": params[0],
+			"location": params[1],
+			"page_amount": params[2],
+			"page_number": params[3]
+		})	
+		.then((response) => {
+			setBizResults(response.data.results);
+		});
+	} else {
+		axios.post('http://13.238.42.177:3800/user/search', {
+			"search_terms": "",
+			"location": "",
+			"page_amount": 20,
+			"page_number": 0
+		})
+		.then((response) => {
+			setBizResults(response.data.results);
+		});
+	}
 };
 
 const Search = (props) => {
 	const [results, setResults] = useState([]);
+	const [bizResults, setBizResults] = useState([]);
+	const [searchType, setSearchType] = useState("Job");
 	const [params, setParams] = useState(["","","","","Relevance","","","",0,999999,20,0]);
 	const [arrangement, setArrangement] = useState(1);
 	useEffect(() => {
 		if(props.location.state!=null){
-			setParams(props.location.state.passParams);
-			getResults(setResults,props.location.state.passParams);
+			if(props.location.state.passParams.length==12){
+				setSearchType("Job")
+				setParams(props.location.state.passParams);
+				getResults(setResults,props.location.state.passParams);
+			}else{
+				setSearchType("Business")
+				setParams(props.location.state.passParams);
+				getBizResults(setBizResults,props.location.state.passParams);
+			}
+			
 		}else{
 			getResults(setResults,params);
 		}
@@ -150,6 +182,7 @@ const Search = (props) => {
 				</Buttons>
 			</RefineBar>
 			<Wrapper>
+				{searchType==='Job' ? (
 				<ResultsHolder>
 					{results.map((result) => (
 						<Link to={`/project/${result['id']}`} passParams ={result['id']} style={{ textDecoration: 'none' }}>
@@ -180,7 +213,20 @@ const Search = (props) => {
 							)}
 						</Link>
 					))}
-				</ResultsHolder>
+				</ResultsHolder>):(
+					<ResultsHolder>
+
+						{bizResults.map((result) => (
+						<Link to={`/profile/${result['id']}`} passParams ={result['id']} style={{ textDecoration: 'none' }}>
+								<BizListItem 
+								business_name={result['business_name']}
+								location={result['location']}
+								profile_picture={"http://13.238.42.177:3800/media/profile_pictures/images.jpg"}
+								description={result['description']}/>
+						</Link>
+					))}
+					</ResultsHolder>
+				)}
 			</Wrapper>
 		</ContentWrapper>
 	);

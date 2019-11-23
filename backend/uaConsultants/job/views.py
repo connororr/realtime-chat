@@ -108,7 +108,7 @@ def jobRegister(request):
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def jobBid(request):
-    # try:
+    try:
         req_dict = request.data
         token = Token.objects.get(key=req_dict['session_token'])
         user = CustomUser.objects.get(id=token.user_id)
@@ -122,8 +122,8 @@ def jobBid(request):
             if serialized_qs.is_valid():
                 serialized_qs.save()
             return JsonResponse({"status": "success"}, status=200)
-    # except:
-    #     return JsonResponse({'error':'failed job bidding','status':'failure'}, status=400)
+    except:
+         return JsonResponse({'error':'failed job bidding','status':'failure'}, status=400)
 
 
 #POST: /Job/Photo/upload 

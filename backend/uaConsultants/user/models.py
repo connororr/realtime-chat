@@ -10,6 +10,8 @@ class CustomUser(AbstractUser):
     business_name = models.CharField(max_length=50,default='My Company')
     description = models.TextField(max_length=500, blank=True)
     profile_picture = models.ImageField(blank=True,upload_to='profile_pictures/')
+    location = models.CharField(max_length=3,default='NSW')
+    phone = models.IntegerField(blank=False, default=999999999)
     
 
     def __str__(self):

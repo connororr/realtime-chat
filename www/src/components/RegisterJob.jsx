@@ -157,7 +157,6 @@ const RegisterJob = ({ cancelHandler }) => {
 			headers: {"X-CSRFToken": Cookies.get('csrftoken')},
 			withCredentials: true
 		}).then(function(response) {
-			console.log(response.data);
 			cancelHandler();
 		})
 		.catch((err) => {

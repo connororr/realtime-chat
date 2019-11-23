@@ -10,6 +10,7 @@ import { Link } from '@reach/router';
 import * as headerBg from '../images/construction.jpg';
 import JobListItem from '../components/JobListItem';
 import RegisterJob from '../components/RegisterJob';
+import { FiMapPin, FiPhone } from 'react-icons/fi';
 
 
 const Wrapper = styled.div`
@@ -188,10 +189,25 @@ const VerifiedWrapper = styled.div`
   font-weight: 500;
   color: #fff;
   padding: 3px 7px;
+  margin-left:5px;
   line-height: 18px;
   border-radius: 4px;
 `
+const DetailsRow = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top:10px;
+`
 
+const DetailsWrapper = styled.div`
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  padding: 3px 7px;
+  margin-left:5px;
+  line-height: 18px;
+  border-radius: 4px;
+  `
 const BidHeading = styled.h4`
   color: #666;
   margin: 0; 
@@ -293,7 +309,9 @@ const ContactButton = styled.a`
   cursor: pointer;
   background:#473fdf;
   color:#fff;
+  width:30px;
   margin-bottom: 20px;
+  display:flex;
   font-size: 12px;
   text-align: center;
   margin-left: 10px;
@@ -366,6 +384,7 @@ const getPageData = (setBusinessData,business_id,stars) => {
       "session_token": localStorage.getItem('session'),
     })
     .then(response => {
+      console.log(response.data)
       const businessData = response.data;
       for(let i = 0; i < parseInt(businessData['rating']); i++){
         stars.push(<FaStar/>);
@@ -418,6 +437,10 @@ const Business = (props) => {
                     </RatingWrapper>
                     <VerifiedWrapper>{businessData['premium']=='T' ? ("Premium"):("Standard")}</VerifiedWrapper>
                   </BusinessRow>
+                  <DetailsRow>
+                  <DetailsWrapper><FiMapPin style={{ margin: '0 5px 0 0' }} />{businessData['location']}</DetailsWrapper>
+                    <DetailsWrapper><FiPhone style={{ margin: '0 5px 0 0' }} />{businessData['phone']}</DetailsWrapper>
+                  </DetailsRow>
                 </HeaderDetails>
               </BusinessWrapper>
             </HeaderContentHolder>
@@ -453,8 +476,10 @@ const Business = (props) => {
                   
                 ))}
                 </ProjectDetails>
+                {props.id=="user" ? (
+
                 <RegisterJobButton onClick={() => {setOpenRegister(true)}}>Register Job</RegisterJobButton>
-                
+                ):(
                 <Link to={`/conversations/`}> 
                   <ContactButton
                     onClick={() => {
@@ -462,12 +487,13 @@ const Business = (props) => {
                       localStorage.setItem('profile_picture', businessData.profile_picture);
                       localStorage.setItem('other_user_id', props.id);
                       localStorage.setItem('user_name', businessData.user_name);
-                      localStorage.setItem('profile_link', `13.238.42.177/project/${businessData.business_id}`);
+                      localStorage.setItem('profile_link', `localhost/project/${businessData.business_id}`);
                     }}
-                  >Contact
+
+                  >Chat
                   </ContactButton>
                 </Link>
-                  
+                )}
                 
                 <Heading>Media</Heading>
                 <MediaWrapper>

@@ -133,7 +133,6 @@ export class NewBid extends Component{
         this.closeModal = this.closeModal.bind(this);
         this.onChange = this.onChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        console.log(props);
 
     }
     openModal() {

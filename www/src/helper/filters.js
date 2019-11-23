@@ -161,7 +161,7 @@ export const jobTypes = [
 export const jobFilter = (props) => (
   <select {...props}>
     <option value="" selected>
-      Any
+      Category
     </option>
     {jobTypes.map(type => (
       <option value={type}>{type}</option>
@@ -218,6 +218,17 @@ export const statusFilter = ({ className, onChange, style, id }) => (
     </option>
     {status.map(status => (
       <option value={status}>{status}</option>
+    ))}
+  </select>
+);
+
+export const search = ['Job','Business'];
+
+export const SearchFilter = ({ className, onChange, style, id }) => (
+  <select className={className} onChange={onChange} style={style} id={id}>
+
+    {search.map(search => (
+      <option value={search}>{search}</option>
     ))}
   </select>
 );
